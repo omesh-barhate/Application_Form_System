@@ -1,0 +1,94 @@
+{% load static %}   
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Uploader with Face Detection</title>
+  <style>
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  </style>
+   <script src="{% static "vendors/face-api/dist/face-api.min.js" %}"></script>
+   <script src="{% static "vendors/face-api/dist/face-api.js" %}"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Image Uploader</h1>
+    <input type="file" id="imageUpload" accept=".jpg, .jpeg, .png">
+    <button id="uploadButton" disabled>Upload</button>
+    <button id="retryButton" style="display: none;">Retry</button>
+  </div>
+
+  <script>
+    // Setup the image uploader and face detection
+    async function setupUploader() {
+      const imageUpload = document.getElementById('imageUpload');
+      const uploadButton = document.getElementById('uploadButton');
+      const retryButton = document.getElementById('retryButton');
+
+      await faceapi.nets.ssdMobilenetv1.loadFromUri("{% static "vendors/face-api/weights" %}");
+
+      imageUpload.addEventListener('change', async () => {
+        const image = await faceapi.bufferToImage(imageUpload.files[0]);
+        const detections = await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceExpressions();
+
+        if (detections.length === 1) {
+          // Single face detected
+          const faceBox = detections[0].detection.box;
+          const faceWidth = faceBox.width;
+          const faceHeight = faceBox.height;
+          const faceBreadth = Math.min(faceWidth, faceHeight);
+          const faceAspectRatio = faceHeight / faceBreadth;
+          console.log(faceHeight)
+          console.log(faceBreadth)
+          console.log(faceWidth)
+          console.log(faceAspectRatio)
+        
+          if (faceBreadth >= 132 && faceHeight >= 170 && faceAspectRatio >= 1.25 && faceAspectRatio <= 1.35) {
+            // Face dimensions within the required range
+            uploadButton.disabled = false;
+            retryButton.style.display = 'inline';
+            
+          } else {
+            // Invalid face dimensions
+            alert('The photo dimensions or aspect ratio do not meet the required criteria. Please try again.');
+            imageUpload.value = ''; // Clear the selected file
+            uploadButton.disabled = true;
+            retryButton.style.display = 'none';
+
+          }
+        } else {
+          // No or multiple faces detected
+          alert('Please upload a photo with a single face. Please try again.');
+          imageUpload.value = ''; // Clear the selected file
+          uploadButton.disabled = true;
+          retryButton.style.display = 'none';
+
+        }
+      });
+
+      retryButton.addEventListener('click', () => {
+        imageUpload.value = '';
+        uploadButton.disabled = true;
+        retryButton.style.display = 'none';
+
+      });
+
+      uploadButton.addEventListener('click', () => {
+        // Add your upload logic here
+        alert('Image uploaded successfully!');
+      });
+    }
+
+    // Load face-api.js models
+    Promise.all([
+      faceapi.nets.ssdMobilenetv1.loadFromUri("{% static "vendors/face-api/weights" %}"),
+      faceapi.nets.faceLandmark68Net.loadFromUri("{% static "vendors/face-api/weights" %}"),
+      faceapi.nets.faceRecognitionNet.loadFromUri("{% static "vendors/face-api/weights" %}"),
+      faceapi.nets.faceExpressionNet.loadFromUri("{% static "vendors/face-api/weights" %}"),
+    ]).then(setupUploader);
+  </script>
+</body>
+</html>
+

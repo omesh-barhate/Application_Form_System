@@ -1,0 +1,483 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Basic Page Info -->
+		<meta charset="utf-8" />
+		<title>St Pauls Institute of Communication Education</title>
+
+		<!-- Site favicon -->
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="vendors/images/apple-touch-icon.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="vendors/images/favicon-32x32.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="vendors/images/favicon-16x16.png"
+		/>
+
+		<!-- Mobile Specific Metas -->
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=1"
+		/>
+
+		<!-- Google Font -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static "vendors/styles/core.css" %}" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static "vendors/styles/icon-font.min.css" %}"
+		/>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static "src/plugins/jquery-steps/jquery.steps.css" %}"
+		/>
+		<link rel="stylesheet" type="text/css" href="{% static "vendors/styles/style.css" %}" />
+	</head>
+	<body>
+		<div class="mobile-menu-overlay"></div>
+		<div class="main-container">
+			<div class="pd-ltr-20 xs-pd-20-10">
+				<div class="min-height-200px">
+
+					<div class="pd-20 card-box mb-30">
+						<div class="clearfix">
+							<h4 class="text-blue h4">Application Form</h4>
+							<p class="mb-30" style="font-weight: 700;">First Year Bachelor of Management Studies (FYBMS)</p>
+						</div>
+						<div class="wizard-content">
+							<form class="tab-wizard wizard-circle wizard">
+								<h5>Personal Info</h5>
+								<section>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>First Name :</label>
+												<input type="text" class="form-control" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Middle Name :</label>
+												<input type="text" class="form-control" />
+											</div>
+										</div>
+									</div>
+                                    <div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Last Name :</label>
+												<input type="text" class="form-control" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Student Name as per HSC Marksheet :</label>
+												<input type="text" class="form-control" />
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Email Address :</label>
+												<input type="email" class="form-control" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Full Name in Devnagiri :</label>
+												<input type="text" class="form-control" />
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Blood Group:</label>
+												<select class="custom-select form-control">
+                                             <!--       <select class="md-input" data-attr-id="frm_candiateBloodGroup" name="bloodGroup" id="bloodGroup" title="" data-validate="select" data-selectedvalue="" data-isdataprotected="false" data-rspfrmsvruniqid="0" data-original-title="Select blood-group of candidate"> -->
+												</select>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Date of Birth :</label>
+												<input
+													type="text"
+													class="form-control date-picker"
+													placeholder="Select Date"
+												/>
+											</div>
+										</div>
+									</div>
+                                    <div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Gender :</label>		
+                                                <select class="custom-select form-control">
+                                                </select>
+                                            </div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Phone Number :</label>
+												<input type="tel" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+											</div>
+										</div>
+									</div>
+                                    <div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Candidate Aadhar Number :</label>		
+                                                <input type="text" class="form-control " data-validate="number" data-maxlength="12"/>
+                                            </div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Reservation :</label>	
+                                                <select class="custom-select form-control">
+                                                </select>	
+                                            </div>
+                                        </div>
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Admission Type :</label>	
+                                                <select class="custom-select form-control">
+                                                </select>	
+                                            </div>
+                                        </div>
+										<div class="col-md-12">
+											<div class="form-group">
+                                                <label> Address :</label>
+                                                <textarea class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+											<div class="form-group">
+                                                <label>Permanent Address :</label>
+                                                <textarea class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+								</section>
+								<!-- Step 2 -->
+								<h5>Subjects</h5>
+								<section>
+									<div class="pd-20 card mb-30">
+									<p class="mb-30" style="font-weight: 700;">Subject Group:  Sem I: Compulsory Subject (Total 6 papers,20 credits) </p>
+									<div class="row">
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1"> Introduction to Financial Accounts</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5"> 
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1">Business Law</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked> 
+												<label class="custom-control-label" for="customCheck1">Business Statistics</label>
+											</div>
+										</div><div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1">Business Communication - I</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1">Foundation Course - I</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1"> Foundation of Human Skills</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1"> Business Economics -I</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="pd-20 card mb-30">
+									<p class="mb-30" style="font-weight: 700;">Subject Group:  Sem II: Compulsory Subject (Total 6 papers,20 credits) </p>
+									<div class="row">
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1">Principles of Marketing</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5"> 
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1">Industrial Law</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked> 
+												<label class="custom-control-label" for="customCheck1">Business Mathematics</label>
+											</div>
+										</div><div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1">Business Communication - II</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1">Foundation Course - II</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1"> Business Environment</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
+												<label class="custom-control-label" for="customCheck1"> Principles of Management</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								</section>
+								<!-- Step 3 -->
+								<h5>SSC Marksheet</h5>
+								<section>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>University / Board Name :</label>
+												<input type="text" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Instiute/Center/School Name :</label>
+												<input type="text" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Medium :</label>
+												<input type="text" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>CGPA/GPA:</label>
+												<input type="number" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Passing Attempts :</label>
+												<input type="number" class="form-control" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Passing Month and Year :</label>
+												<input type="text" class="form-control month-picker" />
+											</div>
+											<div class="form-group">
+												<label>Seat Number:</label>
+												<input type="number" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Marksheet Number :</label>
+												<input type="number" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Marks Obtained :</label>
+												<input type="number" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Marks Out Of :</label>
+												<input type="number" class="form-control" />
+											</div>
+										</div>
+									</div>
+								</section>
+								<!-- Step 4 -->
+								<h5>HSC Marksheet</h5>
+								<section>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>University / Board Name :</label>
+												<input type="text" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Instiute/Center/School Name :</label>
+												<input type="text" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Medium :</label>
+												<input type="text" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>CGPA/GPA:</label>
+												<input type="number" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Passing Attempts :</label>
+												<input type="number" class="form-control" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Passing Month and Year :</label>
+												<input type="text" class="form-control month-picker" />
+											</div>
+											<div class="form-group">
+												<label>Seat Number:</label>
+												<input type="number" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Marksheet Number :</label>
+												<input type="number" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Marks Obtained :</label>
+												<input type="number" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label>Marks Out Of :</label>
+												<input type="number" class="form-control" />
+											</div>
+										</div>
+									</div>
+								</section>
+								<!-- Step 5 -->
+								<h5>Documents </h5>
+								<section>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Aadhar Card :</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>Payment Receipt</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>Payment Receipt</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>Migration Certificate (If Applicable ):</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>SSC Marksheet</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>HSC Marksheet</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>Mumbai University Application :</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>Gap Certificate (If Applicable ):</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+								<!-- Step 6-->
+								<h5>Upload Images </h5>
+								<section>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Candidate Photo :</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>Candidate Signature :</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>Parent Signature :</label>
+												<div class="custom-file">
+													<input type="file" class="custom-file-input">
+													<label class="custom-file-label">Choose file</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+							</form>
+						</div>
+					</div>
+		<!-- js -->
+		<script src="{% static "vendors/scripts/core.js" %}"></script>
+		<script src="{% static "vendors/scripts/script.min.js" %}"></script>
+		<script src="{% static "vendors/scripts/process.js" %}"></script>
+		<script src="{% static "vendors/scripts/layout-settings.js" %}"></script>
+		<script src="{% static "src/plugins/jquery-steps/jquery.steps.js" %}"></script>
+		<script src="{% static "vendors/scripts/steps-setting.js" %}"></script>
+	
+	</body>
+</html>

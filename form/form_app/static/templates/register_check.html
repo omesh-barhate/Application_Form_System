@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Basic Page Info -->
+		<meta charset="utf-8" />
+		<title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+
+		<!-- Mobile Specific Metas -->
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=1"
+		/>
+
+		<!-- Google Font -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static "vendors/styles/core.css" %}" />
+		<link
+			rel="stylesheet"%}"
+			type="text/css"
+			href="{% static "vendors/styles/icon-font.min.css" %}"
+		/>
+        <link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static "src/plugins/jquery-steps/jquery.steps.css" %}"
+		/>
+		<link rel="stylesheet" type="text/css" href="{% static "vendors/styles/style.css" %}" />
+	</head>
+    <body class="login-page">
+		<div class="login-header box-shadow">
+			<div
+				class="container-fluid d-flex justify-content-between align-items-center"
+			>
+				<div class="brand-logo">
+					<a href="login.html">
+						<img src="vendors/images/deskapp-logo.svg" alt="" />
+					</a>
+				</div>
+				<div class="login-menu">
+					<ul>
+						<li><a href="login.html">Login</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div
+			class="register-page-wrap d-flex align-items-center flex-wrap justify-content-center"
+		>
+                        <div class="row">
+                            <div class="form-group">
+                                {% if messages %}
+                                  {% for message in messages %}
+                                  {% if message.tags == 'error' %}
+                                  <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                                  <div class="input-group mb-0">
+                                    <a class="btn btn-outline-primary btn-lg btn-block" href="/register">Kindly register Again</a>
+                                 </div>
+                                  {% endif %}
+                                  {% if message.tags == 'success' %}
+                                  <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                                  <div class="input-group mb-0">
+                                    <a class="btn btn-outline-primary btn-lg btn-block" href="/register">Verify OTP</a>
+                                 </div>
+                                  {% endif %}
+                                  {% endfor %}
+                                {% endif %}
+                              </div>
+                              
+                        </div>
+
+
+        </div>
+    </div>
+
+<div class="mobile-menu-overlay"></div>
+
