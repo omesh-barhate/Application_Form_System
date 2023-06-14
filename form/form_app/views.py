@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from form_app.models import Account,Personal_details,Subject,Subjects_selected,ssc_marksheet,hsc_marksheet,Document,fy_bms_form,Course
+from form_app.models import Account,Personal_details,Subject,Subjects_selected,SSC_marksheet,HSC_marksheet,Document,fy_bms_form,Course,FY_SEM1_marksheet,FY_SEM2_marksheet,SY_SEM1_marksheet,SY_SEM2_marksheet
 
 from form_app.EmailBackend import EmailBackEnd
 
@@ -170,7 +170,7 @@ def fy_bms_form_save(request):
         ids=subjects_choosen.id
         print(ids)
         
-        ssc=ssc_marksheet.objects.create(university_name=board_name,school_name=school_name,medium=medium,seat_number=seat_number,marksheet_number=marksheet_number,passing_year=month,cgpa=gpa,passing_attempts=passing_attempts,marks_obtained=marks_obtained,marks_out_of=marks_outof)
+        ssc=SSC_marksheet.objects.create(university_name=board_name,school_name=school_name,medium=medium,seat_number=seat_number,marksheet_number=marksheet_number,passing_year=month,cgpa=gpa,passing_attempts=passing_attempts,marks_obtained=marks_obtained,marks_out_of=marks_outof)
         ssc.save()
         idss=ssc.id
         print(idss)
@@ -203,7 +203,7 @@ def fy_bms_form_save(request):
         print(idd)
         document_instance=Document.objects.get(id=idd)
         person_detail_instance=Personal_details.objects.get(id=idp)
-        ssc_instance=ssc_marksheet.objects.get(id=idss)
+        ssc_instance=SSC_marksheet.objects.get(id=idss)
         hsc_instance=hsc_marksheet.objects.get(id=idh)
         sub_instance=Subjects_selected.objects.get(id=ids)
         form=fy_bms_form.objects.create(
@@ -225,3 +225,27 @@ def fy_bms_form_save(request):
 def manage_account(request):
     account=Account.objects.all()
     return render(request,"manage_account.html",{"accounts":account})
+
+def ssc_marksheet(request):
+    ssc=SSC_marksheet.objects.all()
+    return render(request,"manage_ssc.html",{"ssc_details":ssc})
+
+def hsc_marksheet(request):
+    hsc=HSC_marksheet.objects.all()
+    return render(request,"manage_hsc.html",{"hsc_details":hsc})
+
+def fy_sem1_marksheet(request):
+    sem1=FY_SEM1_marksheet.objects.all()
+    return render(request,"manage_fy_sem1.html",{"sem1_details":sem1})
+
+def fy_sem2_marksheet(request):
+    sem2=FY_SEM2_marksheet.objects.all()
+    return render(request,"manage_fy_sem2.html",{"sem2_details":sem2})
+
+def sy_sem1_marksheet(request):
+    sem3=SY_SEM1_marksheet.objects.all()
+    return render(request,"sy_sem1.html",{"sem3_details":sem3})
+
+def sy_sem2_marksheet(request):
+    sem4=SY_SEM2_marksheet.objects.all()
+    return render(request,"manage_sy_sem2.html",{"sem4_details":sem4})

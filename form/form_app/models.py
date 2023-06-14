@@ -99,7 +99,7 @@ class Subjects_selected(models.Model):
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
 
-class ssc_marksheet(models.Model):
+class SSC_marksheet(models.Model):
     id=models.AutoField(primary_key=True)
     university_name=models.CharField(max_length=255)
     school_name= models.CharField(max_length=255)
@@ -117,7 +117,7 @@ class ssc_marksheet(models.Model):
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
 
-class hsc_marksheet(models.Model):
+class HSC_marksheet(models.Model):
     id=models.AutoField(primary_key=True)
     university_name=models.CharField(max_length=255)
     school_name= models.CharField(max_length=255)
@@ -136,7 +136,7 @@ class hsc_marksheet(models.Model):
     objects=models.Manager()
 
 
-class fy_sem1_marksheet(models.Model):
+class FY_SEM1_marksheet(models.Model):
     id=models.AutoField(primary_key=True)
     university_name=models.CharField(max_length=255)
     school_name= models.CharField(max_length=255)
@@ -152,7 +152,7 @@ class fy_sem1_marksheet(models.Model):
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
 
-class fy_sem2_marksheet(models.Model):
+class FY_SEM2_marksheet(models.Model):
     id=models.AutoField(primary_key=True)
     university_name=models.CharField(max_length=255)
     school_name= models.CharField(max_length=255)
@@ -168,7 +168,7 @@ class fy_sem2_marksheet(models.Model):
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
 
-class sy_sem1_marksheet(models.Model):
+class SY_SEM1_marksheet(models.Model):
     id=models.AutoField(primary_key=True)
     university_name=models.CharField(max_length=255)
     school_name= models.CharField(max_length=255)
@@ -184,7 +184,7 @@ class sy_sem1_marksheet(models.Model):
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
 
-class sy_sem2_marksheet(models.Model):
+class SY_SEM2_marksheet(models.Model):
     id=models.AutoField(primary_key=True)
     university_name=models.CharField(max_length=255)
     school_name= models.CharField(max_length=255)
@@ -229,8 +229,8 @@ class fy_bms_form(models.Model):
     id=models.AutoField(primary_key=True)
     personal_detail=models.ForeignKey(Personal_details,on_delete=models.CASCADE)
     document =models.ForeignKey(Document,on_delete=models.CASCADE)
-    ssc_id=models.ForeignKey(ssc_marksheet,on_delete=models.CASCADE)
-    hsc_id=models.ForeignKey(hsc_marksheet,on_delete=models.CASCADE)
+    ssc_id=models.ForeignKey(SSC_marksheet,on_delete=models.CASCADE)
+    hsc_id=models.ForeignKey(HSC_marksheet,on_delete=models.CASCADE)
     subjects_choosen=models.ForeignKey(Subjects_selected,on_delete=models.CASCADE)
     otp_verification=models.BooleanField(default=False)
     academic=models.ForeignKey(AcademicYear,on_delete=models.CASCADE)
@@ -243,8 +243,8 @@ class sy_bms_market_form(models.Model):
     id=models.AutoField(primary_key=True)
     personal_detail=models.ForeignKey(Personal_details,on_delete=models.CASCADE)
     document =models.ForeignKey(Document,on_delete=models.CASCADE)
-    ssc_id=models.ForeignKey(ssc_marksheet,on_delete=models.CASCADE)
-    hsc_id=models.ForeignKey(hsc_marksheet,on_delete=models.CASCADE)
+    ssc_id=models.ForeignKey(SSC_marksheet,on_delete=models.CASCADE)
+    hsc_id=models.ForeignKey(HSC_marksheet,on_delete=models.CASCADE)
     subjects_choosen=models.ForeignKey(Subjects_selected,on_delete=models.CASCADE)
     otp_verification=models.BooleanField(default=False)
     academic=models.ForeignKey(AcademicYear,on_delete=models.CASCADE)
@@ -257,8 +257,8 @@ class sy_bms_hr_form(models.Model):
     id=models.AutoField(primary_key=True)
     personal_detail=models.ForeignKey(Personal_details,on_delete=models.CASCADE)
     document =models.ForeignKey(Document,on_delete=models.CASCADE)
-    ssc_id=models.ForeignKey(ssc_marksheet,on_delete=models.CASCADE)
-    hsc_id=models.ForeignKey(hsc_marksheet,on_delete=models.CASCADE)
+    ssc_id=models.ForeignKey(SSC_marksheet,on_delete=models.CASCADE)
+    hsc_id=models.ForeignKey(HSC_marksheet,on_delete=models.CASCADE)
     subjects_choosen=models.ForeignKey(Subjects_selected,on_delete=models.CASCADE)
     otp_verification=models.BooleanField(default=False)
     academic=models.ForeignKey(AcademicYear,on_delete=models.CASCADE)
@@ -271,8 +271,8 @@ class ty_bms_market_form(models.Model):
     id=models.AutoField(primary_key=True)
     personal_detail=models.ForeignKey(Personal_details,on_delete=models.CASCADE)
     document =models.ForeignKey(Document,on_delete=models.CASCADE)
-    ssc_id=models.ForeignKey(ssc_marksheet,on_delete=models.CASCADE)
-    hsc_id=models.ForeignKey(hsc_marksheet,on_delete=models.CASCADE)
+    ssc_id=models.ForeignKey(SSC_marksheet,on_delete=models.CASCADE)
+    hsc_id=models.ForeignKey(HSC_marksheet,on_delete=models.CASCADE)
     subjects_choosen=models.ForeignKey(Subjects_selected,on_delete=models.CASCADE)
     otp_verification=models.BooleanField(default=False)
     academic=models.ForeignKey(AcademicYear,on_delete=models.CASCADE)
@@ -285,8 +285,8 @@ class ty_bms_hr_form(models.Model):
     id=models.AutoField(primary_key=True)
     personal_detail=models.ForeignKey(Personal_details,on_delete=models.CASCADE)
     document =models.ForeignKey(Document,on_delete=models.CASCADE)
-    ssc_id=models.ForeignKey(ssc_marksheet,on_delete=models.CASCADE)
-    hsc_id=models.ForeignKey(hsc_marksheet,on_delete=models.CASCADE)
+    ssc_id=models.ForeignKey(SSC_marksheet,on_delete=models.CASCADE)
+    hsc_id=models.ForeignKey(HSC_marksheet,on_delete=models.CASCADE)
     subjects_choosen=models.ForeignKey(Subjects_selected,on_delete=models.CASCADE)
     otp_verification=models.BooleanField(default=False)
     academic=models.ForeignKey(AcademicYear,on_delete=models.CASCADE)
@@ -299,8 +299,8 @@ class fy_bammc_form(models.Model):
     id=models.AutoField(primary_key=True)
     personal_detail=models.ForeignKey(Personal_details,on_delete=models.CASCADE)
     document =models.ForeignKey(Document,on_delete=models.CASCADE)
-    ssc_id=models.ForeignKey(ssc_marksheet,on_delete=models.CASCADE)
-    hsc_id=models.ForeignKey(hsc_marksheet,on_delete=models.CASCADE)
+    ssc_id=models.ForeignKey(SSC_marksheet,on_delete=models.CASCADE)
+    hsc_id=models.ForeignKey(HSC_marksheet,on_delete=models.CASCADE)
     subjects_choosen=models.ForeignKey(Subjects_selected,on_delete=models.CASCADE)
     otp_verification=models.BooleanField(default=False)
     academic=models.ForeignKey(AcademicYear,on_delete=models.CASCADE)
@@ -313,8 +313,8 @@ class sy_bammc_form(models.Model):
     id=models.AutoField(primary_key=True)
     personal_detail=models.ForeignKey(Personal_details,on_delete=models.CASCADE)
     document =models.ForeignKey(Document,on_delete=models.CASCADE)
-    ssc_id=models.ForeignKey(ssc_marksheet,on_delete=models.CASCADE)
-    hsc_id=models.ForeignKey(hsc_marksheet,on_delete=models.CASCADE)
+    ssc_id=models.ForeignKey(SSC_marksheet,on_delete=models.CASCADE)
+    hsc_id=models.ForeignKey(HSC_marksheet,on_delete=models.CASCADE)
     subjects_choosen=models.ForeignKey(Subjects_selected,on_delete=models.CASCADE)
     otp_verification=models.BooleanField(default=False)
     academic=models.ForeignKey(AcademicYear,on_delete=models.CASCADE)

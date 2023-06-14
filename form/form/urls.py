@@ -31,4 +31,13 @@ urlpatterns = [
     path('test',views.test,name="test"),
     path('form_save',views.fy_bms_form_save,name="form_save"),
     path("view_accounts",views.manage_account,name="manage_accounts"),
+    path('view_ssc_details',views.ssc_marksheet,name="ssc_marksheet"),
+    path('view_hsc_details',views.hsc_marksheet,name="hsc_marksheet"),
+    path('view_fy_sem1_details',views.fy_sem1_marksheet,name="fy_sem1_marksheet"),
+    path('view_fy_sem2_details',views.fy_sem2_marksheet,name="fy_sem2_marksheet"),
+    path('view_sy_sem1_details',views.sy_sem1_marksheet,name="sy_sem1_marksheet"),
+    path('view_sy_sem2_details',views.sy_sem2_marksheet,name="sy_sem2_marksheet"),
+
+
+
 ]
