@@ -20,22 +20,91 @@
 		<!-- CSS -->
 		<link rel="stylesheet" type="text/css" href="{% static "vendors/styles/core.css" %}" />
 		<link
-			rel="stylesheet"%}"
+			rel="stylesheet"
 			type="text/css"
 			href="{% static "vendors/styles/icon-font.min.css" %}"
 		/>
-        <link
+		<link
 			rel="stylesheet"
 			type="text/css"
 			href="{% static "src/plugins/jquery-steps/jquery.steps.css" %}"
 		/>
 		<link rel="stylesheet" type="text/css" href="{% static "vendors/styles/style.css" %}" />
+		<link
+			href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+			rel="stylesheet"
+		/>
+		<style>
+			body {
+				background-color: #f4f7fd;
+				font-family: Arial, sans-serif;
+			}
+	
+			.container {
+				max-width: 400px;
+				margin: 0 auto;
+				padding: 20px;
+				background-color: #ffffff;
+				border-radius: 10px;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			}
+	
+			.form-group {
+				margin-bottom: 15px;
+			}
+	
+			label {
+				display: block;
+				font-weight: bold;
+				margin-bottom: 5px;
+			}
+	
+			input[type="number"] {
+				width: 100%;
+				padding: 10px;
+				border-radius: 5px;
+				border: 1px solid #ddd;
+				font-size: 16px;
+			}
+	
+			.button-container {
+				text-align: center;
+			}
+	
+			.button {
+				display: inline-block;
+				padding: 10px 20px;
+				background-color: #4CAF50;
+				color: #ffffff;
+				font-size: 16px;
+				border-radius: 5px;
+				border: none;
+				cursor: pointer;
+				transition: background-color 0.3s ease;
+			}
+	
+			.button:hover {
+				background-color: #45a049;
+			}
+	
+			.message {
+				margin-top: 15px;
+				text-align: center;
+				font-weight: bold;
+			}
+	
+			.success {
+				color: #4CAF50;
+			}
+	
+			.failure {
+				color: #f44336;
+			}
+		</style>
 	</head>
-    <body class="login-page">
+	<body class="login-page">
 		<div class="login-header box-shadow">
-			<div
-				class="container-fluid d-flex justify-content-between align-items-center"
-			>
+			<div class="container-fluid d-flex justify-content-between align-items-center">
 				<div class="brand-logo">
 					<a href="login.html">
 						<img src="vendors/images/deskapp-logo.svg" alt="" />
@@ -48,34 +117,106 @@
 				</div>
 			</div>
 		</div>
-		<div
-			class="register-page-wrap d-flex align-items-center flex-wrap justify-content-center"
-		>
-                        <div class="row">
-                            <div class="form-group">
-                                {% if messages %}
-                                  {% for message in messages %}
-                                  {% if message.tags == 'error' %}
-                                  <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
-                                  <div class="input-group mb-0">
-                                    <a class="btn btn-outline-primary btn-lg btn-block" href="/register">Kindly register Again</a>
-                                 </div>
-                                  {% endif %}
-                                  {% if message.tags == 'success' %}
-                                  <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
-                                  <div class="input-group mb-0">
-                                    <a class="btn btn-outline-primary btn-lg btn-block" href="/register">Verify OTP</a>
-                                 </div>
-                                  {% endif %}
-                                  {% endfor %}
-                                {% endif %}
-                              </div>
-                              
-                        </div>
+		<div class="main-container">
+			<div class="xs-pd-20-10 pd-ltr-20">
+					<div class="col-sm-12 col-md-6 mb-30">
+						<div class="card-box " style="border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+							<div class="content" style="padding: 20px;">
+			<h3 class="h4" style="font-weight: bold; margin-bottom: 20px;">OTP Verification for Registration</h3>
+			<div class="container">
+			<div class="row">
+				<div class="form-group">
+					{% if messages %}
+					{% for message in messages %}
+					{% if message.tags == 'error' %}
+					<div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+					<div class="input-group mb-0">
+						<a class="btn btn-outline-primary btn-lg btn-block" href="/register">Kindly register Again</a>
+					</div>
+					{% endif %}
+					{% if message.tags == 'success' %}
+					<div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+					<div class="input-group mb-0">
+					</div>
+					{% endif %}
+					{% endfor %}
+					{% endif %}
+				</div>
+				
+					<div class="form-group">
+						<label for="phone">Phone Number:</label>
+						<input type="number" id="phone" placeholder="Enter your phone number">
+					</div>
+					<div class="form-group">
+						<label for="otp">OTP:</label>
+						<input type="number" id="otp" disabled placeholder="Enter OTP">
+					</div>
+					<div class="button-container">
+						<button class="button" onclick="otpGenerate()" id="getOTPButton">Get OTP</button>
+						<button class="button" onclick="otpValidate()" id="verifyOTPButton" disabled>Verify OTP</button>
+					</div>
+					<div class="message" id="message"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+				<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+				<script>
+					ajaxCall = (url, object) => {
+						$('html, body').css("cursor", "wait");
+						$.ajax({
+							type: "POST",
+							crossDomain: false,
+							url: url,
+							contentType: "application/json",
+							data: JSON.stringify(object),
+							success: function (response) {
+								$('html, body').css("cursor", "auto");
+								if (url.includes("generate")) {
+									showMessage("OTP Generated", "success");
+									enableInputField("otp");
+									enableButton("verifyOTPButton");
+								} else if (url.includes("validate")) {
+									showMessage("OTP Validated", "success");
+								}
+							},
+							error: function () {
+								$('html, body').css("cursor", "auto");
+								showMessage("Failure", "failure");
+							}
+						});
+					}
+								otpGenerate = () => {
+						var phone = document.getElementById('phone').value;
+						var message = "Your OTP is";
+						console.log(phone)
+						ajaxCall("https://fg47sfxx29.execute-api.ap-south-1.amazonaws.com/v2/generate", { "phone": phone, "digits": 6,"message":message });
+					};
+					otpValidate = () => {
+						var phone = document.getElementById('phone').value;
+						var otp = document.getElementById('otp').value;
+						ajaxCall("https://fg47sfxx29.execute-api.ap-south-1.amazonaws.com/v2/validate", { "phone": phone, "otp": otp });
+					};
 
 
-        </div>
-    </div>
+					enableInputField = (id) => {
+						$("#" + id).prop("disabled", false);
+						$("#" + id).focus();
+					}
 
-<div class="mobile-menu-overlay"></div>
+					enableButton = (id) => {
+						$("#" + id).prop("disabled", false);
+					}
 
+					showMessage = (message, type) => {
+						$("#message").text(message);
+						$("#message").removeClass().addClass("message " + type);
+					}
+				</script>
+			</body>
+			</html>

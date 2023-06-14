@@ -49,6 +49,7 @@
 			href="{% static "src/plugins/jquery-steps/jquery.steps.css" %}"
 		/>
 		<link rel="stylesheet" type="text/css" href="{% static "vendors/styles/style.css" %}" />
+		
 	</head>
 	<body>
 		<div class="mobile-menu-overlay"></div>
@@ -59,23 +60,24 @@
 					<div class="pd-20 card-box mb-30">
 						<div class="clearfix">
 							<h4 class="text-blue h4">Application Form</h4>
-							<p class="mb-30" style="font-weight: 700;">First Year Bachelor of Management Studies (FYBMS)</p>
+							<p class="mb-30" style="font-weight: 700;">First Year Bachelor of Management Studies (FYBMS) </p>
 						</div>
 						<div class="wizard-content">
-							<form class="tab-wizard wizard-circle wizard">
+							<form class="tab-wizard2 wizard-circle wizard" method="post" action="/form_save" id="bms_form_fy" enctype="multipart/form-data"> 
+								{% csrf_token %}
 								<h5>Personal Info</h5>
 								<section>
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>First Name :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="first_name" />
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Middle Name :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="middle_name"/>
 											</div>
 										</div>
 									</div>
@@ -83,13 +85,13 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Last Name :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="last_name"/>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Student Name as per HSC Marksheet :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="marksheet_name"/>
 											</div>
 										</div>
 									</div>
@@ -97,13 +99,13 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Email Address :</label>
-												<input type="email" class="form-control" />
+												<input type="email" class="form-control" name="email"/>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Full Name in Devnagiri :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="devnagiri_name"/>
 											</div>
 										</div>
 									</div>
@@ -111,8 +113,11 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Blood Group:</label>
-												<select class="custom-select form-control">
+												<select class="custom-select form-control" id="blood_group" name="blood_group">
                                              <!--       <select class="md-input" data-attr-id="frm_candiateBloodGroup" name="bloodGroup" id="bloodGroup" title="" data-validate="select" data-selectedvalue="" data-isdataprotected="false" data-rspfrmsvruniqid="0" data-original-title="Select blood-group of candidate"> -->
+												{% for choice in BLOOD_GROUP_CHOICES %}
+												<option value="{{ choice.0 }}" {% if choice.0 == blood_group %}selected{% endif %}>{{ choice.1 }}</option>
+												{% endfor %}
 												</select>
 											</div>
 										</div>
@@ -123,6 +128,7 @@
 													type="text"
 													class="form-control date-picker"
 													placeholder="Select Date"
+													name="date_of_birth"
 												/>
 											</div>
 										</div>
@@ -131,14 +137,17 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Gender :</label>		
-                                                <select class="custom-select form-control">
+                                                <select class="custom-select form-control" id="gender" name="gender">
+													{% for choice in GENDER_CHOICES %}
+													<option value="{{ choice.0 }}" {% if choice.0 == gender %}selected{% endif %}>{{ choice.1 }}</option>
+												{% endfor %}
                                                 </select>
                                             </div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Phone Number :</label>
-												<input type="tel" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+												<input type="number" class="form-control" name="phone_number" />
 											</div>
 										</div>
 									</div>
@@ -146,33 +155,33 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Candidate Aadhar Number :</label>		
-                                                <input type="text" class="form-control " data-validate="number" data-maxlength="12"/>
+                                                <input type="text" class="form-control " name="aadhar_number" data-validate="number" data-maxlength="12"/>
                                             </div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Reservation :</label>	
-                                                <select class="custom-select form-control">
+													<select id="reservation" name="reservation" class="custom-select form-control">
+														{% for choice in RESERVATION_CHOICES %}
+															<option value="{{ choice.0 }}" {% if choice.0 == reservation %}selected{% endif %}>{{ choice.1 }}</option>
+														{% endfor %}
                                                 </select>	
                                             </div>
                                         </div>
 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Admission Type :</label>	
-                                                <select class="custom-select form-control">
+                                                <select class="custom-select form-control" id="admission" name="admission">
+													{% for choice in ADMISSION_CHOICES %}
+													<option value="{{ choice.0 }}" {% if choice.0 == admission %}selected{% endif %}>{{ choice.1 }}</option>
+												{% endfor %}
                                                 </select>	
                                             </div>
                                         </div>
 										<div class="col-md-12">
 											<div class="form-group">
                                                 <label> Address :</label>
-                                                <textarea class="form-control"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-											<div class="form-group">
-                                                <label>Permanent Address :</label>
-                                                <textarea class="form-control"></textarea>
+                                                <input type="text" class="form-control" name="address">
                                             </div>
                                         </div>
                                     </div>
@@ -181,97 +190,33 @@
 								<h5>Subjects</h5>
 								<section>
 									<div class="pd-20 card mb-30">
-									<p class="mb-30" style="font-weight: 700;">Subject Group:  Sem I: Compulsory Subject (Total 6 papers,20 credits) </p>
-									<div class="row">
-										<div class="col-md-6 col-sm-12">
+										<p class="mb-30" style="font-weight: 700;">Subject Group: Sem I: Compulsory Subject (Total 6 papers, 20 credits)</p>
+										<div class="row">
+										  {% for subject in subjects %}
+										  <div class="col-md-6 col-sm-12">
 											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1"> Introduction to Financial Accounts</label>
+											  <input type="checkbox" class="custom-control-input" id="subject_{{ subject.id }}" name="subjects" value="{{ subject.id }}" checked disabled>
+											  <label class="custom-control-label" for="subject_{{ subject.id }}">{{ subject.name }}</label>
 											</div>
+										  </div>
+										  {% endfor %}
 										</div>
-										<div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5"> 
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1">Business Law</label>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12">
+									  </div>
+									
+									  <!-- Sem II: Compulsory Subjects -->
+									  <div class="pd-20 card mb-30">
+										<p class="mb-30" style="font-weight: 700;">Subject Group: Sem II: Compulsory Subject (Total 6 papers, 20 credits)</p>
+										<div class="row">
+										  {% for subject in subjects2 %}
+										  <div class="col-md-6 col-sm-12">
 											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked> 
-												<label class="custom-control-label" for="customCheck1">Business Statistics</label>
+											  <input type="checkbox" class="custom-control-input" id="subject_{{ subject.id }}" name="subjects" value="{{ subject.id }}" checked disabled>
+											  <label class="custom-control-label" for="subject_{{ subject.id }}">{{ subject.name }}</label>
 											</div>
-										</div><div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1">Business Communication - I</label>
-											</div>
+										  </div>
+										  {% endfor %}
 										</div>
-										<div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1">Foundation Course - I</label>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1"> Foundation of Human Skills</label>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1"> Business Economics -I</label>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="pd-20 card mb-30">
-									<p class="mb-30" style="font-weight: 700;">Subject Group:  Sem II: Compulsory Subject (Total 6 papers,20 credits) </p>
-									<div class="row">
-										<div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1">Principles of Marketing</label>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5"> 
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1">Industrial Law</label>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked> 
-												<label class="custom-control-label" for="customCheck1">Business Mathematics</label>
-											</div>
-										</div><div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1">Business Communication - II</label>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1">Foundation Course - II</label>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1"> Business Environment</label>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12">
-											<div class="custom-control custom-checkbox mb-5">
-												<input type="checkbox" class="custom-control-input" id="customCheck1" disabled checked>
-												<label class="custom-control-label" for="customCheck1"> Principles of Management</label>
-											</div>
-										</div>
-									</div>
-								</div>
+									  </div>
 								</section>
 								<!-- Step 3 -->
 								<h5>SSC Marksheet</h5>
@@ -280,45 +225,45 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>University / Board Name :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="board_name" />
 											</div>
 											<div class="form-group">
 												<label>Instiute/Center/School Name :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="school_name"/>
 											</div>
 											<div class="form-group">
 												<label>Medium :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="medium"/>
 											</div>
 											<div class="form-group">
 												<label>CGPA/GPA:</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="gpa"  min="0" value="0" step=".01"/>
 											</div>
 											<div class="form-group">
 												<label>Passing Attempts :</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="passing_attempts"/>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Passing Month and Year :</label>
-												<input type="text" class="form-control month-picker" />
+												<input type="text" class="form-control month-picker" id="month-picker" name="passing_month" />
 											</div>
 											<div class="form-group">
 												<label>Seat Number:</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="seat_number"/>
 											</div>
 											<div class="form-group">
 												<label>Marksheet Number :</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="marksheet_number"/>
 											</div>
 											<div class="form-group">
 												<label>Marks Obtained :</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="marks_obtained"/>
 											</div>
 											<div class="form-group">
 												<label>Marks Out Of :</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="marks_outof"/>
 											</div>
 										</div>
 									</div>
@@ -330,45 +275,45 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>University / Board Name :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="board_name_hsc" />
 											</div>
 											<div class="form-group">
 												<label>Instiute/Center/School Name :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="school_name_hsc"/>
 											</div>
 											<div class="form-group">
 												<label>Medium :</label>
-												<input type="text" class="form-control" />
+												<input type="text" class="form-control" name="medium_hsc"/>
 											</div>
 											<div class="form-group">
 												<label>CGPA/GPA:</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="gpa_hsc"  min="0" value="0" step=".01"/>
 											</div>
 											<div class="form-group">
 												<label>Passing Attempts :</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="passing_attempts_hsc"/>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Passing Month and Year :</label>
-												<input type="text" class="form-control month-picker" />
+												<input type="text" class="form-control month-picker" name="passing_month_hsc" />
 											</div>
 											<div class="form-group">
 												<label>Seat Number:</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="seat_number_hsc"/>
 											</div>
 											<div class="form-group">
 												<label>Marksheet Number :</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="marksheet_number_hsc"/>
 											</div>
 											<div class="form-group">
 												<label>Marks Obtained :</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="marks_obtained_hsc"/>
 											</div>
 											<div class="form-group">
 												<label>Marks Out Of :</label>
-												<input type="number" class="form-control" />
+												<input type="number" class="form-control" name="marks_outof_hsc"/>
 											</div>
 										</div>
 									</div>
@@ -380,61 +325,37 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Aadhar Card :</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
+													<input type="file" class="form-control-file form-control height-auto" name="aaddhar_card"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
 											</div>
 											<div class="form-group">
 												<label>Payment Receipt</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
+													<input type="file" class="form-control-file form-control height-auto" name="payment_receipt"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
 											</div>
 											<div class="form-group">
-												<label>Payment Receipt</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
+												<label>Leaving Certificate</label>
+													<input type="file" class="form-control-file form-control height-auto" name="leaving_certificate" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
 											</div>
 											<div class="form-group">
 												<label>Migration Certificate (If Applicable ):</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
+													<input type="file" class="form-control-file form-control height-auto" name="migration_certificate"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>SSC Marksheet</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
+													<input type="file" class="form-control-file form-control height-auto" name="ssc_marksheet" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
 											</div>
 											<div class="form-group">
 												<label>HSC Marksheet</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
+													<input type="file" class="form-control-file form-control height-auto" name="hsc_marksheet" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
 											</div>
 											<div class="form-group">
 												<label>Mumbai University Application :</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
+													<input type="file" class="form-control-file form-control height-auto" name="mum_uni_application"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
 											</div>
 											<div class="form-group">
 												<label>Gap Certificate (If Applicable ):</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
+													<input type="file" class="form-control-file form-control height-auto" name="gap_certificate"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
 											</div>
 										</div>
 									</div>
@@ -443,32 +364,24 @@
 								<h5>Upload Images </h5>
 								<section>
 									<div class="row">
-										<div class="col-md-12">
-											<div class="form-group">
-												<label>Candidate Photo :</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
-											</div>
-											<div class="form-group">
-												<label>Candidate Signature :</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
-											</div>
-											<div class="form-group">
-												<label>Parent Signature :</label>
-												<div class="custom-file">
-													<input type="file" class="custom-file-input">
-													<label class="custom-file-label">Choose file</label>
-												</div>
-											</div>
+									  <div class="col-md-12">
+										<div class="form-group">
+										  <label>Candidate Photo:</label>
+											<input type="file" class="form-control-file form-control height-auto" name="candidate_photo"  style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
 										</div>
+										<div class="form-group">
+										  <label>Candidate Signature:</label>
+											<input type="file" class="form-control-file form-control height-auto" name="candidate_signature"  style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
+										</div>
+										<div class="form-group">
+										  <label>Parent Signature:</label>
+											<input type="file" class="form-control-file form-control height-auto" name="parent_signature" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;">
+										</div>
+									  </div>
 									</div>
-								</section>
-							</form>
+								  </section>
+								  <button type="submit" id="success-modal-btn" style="display:none;"></button>
+								  </form>
 						</div>
 					</div>
 		<!-- js -->
@@ -477,7 +390,39 @@
 		<script src="{% static "vendors/scripts/process.js" %}"></script>
 		<script src="{% static "vendors/scripts/layout-settings.js" %}"></script>
 		<script src="{% static "src/plugins/jquery-steps/jquery.steps.js" %}"></script>
-		<script src="{% static "vendors/scripts/steps-setting.js" %}"></script>
 	
+		<script>
+			$(document).ready(function() {
+			// Initialize the jQuery Steps plugin
+			$(".tab-wizard2").steps({
+				headerTag: "h5",
+				bodyTag: "section",
+				transitionEffect: "fade",
+				titleTemplate: '<span class="step">#index#</span> <span class="info">#title#</span>',
+				labels: {
+					finish: "Submit",
+					next: "Next",
+					previous: "Previous",
+				},
+
+				onStepChanged: function(event, currentIndex, priorIndex) {
+					$('.steps .current').prevAll().addClass('disabled');
+				},
+				onFinished: function(event, currentIndex) {
+					$('#success-modal-btn').trigger('click');
+				}
+			});
+			
+			$(".date-picker").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true ,language: 'en', autoClose: true});
+			$(".month-picker").datepicker({
+				language: "en",
+				minView: "months",
+				view: "months",
+				autoClose: true,
+				dateFormat: "MM yyyy",
+			});
+
+		});
+		</script>	
 	</body>
 </html>

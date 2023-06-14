@@ -10,7 +10,8 @@ $(".tab-wizard").steps({
 		$('.steps .current').prevAll().addClass('disabled');
 	},
 	onFinished: function (event, currentIndex) {
-		$('#success-modal').modal('show');
+		$('#success-modal-btn').trigger('click');
+
 	}
 });
 

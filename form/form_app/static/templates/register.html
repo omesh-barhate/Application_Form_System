@@ -82,19 +82,8 @@
 													<input type="text" class="form-control" name="last_name" required />
 												</div>
 											</div>
-											<div class="form-group row">
-                                                <label class="col-sm-4 col-form-label">Are you a Inhouse Student ?</label>
-												<div class="custom-control custom-radio custom-control-inline pb-0">
-														<input type="radio" id="inhouse" name="category" class="custom-control-input" value="1" {% if request.POST.category == '1' %}checked{% endif %} required/>
-														<label class="custom-control-label" for="inhouse" >Yes</label>
-												</div>
-                                                <div class="custom-control custom-radio custom-control-inline pb-0">
-                                                    <input type="radio" id="inhouse-1" name="category" class="custom-control-input" value="0" {% if request.POST.category == '0' %}checked{% endif %} required />
-                                                    <label class="custom-control-label" for="inhouse-1" >No</label >
-                                            </div>
-										    </div>
 									</section>
-									<!-- Step 2 -->
+									<!-- Stenp 2 -->
 									<h5>Personal Information</h5>
 									<section>
 										<div class="form-wrap max-width-600 mx-auto">
@@ -173,113 +162,188 @@
 	<script src="{% static "src/plugins/jquery-validation/dist/jquery.validate.js" %}"></script>
 	<script>
 				$(document).ready(function() {
-			// Initialize the jQuery Steps plugin
-			$(".tab-wizard2").steps({
-				headerTag: "h5",
-				bodyTag: "section",
-				transitionEffect: "fade",
-				titleTemplate: '<span class="step">#index#</span> <span class="info">#title#</span>',
-				labels: {
-					finish: "Submit",
-					next: "Next",
-					previous: "Previous",
-				},
-				onStepChanging: function(event, currentIndex, newIndex) {
-					// Validate the form inputs at the current step
-					var form = $(this);
-					form.validate().settings.ignore = ":disabled,:hidden";
-					return form.valid();
-				},
-				onStepChanged: function(event, currentIndex, priorIndex) {
-					$('.steps .current').prevAll().addClass('disabled');
-				},
-				onFinished: function(event, currentIndex) {
-					$('#success-modal-btn').trigger('click');
-				}
-			});
+  // Initialize the jQuery Steps plugin
+  $(".tab-wizard2").steps({
+    headerTag: "h5",
+    bodyTag: "section",
+    transitionEffect: "fade",
+    titleTemplate: '<span class="step">#index#</span> <span class="info">#title#</span>',
+    labels: {
+      finish: "Submit",
+      next: "Next",
+      previous: "Previous",
+    },
+    onStepChanging: function(event, currentIndex, newIndex) {
+      // Validate the form inputs at the current step
+      var form = $(this);
+      form.validate().settings.ignore = ":disabled,:hidden";
+      return form.valid();
+    },
+    onStepChanged: function(event, currentIndex, priorIndex) {
+      $('.steps .current').prevAll().addClass('disabled');
+    },
+    onFinished: function(event, currentIndex) {
+      $('#success-modal-btn').trigger('click');
+    }
+  });
 
-			// Initialize the jQuery Validation plugin on the form
-			$("#register_form").validate({
-				ignore: [],
-				errorPlacement: function(error, element) {
-					// Customize error placement if needed
-					error.insertAfter(element);
-				},
-				rules: {
-					// Specify validation rules for each input field
-					first_name: "required",
-					middle_name: "required",
-					last_name: "required",
-					mobile_number: {
-						required: true,
-						digits: true
-					},
-					address: "required",
-					email: {
-						required: true,
-						email: true
-					},
-					username: "required",
-					date: "required",
-					mother_first_name: "required",
-					father_first_name: "required",
-					password: "required"
-				},
-				messages: {
-					// Specify custom error messages for each input field
-					first_name: "Please enter your first name.",
-					middle_name: "Please enter your middle name.",
-					last_name: "Please enter your last name.",
-					mobile_number: {
-						required: "Please enter your mobile number.",
-						digits: "Please enter a valid mobile number."
-					},
-					address: "Please enter your address.",
-					email: {
-						required: "Please enter your email address.",
-						email: "Please enter a valid email address."
-					},
-					username: "Please enter your username.",
-					date: "Please select a date.",
-					mother_first_name: "Please enter your mother's first name.",
-					father_first_name: "Please enter your father's first name.",
-					password: "Please enter your password."
-				},
-				errorPlacement: function(error, element) {
-					// Customize error placement with inline CSS
-					error.css({
-						"color": "red",
-						"font-size": "12px",
-						"margin-top": "5px"
-					});
-					error.insertAfter(element);
-					if (element.attr("name") === "category") {
-						// If the error is for "category" (Yes/No buttons), place it after the buttons
-						error.insertAfter(element.closest(".form-group"));
-					} else {
-						// For other elements, place the error message normally
-						error.insertAfter(element);
-					}
-				},
-			});
+  // Initialize the jQuery Validation plugin on the form
+  $("#register_form").validate({
+    ignore: [],
+    errorPlacement: function(error, element) {
+      // Customize error placement if needed
+      error.insertAfter(element);
+    },
+    rules: {
+      // Specify validation rules for each input field
+      first_name: {
+        required: true,
+        minlength: 2,
+        maxlength: 50,
+      },
+      middle_name: {
+        required: true,
+        minlength: 2,
+        maxlength: 50,
+      },
+      last_name: {
+        required: true,
+        minlength: 2,
+        maxlength: 50,
+      },
+      mobile_number: {
+        required: true,
+        digits: true,
+        minlength: 10,
+        maxlength: 10,
+      },
+      address: {
+        required: true,
+        minlength: 10,
+        maxlength: 100,
+      },
+      email: {
+        required: true,
+        email: true,
+        maxlength: 100,
+      },
+      username: {
+        required: true,
+        minlength: 5,
+        maxlength: 50,
+      },
+      date: {
+        required: true,
+        date: true,
+      },
+      mother_first_name: {
+        required: true,
+        minlength: 2,
+        maxlength: 50,
+      },
+      father_first_name: {
+        required: true,
+        minlength: 2,
+        maxlength: 50,
+      },
+      password: {
+        required: true,
+        minlength: 8,
+        maxlength: 50,
+      }
+    },
+    messages: {
+      // Specify custom error messages for each input field
+      first_name: {
+        required: "Please enter your first name.",
+        minlength: "First name must be at least 2 characters.",
+        maxlength: "First name cannot exceed 50 characters.",
+      },
+      middle_name: {
+        required: "Please enter your middle name.",
+        minlength: "Middle name must be at least 2 characters.",
+        maxlength: "Middle name cannot exceed 50 characters.",
+      },
+      last_name: {
+        required: "Please enter your last name.",
+        minlength: "Last name must be at least 2 characters.",
+        maxlength: "Last name cannot exceed 50 characters.",
+      },
+      mobile_number: {
+        required: "Please enter your mobile number.",
+        digits: "Please enter a valid mobile number.",
+        minlength: "Mobile number must be at least 10 digits.",
+        maxlength: "Mobile number cannot exceed 15 digits.",
+      },
+      address: {
+        required: "Please enter your address.",
+        minlength: "Address must be at least 10 characters.",
+        maxlength: "Address cannot exceed 100 characters.",
+      },
+      email: {
+        required: "Please enter your email address.",
+        email: "Please enter a valid email address.",
+        maxlength: "Email address cannot exceed 100 characters.",
+      },
+      username: {
+        required: "Please enter your username.",
+        minlength: "Username must be at least 5 characters.",
+        maxlength: "Username cannot exceed 50 characters.",
+      },
+      date: {
+        required: "Please select a date.",
+        date: "Please enter a valid date.",
+      },
+      mother_first_name: {
+        required: "Please enter your mother's first name.",
+        minlength: "Mother's first name must be at least 2 characters.",
+        maxlength: "Mother's first name cannot exceed 50 characters.",
+      },
+      father_first_name: {
+        required: "Please enter your father's first name.",
+        minlength: "Father's first name must be at least 2 characters.",
+        maxlength: "Father's first name cannot exceed 50 characters.",
+      },
+      password: {
+        required: "Please enter your password.",
+        minlength: "Password must be at least 8 characters.",
+        maxlength: "Password cannot exceed 50 characters.",
+      }
+    },
+    errorPlacement: function(error, element) {
+      // Customize error placement with inline CSS
+      error.css({
+        "color": "red",
+        "font-size": "12px",
+        "margin-top": "5px"
+      });
+      error.insertAfter(element);
+    },
+  });
 
-			// Add custom date validation method
-			$.validator.addMethod('date', function(value, element) {
-				if (this.optional(element)) {
-					return true;
-				}
-				var ok = true;
-				try {
-					$.datepicker.parseDate('dd/mm/yy', value);
-				} catch (err) {
-					ok = false;
-				}
-				return ok;
-			});
+  // Add custom date validation method
+  $.validator.addMethod('date', function(value, element) {
+    if (this.optional(element)) {
+      return true;
+    }
+    var ok = true;
+    try {
+      $.datepicker.parseDate('dd/mm/yy', value);
+    } catch (err) {
+      ok = false;
+    }
+    return ok;
+  });
 
-			// Initialize datepicker for the date field
-			$(".date-picker").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true ,language: 'en', autoClose: true});
-		});
+  // Initialize datepicker for the date field
+  $(".date-picker").datepicker({
+    dateFormat: 'dd/mm/yy',
+    changeYear: true,
+    language: 'en',
+    autoClose: true
+  });
+});
+
 
 	</script>
 </body>

@@ -27,6 +27,8 @@ urlpatterns = [
     path('form',views.basic_form,name="form"),
     path('doLogin',views.doLogin),
     path('register_save',views.register_save,name="user_registration"),
-    path('register_check',views.register_check,name="register_check"),
-    path('test',views.test,name="test")
+    path('register_otp_check',views.register_check,name="register_check"),
+    path('test',views.test,name="test"),
+    path('form_save',views.fy_bms_form_save,name="form_save"),
+    path("view_accounts",views.manage_account,name="manage_accounts"),
 ]
