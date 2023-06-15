@@ -54,7 +54,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'form.urls'
 STATIC_URL="/static/"
-STATIC_ROOT=os.path.join(BASE_DIR,"static")
+STATIC_ROOT=os.path.join(BASE_DIR,"static/")
 
 TEMPLATES = [
     {
@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'form',
         'USER': 'stapps',
         'PASSWORD': 'Stapps@67456',
-        'HOST': 'tayyabali.in',
+        'HOST':'tayyabali.in',
         'PORT': '3306',
     }
 }

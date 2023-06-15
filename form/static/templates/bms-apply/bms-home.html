@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block page_title %}
+Home
+{% endblock page_title %}
+{% block main_content %}
+<div class="main-container">
+    <div class="xs-pd-20-10 pd-ltr-20">
+		<h4 class="mb-30 h4">Department of Bachelor of Management Studies</h4>
+        <div class="row clearfix">
+			<div class="col-md-12">
+				<div class="card card-box text-center">
+					<div class="card-header">
+						Available Courses
+					</div>
+					<div class="card-body">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th scope="col">Course ID</th>
+									<th scope="col">Course Name</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>First Year Bachelor of Management Studies (FYBMS)</td>
+									<td ><a href="/form" type="button" class="btn btn-primary btn-lg">Apply</a></td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>Second Year Bachelor of Management Studies (Marketing)</td>
+									<td ><button type="button" class="btn btn-primary btn-lg">Apply</button></td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>Second Year Bachelor of Management Studies (HR)</td>
+									<td ><button type="button" class="btn btn-primary btn-lg">Apply</button></td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>Third Year Bachelor of Management Studies (Marketing)</td>
+									<td ><button type="button" class="btn btn-primary btn-lg">Apply</button></td>
+								</tr>
+								<tr>
+									<td>5</td>
+									<td>Third Year Bachelor of Management Studies (HR)</td>
+									<td ><button type="button" class="btn btn-primary btn-lg">Apply</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+    </div>
+</div>
+
+<div class="mobile-menu-overlay"></div>
+
+{% endblock main_content %}

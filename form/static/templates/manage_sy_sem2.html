@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block page_title %}
+Home
+{% endblock page_title %}
+{% block main_content %}
+<div class="main-container">
+    <div class="pd-20 card-box mb-30">
+        <div class="clearfix">
+            <div class="pull-left">
+                <h3 class="text-blue h4">SY Sem-II Marksheet Data</h3>
+                <br>
+            </div>
+        </div>
+    <div class="pb-20">
+        <table class="data-table table stripe hover nowrap ">
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>University Name</th>
+                <th>School Name</th>
+                <th>Medium</th>
+                <th>Seat Number</th>
+                <th>Marksheet Number</th>
+                <th>Marks Obtained</th>
+                <th>Marks Out Of</th>
+                <th>CGPA</th>
+                <th>Account ID</th>
+                <th>Academic Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sem4 in sem4_details %}
+                <tr>
+                  <td>{{ sem4.id }}</td>
+                  <td>{{ sem4.university_name }}</td>
+                  <td>{{ sem4.school_name }}</td>
+                  <td>{{ sem4.medium }}</td>
+                  <td>{{ sem4.seat_number }}</td>
+                  <td>{{ sem4.marksheet_number }}</td>
+                  <td>{{ sem4.marks_obtained }}</td>
+                  <td>{{ sem4.marks_out_of }}</td>
+                  <td>{{ sem4.cgpa }}</td>
+                  <td>{{ sem4.account_id }}</td>
+                  <td>{{ sem4.academic_id}}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+    </div>
+{% endblock main_content %}
