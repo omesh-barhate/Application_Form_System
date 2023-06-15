@@ -78,7 +78,7 @@ class Course(models.Model):
     name = models.CharField(max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    objects=models.Manager()
 
 class Subject(models.Model):
     id = models.AutoField(primary_key=True)
@@ -87,6 +87,8 @@ class Subject(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     course_id=models.ForeignKey(Course,on_delete=models.CASCADE)
     semester=models.CharField(max_length=1)
+    elective=models.BooleanField(default=False)
+    objects=models.Manager()
 
 
 class Subjects_selected(models.Model):
@@ -310,6 +312,34 @@ class fy_bammc_form(models.Model):
     objects=models.Manager()
 
 class sy_bammc_form(models.Model): 
+    id=models.AutoField(primary_key=True)
+    personal_detail=models.ForeignKey(Personal_details,on_delete=models.CASCADE)
+    document =models.ForeignKey(Document,on_delete=models.CASCADE)
+    ssc_id=models.ForeignKey(SSC_marksheet,on_delete=models.CASCADE)
+    hsc_id=models.ForeignKey(HSC_marksheet,on_delete=models.CASCADE)
+    subjects_choosen=models.ForeignKey(Subjects_selected,on_delete=models.CASCADE)
+    otp_verification=models.BooleanField(default=False)
+    academic=models.ForeignKey(AcademicYear,on_delete=models.CASCADE)
+    form_status=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now_add=True)
+    objects=models.Manager()
+
+class ty_bammc_advert_form(models.Model): 
+    id=models.AutoField(primary_key=True)
+    personal_detail=models.ForeignKey(Personal_details,on_delete=models.CASCADE)
+    document =models.ForeignKey(Document,on_delete=models.CASCADE)
+    ssc_id=models.ForeignKey(SSC_marksheet,on_delete=models.CASCADE)
+    hsc_id=models.ForeignKey(HSC_marksheet,on_delete=models.CASCADE)
+    subjects_choosen=models.ForeignKey(Subjects_selected,on_delete=models.CASCADE)
+    otp_verification=models.BooleanField(default=False)
+    academic=models.ForeignKey(AcademicYear,on_delete=models.CASCADE)
+    form_status=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now_add=True)
+    objects=models.Manager()
+
+class ty_bammc_journal_form(models.Model): 
     id=models.AutoField(primary_key=True)
     personal_detail=models.ForeignKey(Personal_details,on_delete=models.CASCADE)
     document =models.ForeignKey(Document,on_delete=models.CASCADE)

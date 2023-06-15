@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from form_app.models import Account,Personal_details,Subject,Subjects_selected,SSC_marksheet,HSC_marksheet,Document,fy_bms_form,Course,FY_SEM1_marksheet,FY_SEM2_marksheet,SY_SEM1_marksheet,SY_SEM2_marksheet
-
+from django.contrib.auth.decorators import login_required
 from form_app.EmailBackend import EmailBackEnd
 
 # Create your views here.
@@ -20,7 +20,8 @@ def register(request):
     id=request.user.id
     print(id)
     return render(request,"register.html")
-
+    
+@login_required
 def dashboard(request):
     id=request.user.id
     print(id)
