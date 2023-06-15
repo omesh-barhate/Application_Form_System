@@ -20,8 +20,7 @@ def register(request):
     id=request.user.id
     print(id)
     return render(request,"register.html")
-    
-@login_required
+
 def dashboard(request):
     id=request.user.id
     print(id)

@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-r+yy1rqnv4f+^!yy%y6g_gf@14a7yo&e#9qv)8!h!a-c6+d@6t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'form_app',
-    'phonenumber_field',
+    
 ]
 
 MIDDLEWARE = [
@@ -82,9 +82,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'form',
-        'USER': 'omesh',
-        'PASSWORD': 'Omesh123@',
-        'HOST': 'localhost',
+        'USER': 'stapps',
+        'PASSWORD': 'Stapps@67456',
+        'HOST': 'tayyabli.in',
         'PORT': '3306',
     }
 }
