@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'form',
         'USER': 'stapps',
         'PASSWORD': 'Stapps@67456',
-        'HOST': 'tayyabli.in',
+        'HOST': 'tayyabali.in',
         'PORT': '3306',
     }
 }
