@@ -1,0 +1,892 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Basic Page Info -->
+		<meta charset="utf-8" />
+		<title>St Pauls Institute of Communication Education</title>
+
+		<!-- Site favicon -->
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="vendors/images/apple-touch-icon.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="vendors/images/favicon-32x32.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="vendors/images/favicon-16x16.png"
+		/>
+
+		<!-- Mobile Specific Metas -->
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=1"
+		/>
+
+		<!-- Google Font -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static "vendors/styles/core.css" %}" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static "vendors/styles/icon-font.min.css" %}"
+		/>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static "src/plugins/jquery-steps/jquery.steps.css" %}"
+		/>
+		<link rel="stylesheet" type="text/css" href="{% static "vendors/styles/style.css" %}" />
+		
+	</head>
+	<body>
+		<body class="sidebar-light header-white">
+			<div class="header">
+				{% include 'header.html' %}
+			</div>
+			<div class="left-side-bar">
+			{% include 'sidebar.html' with user=user %}
+			</div>
+		<div class="mobile-menu-overlay"></div>
+		<div class="main-container">
+			<div class="pd-ltr-20 xs-pd-20-10">
+				<div class="min-height-200px">
+
+					<div class="pd-20 card-box mb-30">
+						<div class="clearfix">
+							<h4 class="text-blue h4">Application Form</h4>
+							<p class="mb-30" style="font-weight: 700;">Second Year Bachelor of Arts  in Multimedia and Mass Communication (SYBAMMC)  </p>
+						</div>
+						<div class="wizard-content">
+							<form class="tab-wizard2 wizard-circle wizard" method="post" action="/sy_bammc_save" id="bammc_form_sy" enctype="multipart/form-data"> 
+								{% csrf_token %}
+								<h5>Personal Info</h5>
+								<section>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>First Name :</label>
+												<input type="text" class="form-control" name="first_name" placeholder="Enter your First Name :" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Middle Name :</label>
+												<input type="text" class="form-control" name="middle_name" placeholder="Enter your Middle Name :"/>
+											</div>
+										</div>
+									</div>
+                                    <div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Last Name :</label>
+												<input type="text" class="form-control" name="last_name" placeholder="Enter your Last Name :"/>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Student Name as per HSC Marksheet :</label>
+												<input type="text" class="form-control" name="marksheet_name" placeholder="Enter your name as on marksheet :"/>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Email Address :</label>
+												<input type="email" class="form-control" name="email" placeholder="Enter your Email :"/>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Full Name in Devnagiri :</label>
+												<input type="text" class="form-control" name="devnagiri_name" placeholder="Enter your name in devnagiri :"/>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Blood Group:</label>
+												<select class="custom-select form-control" id="blood_group" name="blood_group" >
+                                             <!--       <select class="md-input" data-attr-id="frm_candiateBloodGroup" name="bloodGroup" id="bloodGroup" title="" data-validate="select" data-selectedvalue="" data-isdataprotected="false" data-rspfrmsvruniqid="0" data-original-title="Select blood-group of candidate"> -->
+												{% for choice in BLOOD_GROUP_CHOICES %}
+												<option value="{{ choice.0 }}" {% if choice.0 == blood_group %}selected{% endif %}>{{ choice.1 }}</option>
+												{% endfor %}
+												</select>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Date of Birth :</label>
+												<input class="form-control date-picker" placeholder="Select Date" type="text" name="date_of_birth" id="date_of_birth" required>
+											</div>
+										</div>
+									</div>
+                                    <div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Gender :</label>		
+                                                <select class="custom-select form-control" id="gender" name="gender">
+													{% for choice in GENDER_CHOICES %}
+													<option value="{{ choice.0 }}" {% if choice.0 == gender %}selected{% endif %}>{{ choice.1 }}</option>
+												{% endfor %}
+                                                </select>
+                                            </div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Phone Number :</label>
+												<input type="number" class="form-control" name="phone_number" placeholder="Enter your Phone Number :"/>
+											</div>
+										</div>
+									</div>
+                                    <div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Candidate Aadhaar Number :</label>		
+                                                <input type="text" class="form-control " name="aadhar_number" placeholder="Enter your Aadhaar Number :"/>
+                                            </div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Reservation :</label>	
+													<select id="reservation" name="reservation" class="custom-select form-control">
+														{% for choice in RESERVATION_CHOICES %}
+															<option value="{{ choice.0 }}" {% if choice.0 == reservation %}selected{% endif %}>{{ choice.1 }}</option>
+														{% endfor %}
+                                                </select>	
+                                            </div>
+                                        </div>
+										<div class="col-md-6">
+											<div class="form-group">
+                                                <label> ABC ID :</label>
+                                                <input type="text" class="form-control" name="abc_id" placeholder="Enter your ABC ID :">
+                                            </div>
+                                        </div>
+										<div class="col-md-6">
+											<div class="form-group">
+                                                <label> Address :</label>
+                                                <input type="text" class="form-control" name="address" placeholder="Enter your Address :">
+                                            </div>
+                                        </div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Admission Type :</label>	
+                                                <select class="custom-select form-control" id="admission" name="admission">
+													{% for choice in ADMISSION_CHOICES %}
+													<option value="{{ choice.0 }}" {% if choice.0 == admission %}selected{% endif %}>{{ choice.1 }}</option>
+												{% endfor %}
+                                                </select>	
+                                            </div>
+                                        </div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Session Year </label>
+												<select class="form-control" name="session_year_id" id="session_year_id">
+													{% for session_year in session_year_id %}
+													  <option value="{{ session_year.id }}">{{ session_year.session_start_year }} TO {{ session_year.session_end_year }}</option>
+													{% endfor %}
+												</select>
+											  </div>
+											  </div>
+                                    </div>
+								</section>
+								<!-- Step 2 -->
+								<h5>Subjects</h5>
+								<section>
+									<div class="pd-20 card mb-30">
+										<p class="mb-30" style="font-weight: 700;">Subject Group: Sem III: Compulsory Subject (Total 6 papers, 20 credits)</p>
+										<div class="row">
+										  {% for subject in subjects %}
+										  <div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+											  <input type="checkbox" class="custom-control-input" id="subject_{{ subject.id }}" name="subjects" value="{{ subject.id }}" disabled checked >
+											  <label class="custom-control-label" for="subject_{{ subject.id }}">{{ subject.name }}</label>
+											</div>
+										  </div>
+										  {% endfor %}
+										</div>
+									  </div>
+									
+									  <!-- Sem II: Compulsory Subjects -->
+									  <div class="pd-20 card mb-30">
+										<p class="mb-30" style="font-weight: 700;">Subject Group: Sem IV: Compulsory Subject (Total 6 papers, 20 credits)</p>
+										<div class="row">
+										  {% for subject in subjects2 %}
+										  <div class="col-md-6 col-sm-12">
+											<div class="custom-control custom-checkbox mb-5">
+											  <input type="checkbox" class="custom-control-input" id="subject_{{ subject.id }}" name="subjects" value="{{ subject.id }}" disabled checked >
+											  <label class="custom-control-label" for="subject_{{ subject.id }}">{{ subject.name }}</label>
+											</div>
+										  </div>
+										  {% endfor %}
+										</div>
+									  </div>
+								</section>
+								<!-- Step 3 -->
+								<h5>FY SEM I Marksheet</h5>
+								<section>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>University / Board Name :</label>
+												<input type="text" class="form-control" name="board_name" />
+											</div>
+											<div class="form-group">
+												<label>Instiute/Center/School Name :</label>
+												<input type="text" class="form-control" name="school_name"/>
+											</div>
+											<div class="form-group">
+												<label>Medium :</label>
+												<input type="text" class="form-control" name="medium"/>
+											</div>
+											<div class="form-group">
+												<label>CGPA/GPA:</label>
+												<input type="number" class="form-control" name="gpa"  min="0" value="0" step=".01"/>
+											</div>
+										</div>
+										<div class="col-md-6">
+
+											<div class="form-group">
+												<label>Seat Number:</label>
+												<input type="text" class="form-control" name="seat_number"/>
+											</div>
+											<div class="form-group">
+												<label>Marksheet Number :</label>
+												<input type="number" class="form-control" name="marksheet_number"/>
+											</div>
+											<div class="form-group">
+												<label>Marks Obtained :</label>
+												<input type="number" class="form-control" name="marks_obtained"/>
+											</div>
+											<div class="form-group">
+												<label>Marks Out Of :</label>
+												<input type="number" class="form-control" name="marks_outof"/>
+											</div>
+										</div>
+									</div>
+								</section>
+								<!-- Step 4 -->
+								<h5>FY SEM II Marksheet</h5>
+								<section>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>University / Board Name :</label>
+												<input type="text" class="form-control" name="board_name_hsc" />
+											</div>
+											<div class="form-group">
+												<label>Instiute/Center/School Name :</label>
+												<input type="text" class="form-control" name="school_name_hsc"/>
+											</div>
+											<div class="form-group">
+												<label>Medium :</label>
+												<input type="text" class="form-control" name="medium_hsc"/>
+											</div>
+											<div class="form-group">
+												<label>CGPA/GPA:</label>
+												<input type="number" class="form-control" name="gpa_hsc"  min="0" value="0" step=".01"/>
+											</div>
+											
+										</div>
+										<div class="col-md-6">
+											
+											<div class="form-group">
+												<label>Seat Number:</label>
+												<input type="text" class="form-control" name="seat_number_hsc"/>
+											</div>
+											<div class="form-group">
+												<label>Marksheet Number :</label>
+												<input type="number" class="form-control" name="marksheet_number_hsc"/>
+											</div>
+											<div class="form-group">
+												<label>Marks Obtained :</label>
+												<input type="number" class="form-control" name="marks_obtained_hsc"/>
+											</div>
+											<div class="form-group">
+												<label>Marks Out Of :</label>
+												<input type="number" class="form-control" name="marks_outof_hsc"/>
+											</div>
+										</div>
+									</div>
+								</section>
+								<!-- Step 5 -->
+								<h5>Documents </h5>
+								<section>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Aadhar Card :</label>
+													<input type="file" class="form-control-file form-control height-auto" name="aaddhar_card"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)"  required>
+											</div>
+											<div class="form-group">
+												<label>Payment Receipt</label>
+													<input type="file" class="form-control-file form-control height-auto" name="payment_receipt"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" required>
+											</div>
+											<div class="form-group">
+												<label>Leaving Certificate</label>
+													<input type="file" class="form-control-file form-control height-auto" name="leaving_certificate" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" required>
+											</div>
+											<div class="form-group">
+												<label>Migration Certificate (If Applicable ):</label>
+													<input type="file" class="form-control-file form-control height-auto" name="migration_certificate"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>FY SEM I Marksheet</label>
+													<input type="file" class="form-control-file form-control height-auto" name="fy_sem1" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" required>
+											</div>
+											<div class="form-group">
+												<label>FY SEM II Marksheet</label>
+													<input type="file" class="form-control-file form-control height-auto" name="fy_sem2" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" required>
+											</div>
+											<div class="form-group">
+												<label>Mumbai University Application :</label>
+													<input type="file" class="form-control-file form-control height-auto" name="mum_uni_application"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" >
+											</div>
+											<div class="form-group">
+												<label>Gap Certificate (If Applicable ):</label>
+													<input type="file" class="form-control-file form-control height-auto" name="gap_certificate"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)"  >
+											</div>
+										</div>
+									</div>
+								</section>
+								<!-- Step 6-->
+								<h5>Upload Images </h5>
+								<section>
+									<div class="row">
+									  <div class="col-md-12">
+										<div class="form-group">
+										  <label>Candidate Photo:</label>
+											<input type="file" class="form-control-file form-control height-auto" name="candidate_photo"  style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".jpg, .jpeg, .png" onchange="validateFile(this, 1)" required>
+										</div>
+										<div class="form-group">
+										  <label>Candidate Signature:</label>
+											<input type="file" class="form-control-file form-control height-auto" name="candidate_signature"  style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".jpg, .jpeg, .png" onchange="validateFile(this, 1)" required>
+										</div>
+										<div class="form-group">
+										  <label>Parent Signature:</label>
+											<input type="file" class="form-control-file form-control height-auto" name="parent_signature" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".jpg, .jpeg, .png" onchange="validateFile(this, 1)" required>
+										</div>
+									  </div>
+									</div>
+								  </section>
+								  <button type="submit" id="success-modal-btn" style="display:none;"></button>
+								  </form>
+						</div>
+					</div>
+		<!-- js -->
+		<script src="{% static "vendors/scripts/core.js" %}"></script>
+		<script src="{% static "vendors/scripts/script.min.js" %}"></script>
+		<script src="{% static "vendors/scripts/process.js" %}"></script>
+		<script src="{% static "vendors/scripts/layout-settings.js" %}"></script>
+		<script src="{% static "src/plugins/jquery-steps/jquery.steps.js" %}"></script>
+		<script src="{% static "src/plugins/jquery-validation/dist/jquery.validate.min.js" %}"></script>
+		<script src="{% static "src/plugins/jquery-validation/dist/jquery.validate.js" %}"></script>
+		<script>
+		$(document).ready(function() {
+			// Initialize the jQuery Steps plugin
+			$(".tab-wizard2").steps({
+				headerTag: "h5",
+				bodyTag: "section",
+				transitionEffect: "fade",
+				titleTemplate: '<span class="step">#index#</span> <span class="info">#title#</span>',
+				labels: {
+				finish: "Submit",
+				next: "Next",
+				previous: "Previous",
+				},
+				onStepChanging: function(event, currentIndex, newIndex) {
+				// Validate the form inputs at the current step
+				var form = $(this);
+				form.validate().settings.ignore = ":disabled,:hidden";
+				return form.valid();
+				},
+				onStepChanged: function(event, currentIndex, priorIndex) {
+				$('.steps .current').prevAll().addClass('disabled');
+				},
+				onFinished: function(event, currentIndex) {
+				$('#success-modal-btn').trigger('click');
+				}
+			});
+
+			// Initialize the jQuery Validation plugin on the form
+			$("#bammc_form_sy").validate({
+				ignore: [],
+				errorPlacement: function(error, element) {
+				// Customize error placement if needed
+				error.insertAfter(element);
+				},
+				rules: {
+				// Specify validation rules for each input field
+				first_name: {
+					required: true,
+					minlength: 2,
+					maxlength: 50,
+				},
+				middle_name: {
+					required: true,
+					minlength: 2,
+					maxlength: 50,
+				},
+				last_name: {
+					required: true,
+					minlength: 2,
+					maxlength: 50,
+				},
+				marksheet_name: {
+					required: true,
+					minlength: 2,
+					maxlength: 50,
+				},
+				email: {
+					required: true,
+					email: true,
+					maxlength: 100,
+				},
+				devnagiri_name: {
+					required: true,
+					minlength: 2,
+					maxlength: 50,
+				},
+				blood_group: {
+					required: true,
+				},
+				date: {
+					required: true,
+					date: true,
+				},
+				gender: {
+					required: true,
+				},
+				phone_number: {
+					required: true,
+					digits: true,
+					minlength:10,
+					maxlength:10,
+				},
+				aadhar_number: {
+					required: true,
+					minlength: 12,
+					maxlength: 12,
+				},
+				session_year_id: {
+				required: true
+				},
+				reservation: {
+					required: true,
+				},
+				abc_id: {
+					required: true,
+					minlength: 12,
+					maxlength: 12,
+				},
+				address: {
+					required: true,
+					minlength: 10,
+					maxlength: 100,
+				},
+				admission: {
+					required: true,
+				},
+				subjects: {
+					'require-one-checkbox': true
+				},
+					
+				board_name_hsc: {
+				required: true,
+				minlength: 2,
+				maxlength: 100
+				},
+				school_name_hsc: {
+				required: true,
+				minlength: 2,
+				maxlength: 100
+				},
+				medium_hsc: {
+				required: true,
+				minlength: 2,
+				maxlength: 100
+				},
+				gpa_hsc: {
+				required: true,
+				min: 0,
+				max: 10,
+				step: 0.01
+				},
+				
+				seat_number_hsc: {
+				required: true,
+				minlength: 6,
+				maxlength: 10
+				},
+				marksheet_number_hsc: {
+				required: true,
+				minlength: 6,
+				maxlength: 10
+				},
+				marks_obtained_hsc: {
+				required: true,
+				digits: true,
+				min: 0,
+				max: 1000
+				},
+				marks_outof_hsc: {
+				required: true,
+				digits: true,
+				min: 0,
+				max: 1000
+				},
+				board_name: {
+				required: true,
+				minlength: 2,
+				maxlength: 100
+				},
+				school_name: {
+				required: true,
+				minlength: 2,
+				maxlength: 100
+				},
+				medium: {
+				required: true,
+				minlength: 2,
+				maxlength: 100
+				},
+				gpa: {
+				required: true,
+				min: 0,
+				max: 10,
+				step: 0.01
+				},
+				
+				seat_number: {
+				required: true,
+				minlength: 6,
+				maxlength: 10
+				},
+				marksheet_number: {
+				required: true,
+				digits: true,
+				minlength: 6,
+				maxlength: 10
+				},
+				marks_obtained: {
+				required: true,
+				digits: true,
+				min: 0,
+				max: 1000
+				},
+				marks_outof: {
+				required: true,
+				digits: true,
+				min: 0,
+				max: 1000
+				},
+				aaddhar_card: {
+				required: true,
+				
+				},
+				payment_receipt: {
+				required: true,
+				
+				},
+				leaving_certificate: {
+				required: true,
+				
+				},
+				
+				fy_sem1: {
+				required: true,
+				
+				},
+				fy_sem2: {
+				required: true,
+				
+				},
+				mum_uni_application: {
+				required: true,
+				
+				},
+				
+				candidate_photo: {
+				required: true,
+				
+				},
+				candidate_signature: {
+				required: true,
+				
+				},
+				parent_signature: {
+				required: true,
+				
+				}
+				
+				},
+				
+				messages: {
+				// Specify custom error messages for each input field
+				first_name: {
+					required: "Please enter your first name.",
+					minlength: "First name must be at least 2 characters.",
+					maxlength: "First name cannot exceed 50 characters.",
+				},
+				middle_name: {
+					required: "Please enter your middle name.",
+					minlength: "Middle name must be at least 2 characters.",
+					maxlength: "Middle name cannot exceed 50 characters.",
+				},
+				last_name: {
+					required: "Please enter your last name.",
+					minlength: "Last name must be at least 2 characters.",
+					maxlength: "Last name cannot exceed 50 characters.",
+				},
+				marksheet_name: {
+					required: "Please enter the name as on the marksheet.",
+					minlength: "Name as on the marksheet must be at least 2 characters.",
+					maxlength: "Name as on the marksheet cannot exceed 50 characters.",
+				},
+				email: {
+					required: "Please enter your email address.",
+					email: "Please enter a valid email address.",
+					maxlength: "Email address cannot exceed 100 characters.",
+				},
+				devnagiri_name: {
+					required: "Please enter your name in Devnagiri.",
+					minlength: "Name in Devnagiri must be at least 2 characters.",
+					maxlength: "Name in Devnagiri cannot exceed 50 characters.",
+				},
+				blood_group: {
+					required: "Please select your blood group.",
+				},
+				date_of_birth: {
+					required: "Please enter your date ",
+					date: "Please enter a valid date.",
+				},
+				gender: {
+					required: "Please select your gender.",
+				},
+				phone_number: {
+					required: "Please enter your phone number.",
+					digits: "Please enter a valid phone number.",
+					minlength: "Phone number must be 10 digits.",
+					maxlength: "Phone number must be 10 digits.",
+				},
+				aadhar_number: {
+					required: "Please enter your Aadhaar number.",
+					minlength: "Aadhaar number must be 12 digits.",
+					maxlength: "Aadhaar number must be 12 digits.",
+				},
+				reservation: {
+					required: "Please select your reservation category.",
+				},
+				session_year_id: {
+				required: "Please select a Session Year."
+				},
+				abc_id: {
+					required: "Please enter your ABC ID.",
+					minlength: "ABC ID must be 12 digits",
+					maxlength: "ABC ID must be 12 digits",
+				},
+				address: {
+					required: "Please enter your address.",
+					minlength: "Address must be at least 10 characters.",
+					maxlength: "Address cannot exceed 100 characters.",
+				},
+				admission: {
+					required: "Please select your admission type.",
+				},
+				subjects: {
+					'require-one-checkbox': 'Please select at least one subject.'
+				},
+				board_name_hsc: {
+				required: 'Please enter the University / Board Name.',
+				minlength: 'Please enter at least 2 characters.',
+				maxlength: 'Please enter no more than 100 characters.'
+				},
+				school_name_hsc: {
+				required: 'Please enter the Institute / Center / School Name.',
+				minlength: 'Please enter at least 2 characters.',
+				maxlength: 'Please enter no more than 100 characters.'
+				},
+				medium_hsc: {
+				required: 'Please enter the Medium.',
+				minlength: 'Please enter at least 2 characters.',
+				maxlength: 'Please enter no more than 100 characters.'
+				},
+				gpa_hsc: {
+				required: 'Please enter the CGPA / GPA.',
+				min: 'Please enter a value greater than or equal to 0.',
+				max: 'Please enter a value less than or equal to 10.',
+				step: 'Please enter a valid decimal number.'
+				},
+				
+				seat_number_hsc: {
+				required: 'Please enter the Seat Number.',
+				minlength: 'Please enter at least 6 characters.',
+				maxlength: 'Please enter no more than 10 characters.'
+				},
+				marksheet_number_hsc: {
+				required: 'Please enter the Marksheet Number.',
+				minlength: 'Please enter at least 6 characters.',
+				maxlength: 'Please enter no more than 10 characters.'
+				},
+				marks_obtained_hsc: {
+				required: 'Please enter the Marks Obtained.',
+				digits: 'Please enter a valid number.',
+				min: 'Please enter a value greater than or equal to 0.',
+				max: 'Please enter a value less than or equal to 1000.'
+				},
+				marks_outof_hsc: {
+				required: 'Please enter the Marks Out Of.',
+				digits: 'Please enter a valid number.',
+				min: 'Please enter a value greater than or equal to 0.',
+				max: 'Please enter a value less than or equal to 1000.'
+				},
+				board_name: {
+				required: 'Please enter the University / Board Name.',
+				minlength: 'Please enter at least 2 characters.',
+				maxlength: 'Please enter no more than 100 characters.'
+				},
+				school_name: {
+				required: 'Please enter the Institute / Center / School Name.',
+				minlength: 'Please enter at least 2 characters.',
+				maxlength: 'Please enter no more than 100 characters.'
+				},
+				medium: {
+				required: 'Please enter the Medium.',
+				minlength: 'Please enter at least 2 characters.',
+				maxlength: 'Please enter no more than 100 characters.'
+				},
+				gpa: {
+				required: 'Please enter the CGPA / GPA.',
+				min: 'Please enter a value greater than or equal to 0.',
+				max: 'Please enter a value less than or equal to 10.',
+				step: 'Please enter a valid decimal number.'
+				},
+				
+				seat_number: {
+				required: 'Please enter the Seat Number.',
+				alphanumeric: 'Only alphanumeric characters are allowed.',
+				minlength: 'Please enter at least 6 characters.',
+				maxlength: 'Please enter no more than 10 characters.'
+				},
+				marksheet_number: {
+				required: 'Please enter the Marksheet Number.',
+				digits: 'Please enter a valid number.',
+				minlength: 'Please enter at least 6 characters.',
+				maxlength: 'Please enter no more than 10 characters.'
+				},
+				marks_obtained: {
+				required: 'Please enter the Marks Obtained.',
+				digits: 'Please enter a valid number.',
+				min: 'Please enter a value greater than or equal to 0.',
+				max: 'Please enter a value less than or equal to 1000.'
+				},
+				marks_outof: {
+				required: 'Please enter the Marks Out Of.',
+				digits: 'Please enter a valid number.',
+				min: 'Please enter a value greater than or equal to 0.',
+				max: 'Please enter a value less than or equal to 1000.'
+				},
+				aaddhar_card: {
+				required: "Please upload your Aadhar Card.",
+				
+				},
+				payment_receipt: {
+				required: "Please upload the Payment Receipt.",
+				
+				},
+				leaving_certificate: {
+				required: "Please upload the Leaving Certificate.",
+				
+				},
+				
+				fy_sem1: {
+				required: "Please upload the FY SEM I Marksheet.",
+				
+				},
+				fy_sem2: {
+				required: "Please upload the FY SEM II Marksheet.",
+				
+				},
+				mum_uni_application: {
+				required: "Please upload the Mumbai University Application Form.",
+				
+				},
+				
+				candidate_photo: {
+				required: "Please upload the Candidate Photo.",
+				
+				},
+				candidate_signature: {
+				required: "Please upload the Candidate Signature.",
+				
+				},
+				parent_signature: {
+				required: "Please upload the Parent Signature.",
+				
+				}
+				
+				},
+				errorPlacement: function(error, element) {
+				// Customize error placement with inline CSS
+				error.css({
+					"color": "red",
+					"font-size": "12px",
+					"margin-top": "5px"
+				});
+				error.insertAfter(element);
+				},
+				
+			});
+
+			// Add custom date validation method
+			$.validator.addMethod('date_of_birth', function(value, element) {
+				if (this.optional(element)) {
+				return true;
+				}
+				var ok = true;
+				try {
+				$.datepicker.parseDate('dd/mm/yy', value);
+				} catch (err) {
+				ok = false;
+				}
+				return ok;
+			});
+
+			// Initialize datepicker for the date field
+			$(".date-picker").datepicker({
+				dateFormat: 'dd/mm/yy',
+				changeYear: true,
+				language: 'en',
+				autoClose: true
+			});
+			});
+			function validateFile(fileInput, maxSizeInMB) {
+				const file = fileInput.files[0];
+				const maxSize = maxSizeInMB * 1024 * 1024; // Convert MB to bytes
+				const fileSize = file.size;
+
+				if (fileSize > maxSize) {
+				alert('File size exceeds the allowed limit of ' + maxSizeInMB + 'MB.');
+				fileInput.value = ''; // Clear the selected file
+				}
+			}
+
+		</script>	
+	</body>
+</html>
