@@ -4,8 +4,7 @@
 	<head>
 		<!-- Basic Page Info -->
 		<meta charset="utf-8" />
-		<title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
-
+		<title>St Pauls Institute Of Communication Education</title>
 		<!-- Mobile Specific Metas -->
 		<meta
 			name="viewport"
@@ -142,12 +141,25 @@
 					{% endfor %}
 					{% endif %}
 				</div>
-				
+					<div class="form-group">
+						<div class="message" id="message">
+							{% if messages %}
+								{% for message in messages %}
+									{% if message.tags == 'error' %}
+										<div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+									{% endif %}
+									{% if message.tags == 'success' %}
+										<div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+									{% endif %}
+								{% endfor %}
+							{% endif %}
+							<div class="alert" role="alert" id="messageText"></div>
+						</div>						
+					</div>
 					<div class="form-group">
 						<label for="phone">Phone Number:</label>
 						<input type="number" id="phone" placeholder="Enter your phone number">
-					</div>
-					<div class="form-group">
+					
 						<label for="otp">OTP:</label>
 						<input type="number" id="otp" disabled placeholder="Enter OTP">
 					</div>
@@ -155,15 +167,17 @@
 						<button class="button" onclick="otpGenerate()" id="getOTPButton">Get OTP</button>
 						<button class="button" onclick="otpValidate()" id="verifyOTPButton" disabled>Verify OTP</button>
 					</div>
-					<div class="message" id="message"></div>
+					<form method="post" action="/register_check_save" id="otp" class="tab-wizard2 wizard-circle wizard" hidden>
+					<input type="text" class="form-control" name="otp_verifivation" hidden/>
+					</form>
+							</div>
+						</div>
+					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>
-</div>
-</div>
-</div>
-</div>
 </body>
 				<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
 				<script>
@@ -182,15 +196,21 @@
 									enableInputField("otp");
 									enableButton("verifyOTPButton");
 								} else if (url.includes("validate")) {
-									showMessage("OTP Validated", "success");
+									if (response.status === "success") {
+										showMessage("OTP Validated", "success");
+										console.log(response);
+									} else {
+										showMessage("Invalid OTP", "failure");
+										console.log(response);
+									}
 								}
-							},
-							error: function () {
-								$('html, body').css("cursor", "auto");
-								showMessage("Failure", "failure");
-							}
-						});
-					}
+								},
+								error: function () {
+									$('html, body').css("cursor", "auto");
+									showMessage("Failure", "failure");
+								}
+							});
+						};
 								otpGenerate = () => {
 						var phone = document.getElementById('phone').value;
 						var message = "Your OTP is";
@@ -214,9 +234,20 @@
 					}
 
 					showMessage = (message, type) => {
-						$("#message").text(message);
-						$("#message").removeClass().addClass("message " + type);
+					var messageText = $("#messageText");
+					messageText.text(message);
+					messageText.removeClass().addClass("alert");
+
+					if (type === "success") {
+						messageText.addClass("alert-success");
+						$("#otp_verifivation").val("1");
+						document.getElementById("otp").submit();
+
+					} else if (type === "failure") {
+						messageText.addClass("alert-danger");
 					}
+				};
+
 				</script>
 			</body>
 			</html>

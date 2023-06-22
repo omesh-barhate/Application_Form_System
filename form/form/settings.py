@@ -72,6 +72,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'form.wsgi.application'
 
 
@@ -82,9 +84,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'form',
-        'USER': 'stapps',
-        'PASSWORD': 'Stapps@67456',
-        'HOST':'tayyabali.in',
+        'USER': 'omesh',
+        'PASSWORD': 'Omesh123@',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }

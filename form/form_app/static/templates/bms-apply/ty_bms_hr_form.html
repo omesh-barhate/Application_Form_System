@@ -67,10 +67,10 @@
 					<div class="pd-20 card-box mb-30">
 						<div class="clearfix">
 							<h4 class="text-blue h4">Application Form</h4>
-							<p class="mb-30" style="font-weight: 700;">First Year Bachelor of Management Studies (FYBMS) </p>
+							<p class="mb-30" style="font-weight: 700;">Third Year Bachelor of Management Studies - Human Resources (TYBMS_HR)  </p>
 						</div>
 						<div class="wizard-content">
-							<form class="tab-wizard2 wizard-circle wizard" method="post" action="/fy_bms_save" id="bms_form_fy" enctype="multipart/form-data"> 
+							<form class="tab-wizard2 wizard-circle wizard" method="post" action="/ty_bms_hr_form_save" id="ty_bms_hr_form" enctype="multipart/form-data"> 
 								{% csrf_token %}
 								<h5>Personal Info</h5>
 								<section>
@@ -208,7 +208,7 @@
 								<h5>Subjects</h5>
 								<section>
 									<div class="pd-20 card mb-30">
-										<p class="mb-30" style="font-weight: 700;">Subject Group: Sem I: Compulsory Subject (Total 6 papers, 20 credits)</p>
+										<p class="mb-30" style="font-weight: 700;">Subject Group: Sem V: Compulsory Subject (Total 6 papers, 20 credits)</p>
 										<div class="row">
 										  {% for subject in subjects %}
 										  <div class="col-md-6 col-sm-12">
@@ -223,7 +223,7 @@
 									
 									  <!-- Sem II: Compulsory Subjects -->
 									  <div class="pd-20 card mb-30">
-										<p class="mb-30" style="font-weight: 700;">Subject Group: Sem II: Compulsory Subject (Total 6 papers, 20 credits)</p>
+										<p class="mb-30" style="font-weight: 700;">Subject Group: Sem VI: Compulsory Subject (Total 6 papers, 20 credits)</p>
 										<div class="row">
 										  {% for subject in subjects2 %}
 										  <div class="col-md-6 col-sm-12">
@@ -237,7 +237,7 @@
 									  </div>
 								</section>
 								<!-- Step 3 -->
-								<h5>SSC Marksheet</h5>
+								<h5>SY SEM I Marksheet</h5>
 								<section>
 									<div class="row">
 										<div class="col-md-6">
@@ -257,16 +257,9 @@
 												<label>CGPA/GPA:</label>
 												<input type="number" class="form-control" name="gpa"  min="0" value="0" step=".01"/>
 											</div>
-											<div class="form-group">
-												<label>Passing Attempts :</label>
-												<input type="number" class="form-control" name="passing_attempts"/>
-											</div>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group">
-												<label>Passing Month and Year :</label>
-												<input type="text" class="form-control month-picker" id="month-picker" name="passing_month" />
-											</div>
+
 											<div class="form-group">
 												<label>Seat Number:</label>
 												<input type="text" class="form-control" name="seat_number"/>
@@ -287,7 +280,7 @@
 									</div>
 								</section>
 								<!-- Step 4 -->
-								<h5>HSC Marksheet</h5>
+								<h5>SY SEM II Marksheet</h5>
 								<section>
 									<div class="row">
 										<div class="col-md-6">
@@ -307,16 +300,10 @@
 												<label>CGPA/GPA:</label>
 												<input type="number" class="form-control" name="gpa_hsc"  min="0" value="0" step=".01"/>
 											</div>
-											<div class="form-group">
-												<label>Passing Attempts :</label>
-												<input type="number" class="form-control" name="passing_attempts_hsc"/>
-											</div>
+											
 										</div>
 										<div class="col-md-6">
-											<div class="form-group">
-												<label>Passing Month and Year :</label>
-												<input type="text" class="form-control month-picker" name="passing_month_hsc" />
-											</div>
+											
 											<div class="form-group">
 												<label>Seat Number:</label>
 												<input type="text" class="form-control" name="seat_number_hsc"/>
@@ -343,37 +330,37 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Aadhar Card :</label>
-													<input type="file" class="form-control-file form-control height-auto" name="aaddhar_card"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" >
+													<input type="file" class="form-control-file form-control height-auto" name="aaddhar_card"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)"  required>
 											</div>
 											<div class="form-group">
 												<label>Payment Receipt</label>
-													<input type="file" class="form-control-file form-control height-auto" name="payment_receipt"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)">
+													<input type="file" class="form-control-file form-control height-auto" name="payment_receipt"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" required>
 											</div>
 											<div class="form-group">
 												<label>Leaving Certificate</label>
-													<input type="file" class="form-control-file form-control height-auto" name="leaving_certificate" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)">
+													<input type="file" class="form-control-file form-control height-auto" name="leaving_certificate" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" required>
 											</div>
 											<div class="form-group">
 												<label>Migration Certificate (If Applicable ):</label>
-													<input type="file" class="form-control-file form-control height-auto" name="migration_certificate"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)">
+													<input type="file" class="form-control-file form-control height-auto" name="migration_certificate"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" required>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>SSC Marksheet</label>
-													<input type="file" class="form-control-file form-control height-auto" name="ssc_marksheet" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)">
+												<label>SY SEM I Marksheet</label>
+													<input type="file" class="form-control-file form-control height-auto" name="sy_sem1" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" required>
 											</div>
 											<div class="form-group">
-												<label>HSC Marksheet</label>
-													<input type="file" class="form-control-file form-control height-auto" name="hsc_marksheet" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)">
+												<label>SY SEM II Marksheet</label>
+													<input type="file" class="form-control-file form-control height-auto" name="sy_sem2" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" required>
 											</div>
 											<div class="form-group">
 												<label>Mumbai University Application :</label>
-													<input type="file" class="form-control-file form-control height-auto" name="mum_uni_application"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)">
+													<input type="file" class="form-control-file form-control height-auto" name="mum_uni_application"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" >
 											</div>
 											<div class="form-group">
 												<label>Gap Certificate (If Applicable ):</label>
-													<input type="file" class="form-control-file form-control height-auto" name="gap_certificate"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)" >
+													<input type="file" class="form-control-file form-control height-auto" name="gap_certificate"style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".pdf" onchange="validateFile(this, 1)"  >
 											</div>
 										</div>
 									</div>
@@ -385,15 +372,15 @@
 									  <div class="col-md-12">
 										<div class="form-group">
 										  <label>Candidate Photo:</label>
-											<input type="file" class="form-control-file form-control height-auto" name="candidate_photo"  style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".jpg, .jpeg, .png" onchange="validateFile(this, 1)">
+											<input type="file" class="form-control-file form-control height-auto" name="candidate_photo"  style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".jpg, .jpeg, .png" onchange="validateFile(this, 1)" required>
 										</div>
 										<div class="form-group">
 										  <label>Candidate Signature:</label>
-											<input type="file" class="form-control-file form-control height-auto" name="candidate_signature"  style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".jpg, .jpeg, .png" onchange="validateFile(this, 1)">
+											<input type="file" class="form-control-file form-control height-auto" name="candidate_signature"  style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".jpg, .jpeg, .png" onchange="validateFile(this, 1)" required>
 										</div>
 										<div class="form-group">
 										  <label>Parent Signature:</label>
-											<input type="file" class="form-control-file form-control height-auto" name="parent_signature" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".jpg, .jpeg, .png" onchange="validateFile(this, 1)">
+											<input type="file" class="form-control-file form-control height-auto" name="parent_signature" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; height: auto;" accept=".jpg, .jpeg, .png" onchange="validateFile(this, 1)" required>
 										</div>
 									  </div>
 									</div>
@@ -438,7 +425,7 @@
 			});
 
 			// Initialize the jQuery Validation plugin on the form
-			$("#bms_form_fy").validate({
+			$("#ty_bms_hr_form").validate({
 				ignore: [],
 				errorPlacement: function(error, element) {
 				// Customize error placement if needed
@@ -538,19 +525,10 @@
 				gpa_hsc: {
 				required: true,
 				min: 0,
-				max: 4,
+				max: 10,
 				step: 0.01
 				},
-				passing_attempts_hsc: {
-				required: true,
-				digits: true,
-				min: 1,
-				max: 10
-				},
-				passing_month_hsc: {
-				required: true,
 				
-				},
 				seat_number_hsc: {
 				required: true,
 				minlength: 6,
@@ -591,19 +569,10 @@
 				gpa: {
 				required: true,
 				min: 0,
-				max: 4,
+				max: 10,
 				step: 0.01
 				},
-				passing_attempts: {
-				required: true,
-				digits: true,
-				min: 1,
-				max: 10
-				},
-				passing_month: {
-				required: true,
 				
-				},
 				seat_number: {
 				required: true,
 				minlength: 6,
@@ -640,11 +609,11 @@
 				
 				},
 				
-				ssc_marksheet: {
+				sy_sem1: {
 				required: true,
 				
 				},
-				hsc_marksheet: {
+				sy_sem2: {
 				required: true,
 				
 				},
@@ -761,19 +730,10 @@
 				gpa_hsc: {
 				required: 'Please enter the CGPA / GPA.',
 				min: 'Please enter a value greater than or equal to 0.',
-				max: 'Please enter a value less than or equal to 4.',
+				max: 'Please enter a value less than or equal to 10.',
 				step: 'Please enter a valid decimal number.'
 				},
-				passing_attempts_hsc: {
-				required: 'Please enter the Passing Attempts.',
-				digits: 'Please enter a valid number.',
-				min: 'Please enter a value greater than or equal to 1.',
-				max: 'Please enter a value less than or equal to 10.'
-				},
-				passing_month_hsc: {
-				required: 'Please enter the Passing Month and Year.',
 				
-				},
 				seat_number_hsc: {
 				required: 'Please enter the Seat Number.',
 				minlength: 'Please enter at least 6 characters.',
@@ -814,19 +774,10 @@
 				gpa: {
 				required: 'Please enter the CGPA / GPA.',
 				min: 'Please enter a value greater than or equal to 0.',
-				max: 'Please enter a value less than or equal to 4.',
+				max: 'Please enter a value less than or equal to 10.',
 				step: 'Please enter a valid decimal number.'
 				},
-				passing_attempts: {
-				required: 'Please enter the Passing Attempts.',
-				digits: 'Please enter a valid number.',
-				min: 'Please enter a value greater than or equal to 1.',
-				max: 'Please enter a value less than or equal to 10.'
-				},
-				passing_month: {
-				required: 'Please enter the Passing Month and Year.',
 				
-				},
 				seat_number: {
 				required: 'Please enter the Seat Number.',
 				alphanumeric: 'Only alphanumeric characters are allowed.',
@@ -851,7 +802,6 @@
 				min: 'Please enter a value greater than or equal to 0.',
 				max: 'Please enter a value less than or equal to 1000.'
 				},
-				
 				aaddhar_card: {
 				required: "Please upload your Aadhar Card.",
 				
@@ -865,12 +815,12 @@
 				
 				},
 				
-				ssc_marksheet: {
-				required: "Please upload the SSC Marksheet.",
+				sy_sem1: {
+				required: "Please upload the SY SEM I Marksheet.",
 				
 				},
-				hsc_marksheet: {
-				required: "Please upload the HSC Marksheet.",
+				sy_sem2: {
+				required: "Please upload the SY SEM II Marksheet.",
 				
 				},
 				mum_uni_application: {
