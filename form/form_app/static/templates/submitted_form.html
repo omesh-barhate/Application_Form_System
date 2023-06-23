@@ -25,7 +25,7 @@ Home
                 <tr>
                   <td>{{ filled_form.id }}</td>
                   <td>{{ filled_form.subjects_choosen.course.course_code }}</td>
-                  <td><a type="button" class="btn btn-primary btn-lg" href="print_form/{{filled_form.id}}">Print</a></td>
+                  <td><a type="button" class="btn btn-primary btn-lg" href="print_form/{{filled_form.id}}/{{filled_form.subjects_choosen.course.course_code}}">Print</a></td>
                 </tr>
               {% endfor %}
             </tbody>

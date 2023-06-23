@@ -80,6 +80,6 @@ urlpatterns = [
     path('view_session',views.view_session,name="view_session"),
     path('delete_session/<str:session_id>',views.delete_session,name="delete_session"),
     path('view_submitted_forms',views.submitted_form,name="view_submitted_forms"),
-    path('print_form/<str:form_id>',views.print_form_view,name="print"),
+    path('print_form/<str:form_id>/<str:course_code>',views.print_form_view,name="print"),
 
 ]
