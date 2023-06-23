@@ -41,15 +41,17 @@ def register_check_save(request):
     if request.method!="POST":
         return HttpResponse("Method Not Allowed")
     else:
-        otp=request.POST.get("otp_verifivation")
-        try:
-            user=Account.objects.update_user(otp_verification=otp)
-            user.save()
-            messages.success(request,"OTP Verified Successfully")
-            return HttpResponseRedirect("/home")
-        except:
-            messages.error(request,"OTP Verification Failed")
-            return HttpResponseRedirect("/register_otp_check")
+        user_id=request.user.id
+        otp=request.POST.get("otp_verification")
+        print(otp)
+        user = Account.objects.get(id=user_id)
+        user.otp_verification = otp 
+        user.save()
+        messages.success(request,"OTP Verified Successfully")
+        return HttpResponseRedirect("/home")
+    
+        messages.error(request,"OTP Verification Failed")
+        return HttpResponseRedirect("/register_otp_check")
 
 
 def register_save(request):
@@ -59,7 +61,7 @@ def register_save(request):
         first_name=request.POST.get("first_name")
         middle_name=request.POST.get("middle_name")
         last_name=request.POST.get("last_name")
-        inhouse = request.POST.get('category') == '1'
+        
         mobile_number=request.POST.get("mobile_number")
         address=request.POST.get("address")
         email=request.POST.get("email")
@@ -73,17 +75,20 @@ def register_save(request):
             user=Account.objects.create_user(first_name=first_name,middle_name=middle_name,last_name=last_name,mobile_number=mobile_number,address=address,email=email,username=username,mother_first_name=mother_first_name,father_first_name=father_first_name,dob=formatted_date,password=password)
             user.save()
             messages.success(request,"Account Created Successfully")
-            return HttpResponseRedirect("/register_otp_check")
+            return HttpResponseRedirect("/")
         except:
             messages.error(request,"Failed to create Account")
-            return HttpResponseRedirect("/register_otp_check")
+            return HttpResponseRedirect("/")
 
 
 
 def dashboard(request):
-    id=request.user.id
-    print(id)
-    return render(request,'dashboard.html')
+    if request.user.is_authenticated and request.user.otp_verification == 1:
+        id = request.user.id
+        print(id)
+        return render(request, 'dashboard.html')
+    else:
+        return HttpResponseRedirect("/register_otp_check") 
 
 def manage_account(request):
     account=Account.objects.all()
@@ -1523,99 +1528,845 @@ from weasyprint import HTML,CSS
 import base64
 
 
-def print_form(request,form_id):
-    document = Document.objects.filter(fy_bms_form__id=form_id).first()
-    personal_details = Personal_details.objects.filter(fy_bms_form__id=form_id).first()
+def print_form_view(request,form_id,course_code):
+    if course_code == "FYBMS":
+        document = Document.objects.filter(fy_bms_form__id=form_id).first()
+        personal_details = Personal_details.objects.filter(fy_bms_form__id=form_id).first()
+        
+        first_name = personal_details.first_name
+        middle_name = personal_details.middle_name
+        last_name = personal_details.last_name
+        name_on_marksheet = personal_details.name_on_marksheet
+        name_in_hindi = personal_details.name_in_hindi
+        mobile_number = personal_details.mobile_number
+        email = personal_details.email
+        reservation = personal_details.reservation
+        dob = personal_details.dob
+        gender = personal_details.gender
+        blood_group = personal_details.blood_group
+        admission_type = personal_details.admission_type
+        aadhar_number = personal_details.aadhar_number
+        address = personal_details.address
+        abc_id = personal_details.abc_id
+        academic = personal_details.academic.session_start_year
+        academic_end = personal_details.academic.session_end_year
+
+        submitted_document = []
+        form = fy_bms_form.objects.filter(id=form_id).first()
+        if form:
+            document_fields = [
+            ('aadhar_card', 'Aadhar Card'),
+            ('candidate_sign', 'Candidate Signature'),
+            ('parent_sign', 'Parent Signature'),
+            ('candidate_photo', 'Candidate Photo'),
+            ('ssc_marksheet', 'SSC Marksheet'),
+            ('hsc_marksheet', 'HSC Marksheet'),
+            ('payment_receipt', 'Payment Receipt'),
+            ('leaving_certificate', 'Leaving Certificate'),
+            ('mumbai_university_application', 'Mumbai University Application'),
+            ('fy_sem1', 'FY Semester 1 Marksheet'),
+            ('fy_sem2', 'FY Semester 2 Marksheet'),
+            ('sy_sem1', 'SY Semester 1 Marksheet'),
+            ('sy_sem2', 'SY Semester 2 Marksheet'),
+            ('migration_certificate', 'Migration Certificate'),
+            ('gap_certificate', 'Gap Certificate'),
+        ]
+        for field_name, field_label in document_fields:
+            if getattr(form.document, field_name, None):
+                submitted_document.append((field_label))
+
+        candidate_photo = document.candidate_photo
+        encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        course_code = form.subjects_choosen.course.course_code
+        course_name = form.subjects_choosen.course.name
+        account_id = form.account_id_id
+        ssc=SSC_marksheet.objects.filter(fy_bms_form__id=form_id).first()
+        ssc_obtained=ssc.marks_obtained
+        ssc_out=ssc.marks_out_of
+        ssc_gpa=ssc.cgpa
+
+        hsc=HSC_marksheet.objects.filter(fy_bms_form__id=form_id).first()
+        hsc_obtained=hsc.marks_obtained
+        hsc_out=hsc.marks_out_of
+        hsc_gpa=hsc.cgpa
+
+        context = {
+            'image_data': encoded_data,
+            'course_code':course_code,
+            'account_id': account_id,
+            'course_name':course_name,
+            'submitted_documents':submitted_document,
+            'first_name':first_name,
+            'form_id':form_id,
+            'middle_name':middle_name,
+            'last_name':last_name,
+            'name_on_marksheet':name_on_marksheet,
+            'mobile_number':mobile_number,
+            'email':email,
+            'reservation':reservation,
+            'name_in_hindi':name_in_hindi,
+            'dob':dob,
+            'gender':gender,
+            'blood_group':blood_group,
+            'address':address,
+            'admission_type':admission_type,
+            'aadhar_number':aadhar_number,
+            'abc_id':abc_id,
+            'academic':academic,
+            'academic_end':academic_end,
+            'ssc_obtained':ssc_obtained,
+            'ssc_out':ssc_out,
+            'ssc_gpa':ssc_gpa,
+            'hsc_obtained':hsc_obtained,
+            'hsc_out':hsc_out,
+            'hsc_gpa':hsc_gpa,
+        }
+        template = get_template('print/print_fy_bms_form.html')
+    elif course_code == "SYBMS_M":
+        document = Document.objects.filter(sy_bms_market_form__id=form_id).first()
+        personal_details = Personal_details.objects.filter(sy_bms_market_form__id=form_id).first()
+        
+        first_name = personal_details.first_name
+        middle_name = personal_details.middle_name
+        last_name = personal_details.last_name
+        name_on_marksheet = personal_details.name_on_marksheet
+        name_in_hindi = personal_details.name_in_hindi
+        mobile_number = personal_details.mobile_number
+        email = personal_details.email
+        reservation = personal_details.reservation
+        dob = personal_details.dob
+        gender = personal_details.gender
+        blood_group = personal_details.blood_group
+        admission_type = personal_details.admission_type
+        aadhar_number = personal_details.aadhar_number
+        address = personal_details.address
+        abc_id = personal_details.abc_id
+        academic = personal_details.academic.session_start_year
+        academic_end = personal_details.academic.session_end_year
+
+        submitted_document = []
+        form = sy_bms_market_form.objects.filter(id=form_id).first()
+        if form:
+            document_fields = [
+            ('aadhar_card', 'Aadhar Card'),
+            ('candidate_sign', 'Candidate Signature'),
+            ('parent_sign', 'Parent Signature'),
+            ('candidate_photo', 'Candidate Photo'),
+            ('ssc_marksheet', 'SSC Marksheet'),
+            ('hsc_marksheet', 'HSC Marksheet'),
+            ('payment_receipt', 'Payment Receipt'),
+            ('leaving_certificate', 'Leaving Certificate'),
+            ('mumbai_university_application', 'Mumbai University Application'),
+            ('fy_sem1', 'FY Semester 1 Marksheet'),
+            ('fy_sem2', 'FY Semester 2 Marksheet'),
+            ('sy_sem1', 'SY Semester 1 Marksheet'),
+            ('sy_sem2', 'SY Semester 2 Marksheet'),
+            ('migration_certificate', 'Migration Certificate'),
+            ('gap_certificate', 'Gap Certificate'),
+        ]
+        for field_name, field_label in document_fields:
+            if getattr(form.document, field_name, None):
+                submitted_document.append((field_label))
+
+        candidate_photo = document.candidate_photo
+        encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        course_code = form.subjects_choosen.course.course_code
+        course_name = form.subjects_choosen.course.name
+        account_id = form.account_id_id
+        ssc=SSC_marksheet.objects.filter(sy_bms_market_form__id=form_id).first()
+        ssc_obtained=ssc.marks_obtained
+        ssc_out=ssc.marks_out_of
+        ssc_gpa=ssc.cgpa
+
+        hsc=HSC_marksheet.objects.filter(sy_bms_market_form__id=form_id).first()
+        hsc_obtained=hsc.marks_obtained
+        hsc_out=hsc.marks_out_of
+        hsc_gpa=hsc.cgpa
+
+        context = {
+            'image_data': encoded_data,
+            'course_code':course_code,
+            'account_id': account_id,
+            'course_name':course_name,
+            'submitted_documents':submitted_document,
+            'first_name':first_name,
+            'form_id':form_id,
+            'middle_name':middle_name,
+            'last_name':last_name,
+            'name_on_marksheet':name_on_marksheet,
+            'mobile_number':mobile_number,
+            'email':email,
+            'reservation':reservation,
+            'name_in_hindi':name_in_hindi,
+            'dob':dob,
+            'gender':gender,
+            'blood_group':blood_group,
+            'address':address,
+            'admission_type':admission_type,
+            'aadhar_number':aadhar_number,
+            'abc_id':abc_id,
+            'academic':academic,
+            'academic_end':academic_end,
+            'ssc_obtained':ssc_obtained,
+            'ssc_out':ssc_out,
+            'ssc_gpa':ssc_gpa,
+            'hsc_obtained':hsc_obtained,
+            'hsc_out':hsc_out,
+            'hsc_gpa':hsc_gpa,
+        }
+        template = get_template('print/print_sy_bms_form_m.html')
+    elif course_code == "SYBMS_HR":
+        document = Document.objects.filter(sy_bms_hr_form__id=form_id).first()
+        personal_details = Personal_details.objects.filter(sy_bms_hr_form__id=form_id).first()
+        
+        first_name = personal_details.first_name
+        middle_name = personal_details.middle_name
+        last_name = personal_details.last_name
+        name_on_marksheet = personal_details.name_on_marksheet
+        name_in_hindi = personal_details.name_in_hindi
+        mobile_number = personal_details.mobile_number
+        email = personal_details.email
+        reservation = personal_details.reservation
+        dob = personal_details.dob
+        gender = personal_details.gender
+        blood_group = personal_details.blood_group
+        admission_type = personal_details.admission_type
+        aadhar_number = personal_details.aadhar_number
+        address = personal_details.address
+        abc_id = personal_details.abc_id
+        academic = personal_details.academic.session_start_year
+        academic_end = personal_details.academic.session_end_year
+
+        submitted_document = []
+        form = sy_bms_hr_form.objects.filter(id=form_id).first()
+        if form:
+            document_fields = [
+            ('aadhar_card', 'Aadhar Card'),
+            ('candidate_sign', 'Candidate Signature'),
+            ('parent_sign', 'Parent Signature'),
+            ('candidate_photo', 'Candidate Photo'),
+            ('ssc_marksheet', 'SSC Marksheet'),
+            ('hsc_marksheet', 'HSC Marksheet'),
+            ('payment_receipt', 'Payment Receipt'),
+            ('leaving_certificate', 'Leaving Certificate'),
+            ('mumbai_university_application', 'Mumbai University Application'),
+            ('fy_sem1', 'FY Semester 1 Marksheet'),
+            ('fy_sem2', 'FY Semester 2 Marksheet'),
+            ('sy_sem1', 'SY Semester 1 Marksheet'),
+            ('sy_sem2', 'SY Semester 2 Marksheet'),
+            ('migration_certificate', 'Migration Certificate'),
+            ('gap_certificate', 'Gap Certificate'),
+        ]
+        for field_name, field_label in document_fields:
+            if getattr(form.document, field_name, None):
+                submitted_document.append((field_label))
+
+        candidate_photo = document.candidate_photo
+        encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        course_code = form.subjects_choosen.course.course_code
+        course_name = form.subjects_choosen.course.name
+        account_id = form.account_id_id
+        ssc=SSC_marksheet.objects.filter(sy_bms_hr_form__id=form_id).first()
+        ssc_obtained=ssc.marks_obtained
+        ssc_out=ssc.marks_out_of
+        ssc_gpa=ssc.cgpa
+
+        hsc=HSC_marksheet.objects.filter(sy_bms_hr_form__id=form_id).first()
+        hsc_obtained=hsc.marks_obtained
+        hsc_out=hsc.marks_out_of
+        hsc_gpa=hsc.cgpa
+
+        context = {
+            'image_data': encoded_data,
+            'course_code':course_code,
+            'account_id': account_id,
+            'course_name':course_name,
+            'submitted_documents':submitted_document,
+            'first_name':first_name,
+            'form_id':form_id,
+            'middle_name':middle_name,
+            'last_name':last_name,
+            'name_on_marksheet':name_on_marksheet,
+            'mobile_number':mobile_number,
+            'email':email,
+            'reservation':reservation,
+            'name_in_hindi':name_in_hindi,
+            'dob':dob,
+            'gender':gender,
+            'blood_group':blood_group,
+            'address':address,
+            'admission_type':admission_type,
+            'aadhar_number':aadhar_number,
+            'abc_id':abc_id,
+            'academic':academic,
+            'academic_end':academic_end,
+            'ssc_obtained':ssc_obtained,
+            'ssc_out':ssc_out,
+            'ssc_gpa':ssc_gpa,
+            'hsc_obtained':hsc_obtained,
+            'hsc_out':hsc_out,
+            'hsc_gpa':hsc_gpa,
+        }
+        template = get_template('print/print_sy_bms_form_hr.html')
+    elif course_code == "TYBMS_M":
+        document = Document.objects.filter(ty_bms_market_form__id=form_id).first()
+        personal_details = Personal_details.objects.filter(ty_bms_market_form__id=form_id).first()
+        
+        first_name = personal_details.first_name
+        middle_name = personal_details.middle_name
+        last_name = personal_details.last_name
+        name_on_marksheet = personal_details.name_on_marksheet
+        name_in_hindi = personal_details.name_in_hindi
+        mobile_number = personal_details.mobile_number
+        email = personal_details.email
+        reservation = personal_details.reservation
+        dob = personal_details.dob
+        gender = personal_details.gender
+        blood_group = personal_details.blood_group
+        admission_type = personal_details.admission_type
+        aadhar_number = personal_details.aadhar_number
+        address = personal_details.address
+        abc_id = personal_details.abc_id
+        academic = personal_details.academic.session_start_year
+        academic_end = personal_details.academic.session_end_year
+
+        submitted_document = []
+        form = ty_bms_market_form.objects.filter(id=form_id).first()
+        if form:
+            document_fields = [
+            ('aadhar_card', 'Aadhar Card'),
+            ('candidate_sign', 'Candidate Signature'),
+            ('parent_sign', 'Parent Signature'),
+            ('candidate_photo', 'Candidate Photo'),
+            ('ssc_marksheet', 'SSC Marksheet'),
+            ('hsc_marksheet', 'HSC Marksheet'),
+            ('payment_receipt', 'Payment Receipt'),
+            ('leaving_certificate', 'Leaving Certificate'),
+            ('mumbai_university_application', 'Mumbai University Application'),
+            ('fy_sem1', 'FY Semester 1 Marksheet'),
+            ('fy_sem2', 'FY Semester 2 Marksheet'),
+            ('sy_sem1', 'SY Semester 1 Marksheet'),
+            ('sy_sem2', 'SY Semester 2 Marksheet'),
+            ('migration_certificate', 'Migration Certificate'),
+            ('gap_certificate', 'Gap Certificate'),
+        ]
+        for field_name, field_label in document_fields:
+            if getattr(form.document, field_name, None):
+                submitted_document.append((field_label))
+
+        candidate_photo = document.candidate_photo
+        encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        course_code = form.subjects_choosen.course.course_code
+        course_name = form.subjects_choosen.course.name
+        account_id = form.account_id_id
+        ssc=SSC_marksheet.objects.filter(ty_bms_market_form__id=form_id).first()
+        ssc_obtained=ssc.marks_obtained
+        ssc_out=ssc.marks_out_of
+        ssc_gpa=ssc.cgpa
+
+        hsc=HSC_marksheet.objects.filter(ty_bms_market_form__id=form_id).first()
+        hsc_obtained=hsc.marks_obtained
+        hsc_out=hsc.marks_out_of
+        hsc_gpa=hsc.cgpa
+
+        context = {
+            'image_data': encoded_data,
+            'course_code':course_code,
+            'account_id': account_id,
+            'course_name':course_name,
+            'submitted_documents':submitted_document,
+            'first_name':first_name,
+            'form_id':form_id,
+            'middle_name':middle_name,
+            'last_name':last_name,
+            'name_on_marksheet':name_on_marksheet,
+            'mobile_number':mobile_number,
+            'email':email,
+            'reservation':reservation,
+            'name_in_hindi':name_in_hindi,
+            'dob':dob,
+            'gender':gender,
+            'blood_group':blood_group,
+            'address':address,
+            'admission_type':admission_type,
+            'aadhar_number':aadhar_number,
+            'abc_id':abc_id,
+            'academic':academic,
+            'academic_end':academic_end,
+            'ssc_obtained':ssc_obtained,
+            'ssc_out':ssc_out,
+            'ssc_gpa':ssc_gpa,
+            'hsc_obtained':hsc_obtained,
+            'hsc_out':hsc_out,
+            'hsc_gpa':hsc_gpa,
+        }
+        template = get_template('print/print_ty_bms_form_m.html')
+    elif course_code == "TYBMS_HR":
+        document = Document.objects.filter(ty_bms_hr_form__id=form_id).first()
+        personal_details = Personal_details.objects.filter(ty_bms_hr_form__id=form_id).first()
+        
+        first_name = personal_details.first_name
+        middle_name = personal_details.middle_name
+        last_name = personal_details.last_name
+        name_on_marksheet = personal_details.name_on_marksheet
+        name_in_hindi = personal_details.name_in_hindi
+        mobile_number = personal_details.mobile_number
+        email = personal_details.email
+        reservation = personal_details.reservation
+        dob = personal_details.dob
+        gender = personal_details.gender
+        blood_group = personal_details.blood_group
+        admission_type = personal_details.admission_type
+        aadhar_number = personal_details.aadhar_number
+        address = personal_details.address
+        abc_id = personal_details.abc_id
+        academic = personal_details.academic.session_start_year
+        academic_end = personal_details.academic.session_end_year
+
+        submitted_document = []
+        form = ty_bms_hr_form.objects.filter(id=form_id).first()
+        if form:
+            document_fields = [
+            ('aadhar_card', 'Aadhar Card'),
+            ('candidate_sign', 'Candidate Signature'),
+            ('parent_sign', 'Parent Signature'),
+            ('candidate_photo', 'Candidate Photo'),
+            ('ssc_marksheet', 'SSC Marksheet'),
+            ('hsc_marksheet', 'HSC Marksheet'),
+            ('payment_receipt', 'Payment Receipt'),
+            ('leaving_certificate', 'Leaving Certificate'),
+            ('mumbai_university_application', 'Mumbai University Application'),
+            ('fy_sem1', 'FY Semester 1 Marksheet'),
+            ('fy_sem2', 'FY Semester 2 Marksheet'),
+            ('sy_sem1', 'SY Semester 1 Marksheet'),
+            ('sy_sem2', 'SY Semester 2 Marksheet'),
+            ('migration_certificate', 'Migration Certificate'),
+            ('gap_certificate', 'Gap Certificate'),
+        ]
+        for field_name, field_label in document_fields:
+            if getattr(form.document, field_name, None):
+                submitted_document.append((field_label))
+
+        candidate_photo = document.candidate_photo
+        encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        course_code = form.subjects_choosen.course.course_code
+        course_name = form.subjects_choosen.course.name
+        account_id = form.account_id_id
+        ssc=SSC_marksheet.objects.filter(ty_bms_hr_form__id=form_id).first()
+        ssc_obtained=ssc.marks_obtained
+        ssc_out=ssc.marks_out_of
+        ssc_gpa=ssc.cgpa
+
+        hsc=HSC_marksheet.objects.filter(ty_bms_hr_form__id=form_id).first()
+        hsc_obtained=hsc.marks_obtained
+        hsc_out=hsc.marks_out_of
+        hsc_gpa=hsc.cgpa
+
+        context = {
+            'image_data': encoded_data,
+            'course_code':course_code,
+            'account_id': account_id,
+            'course_name':course_name,
+            'submitted_documents':submitted_document,
+            'first_name':first_name,
+            'form_id':form_id,
+            'middle_name':middle_name,
+            'last_name':last_name,
+            'name_on_marksheet':name_on_marksheet,
+            'mobile_number':mobile_number,
+            'email':email,
+            'reservation':reservation,
+            'name_in_hindi':name_in_hindi,
+            'dob':dob,
+            'gender':gender,
+            'blood_group':blood_group,
+            'address':address,
+            'admission_type':admission_type,
+            'aadhar_number':aadhar_number,
+            'abc_id':abc_id,
+            'academic':academic,
+            'academic_end':academic_end,
+            'ssc_obtained':ssc_obtained,
+            'ssc_out':ssc_out,
+            'ssc_gpa':ssc_gpa,
+            'hsc_obtained':hsc_obtained,
+            'hsc_out':hsc_out,
+            'hsc_gpa':hsc_gpa,
+        }
+        template = get_template('print/print_ty_bms_form_hr.html')
+    elif course_code == "FYBAMMC":
+        document = Document.objects.filter(fy_bammc_form__id=form_id).first()
+        personal_details = Personal_details.objects.filter(fy_bammc_form__id=form_id).first()
+        
+        first_name = personal_details.first_name
+        middle_name = personal_details.middle_name
+        last_name = personal_details.last_name
+        name_on_marksheet = personal_details.name_on_marksheet
+        name_in_hindi = personal_details.name_in_hindi
+        mobile_number = personal_details.mobile_number
+        email = personal_details.email
+        reservation = personal_details.reservation
+        dob = personal_details.dob
+        gender = personal_details.gender
+        blood_group = personal_details.blood_group
+        admission_type = personal_details.admission_type
+        aadhar_number = personal_details.aadhar_number
+        address = personal_details.address
+        abc_id = personal_details.abc_id
+        academic = personal_details.academic.session_start_year
+        academic_end = personal_details.academic.session_end_year
+
+        submitted_document = []
+        form = fy_bammc_form.objects.filter(id=form_id).first()
+        if form:
+            document_fields = [
+            ('aadhar_card', 'Aadhar Card'),
+            ('candidate_sign', 'Candidate Signature'),
+            ('parent_sign', 'Parent Signature'),
+            ('candidate_photo', 'Candidate Photo'),
+            ('ssc_marksheet', 'SSC Marksheet'),
+            ('hsc_marksheet', 'HSC Marksheet'),
+            ('payment_receipt', 'Payment Receipt'),
+            ('leaving_certificate', 'Leaving Certificate'),
+            ('mumbai_university_application', 'Mumbai University Application'),
+            ('fy_sem1', 'FY Semester 1 Marksheet'),
+            ('fy_sem2', 'FY Semester 2 Marksheet'),
+            ('sy_sem1', 'SY Semester 1 Marksheet'),
+            ('sy_sem2', 'SY Semester 2 Marksheet'),
+            ('migration_certificate', 'Migration Certificate'),
+            ('gap_certificate', 'Gap Certificate'),
+        ]
+        for field_name, field_label in document_fields:
+            if getattr(form.document, field_name, None):
+                submitted_document.append((field_label))
+
+        candidate_photo = document.candidate_photo
+        encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        course_code = form.subjects_choosen.course.course_code
+        course_name = form.subjects_choosen.course.name
+        account_id = form.account_id_id
+        ssc=SSC_marksheet.objects.filter(fy_bammc_form__id=form_id).first()
+        ssc_obtained=ssc.marks_obtained
+        ssc_out=ssc.marks_out_of
+        ssc_gpa=ssc.cgpa
+
+        hsc=HSC_marksheet.objects.filter(fy_bammc_form__id=form_id).first()
+        hsc_obtained=hsc.marks_obtained
+        hsc_out=hsc.marks_out_of
+        hsc_gpa=hsc.cgpa
+
+        context = {
+            'image_data': encoded_data,
+            'course_code':course_code,
+            'account_id': account_id,
+            'course_name':course_name,
+            'submitted_documents':submitted_document,
+            'first_name':first_name,
+            'form_id':form_id,
+            'middle_name':middle_name,
+            'last_name':last_name,
+            'name_on_marksheet':name_on_marksheet,
+            'mobile_number':mobile_number,
+            'email':email,
+            'reservation':reservation,
+            'name_in_hindi':name_in_hindi,
+            'dob':dob,
+            'gender':gender,
+            'blood_group':blood_group,
+            'address':address,
+            'admission_type':admission_type,
+            'aadhar_number':aadhar_number,
+            'abc_id':abc_id,
+            'academic':academic,
+            'academic_end':academic_end,
+            'ssc_obtained':ssc_obtained,
+            'ssc_out':ssc_out,
+            'ssc_gpa':ssc_gpa,
+            'hsc_obtained':hsc_obtained,
+            'hsc_out':hsc_out,
+            'hsc_gpa':hsc_gpa,
+        }
+        template = get_template('print/print_fy_bammc_form.html')
+    elif course_code == "SYBAMMC":
+        document = Document.objects.filter(sy_bammc_form__id=form_id).first()
+        personal_details = Personal_details.objects.filter(sy_bammc_form__id=form_id).first()
+        
+        first_name = personal_details.first_name
+        middle_name = personal_details.middle_name
+        last_name = personal_details.last_name
+        name_on_marksheet = personal_details.name_on_marksheet
+        name_in_hindi = personal_details.name_in_hindi
+        mobile_number = personal_details.mobile_number
+        email = personal_details.email
+        reservation = personal_details.reservation
+        dob = personal_details.dob
+        gender = personal_details.gender
+        blood_group = personal_details.blood_group
+        admission_type = personal_details.admission_type
+        aadhar_number = personal_details.aadhar_number
+        address = personal_details.address
+        abc_id = personal_details.abc_id
+        academic = personal_details.academic.session_start_year
+        academic_end = personal_details.academic.session_end_year
+
+        submitted_document = []
+        form = sy_bammc_form.objects.filter(id=form_id).first()
+        if form:
+            document_fields = [
+            ('aadhar_card', 'Aadhar Card'),
+            ('candidate_sign', 'Candidate Signature'),
+            ('parent_sign', 'Parent Signature'),
+            ('candidate_photo', 'Candidate Photo'),
+            ('ssc_marksheet', 'SSC Marksheet'),
+            ('hsc_marksheet', 'HSC Marksheet'),
+            ('payment_receipt', 'Payment Receipt'),
+            ('leaving_certificate', 'Leaving Certificate'),
+            ('mumbai_university_application', 'Mumbai University Application'),
+            ('fy_sem1', 'FY Semester 1 Marksheet'),
+            ('fy_sem2', 'FY Semester 2 Marksheet'),
+            ('sy_sem1', 'SY Semester 1 Marksheet'),
+            ('sy_sem2', 'SY Semester 2 Marksheet'),
+            ('migration_certificate', 'Migration Certificate'),
+            ('gap_certificate', 'Gap Certificate'),
+        ]
+        for field_name, field_label in document_fields:
+            if getattr(form.document, field_name, None):
+                submitted_document.append((field_label))
+
+        candidate_photo = document.candidate_photo
+        encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        course_code = form.subjects_choosen.course.course_code
+        course_name = form.subjects_choosen.course.name
+        account_id = form.account_id_id
+        ssc=SSC_marksheet.objects.filter(sy_bammc_form__id=form_id).first()
+        ssc_obtained=ssc.marks_obtained
+        ssc_out=ssc.marks_out_of
+        ssc_gpa=ssc.cgpa
+
+        hsc=HSC_marksheet.objects.filter(sy_bammc_form__id=form_id).first()
+        hsc_obtained=hsc.marks_obtained
+        hsc_out=hsc.marks_out_of
+        hsc_gpa=hsc.cgpa
+
+        context = {
+            'image_data': encoded_data,
+            'course_code':course_code,
+            'account_id': account_id,
+            'course_name':course_name,
+            'submitted_documents':submitted_document,
+            'first_name':first_name,
+            'form_id':form_id,
+            'middle_name':middle_name,
+            'last_name':last_name,
+            'name_on_marksheet':name_on_marksheet,
+            'mobile_number':mobile_number,
+            'email':email,
+            'reservation':reservation,
+            'name_in_hindi':name_in_hindi,
+            'dob':dob,
+            'gender':gender,
+            'blood_group':blood_group,
+            'address':address,
+            'admission_type':admission_type,
+            'aadhar_number':aadhar_number,
+            'abc_id':abc_id,
+            'academic':academic,
+            'academic_end':academic_end,
+            'ssc_obtained':ssc_obtained,
+            'ssc_out':ssc_out,
+            'ssc_gpa':ssc_gpa,
+            'hsc_obtained':hsc_obtained,
+            'hsc_out':hsc_out,
+            'hsc_gpa':hsc_gpa,
+        }
+        template = get_template('print/print_sy_bammc_form.html')
+    elif course_code == "TYBAMMC_J":
+        document = Document.objects.filter(ty_bammc_journal_form__id=form_id).first()
+        personal_details = Personal_details.objects.filter(ty_bammc_journal_form__id=form_id).first()
+        
+        first_name = personal_details.first_name
+        middle_name = personal_details.middle_name
+        last_name = personal_details.last_name
+        name_on_marksheet = personal_details.name_on_marksheet
+        name_in_hindi = personal_details.name_in_hindi
+        mobile_number = personal_details.mobile_number
+        email = personal_details.email
+        reservation = personal_details.reservation
+        dob = personal_details.dob
+        gender = personal_details.gender
+        blood_group = personal_details.blood_group
+        admission_type = personal_details.admission_type
+        aadhar_number = personal_details.aadhar_number
+        address = personal_details.address
+        abc_id = personal_details.abc_id
+        academic = personal_details.academic.session_start_year
+        academic_end = personal_details.academic.session_end_year
+
+        submitted_document = []
+        form = ty_bammc_journal_form.objects.filter(id=form_id).first()
+        if form:
+            document_fields = [
+            ('aadhar_card', 'Aadhar Card'),
+            ('candidate_sign', 'Candidate Signature'),
+            ('parent_sign', 'Parent Signature'),
+            ('candidate_photo', 'Candidate Photo'),
+            ('ssc_marksheet', 'SSC Marksheet'),
+            ('hsc_marksheet', 'HSC Marksheet'),
+            ('payment_receipt', 'Payment Receipt'),
+            ('leaving_certificate', 'Leaving Certificate'),
+            ('mumbai_university_application', 'Mumbai University Application'),
+            ('fy_sem1', 'FY Semester 1 Marksheet'),
+            ('fy_sem2', 'FY Semester 2 Marksheet'),
+            ('sy_sem1', 'SY Semester 1 Marksheet'),
+            ('sy_sem2', 'SY Semester 2 Marksheet'),
+            ('migration_certificate', 'Migration Certificate'),
+            ('gap_certificate', 'Gap Certificate'),
+        ]
+        for field_name, field_label in document_fields:
+            if getattr(form.document, field_name, None):
+                submitted_document.append((field_label))
+
+        candidate_photo = document.candidate_photo
+        encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        course_code = form.subjects_choosen.course.course_code
+        course_name = form.subjects_choosen.course.name
+        account_id = form.account_id_id
+        ssc=SSC_marksheet.objects.filter(ty_bammc_journal_form__id=form_id).first()
+        ssc_obtained=ssc.marks_obtained
+        ssc_out=ssc.marks_out_of
+        ssc_gpa=ssc.cgpa
+
+        hsc=HSC_marksheet.objects.filter(ty_bammc_journal_form__id=form_id).first()
+        hsc_obtained=hsc.marks_obtained
+        hsc_out=hsc.marks_out_of
+        hsc_gpa=hsc.cgpa
+
+        context = {
+            'image_data': encoded_data,
+            'course_code':course_code,
+            'account_id': account_id,
+            'course_name':course_name,
+            'submitted_documents':submitted_document,
+            'first_name':first_name,
+            'form_id':form_id,
+            'middle_name':middle_name,
+            'last_name':last_name,
+            'name_on_marksheet':name_on_marksheet,
+            'mobile_number':mobile_number,
+            'email':email,
+            'reservation':reservation,
+            'name_in_hindi':name_in_hindi,
+            'dob':dob,
+            'gender':gender,
+            'blood_group':blood_group,
+            'address':address,
+            'admission_type':admission_type,
+            'aadhar_number':aadhar_number,
+            'abc_id':abc_id,
+            'academic':academic,
+            'academic_end':academic_end,
+            'ssc_obtained':ssc_obtained,
+            'ssc_out':ssc_out,
+            'ssc_gpa':ssc_gpa,
+            'hsc_obtained':hsc_obtained,
+            'hsc_out':hsc_out,
+            'hsc_gpa':hsc_gpa,
+        }
+        template = get_template('print/print_ty_bammc_journal_form.html')
+    else :
+        document = Document.objects.filter(ty_bammc_advert_form__id=form_id).first()
+        personal_details = Personal_details.objects.filter(ty_bammc_advert_form__id=form_id).first()
+        
+        first_name = personal_details.first_name
+        middle_name = personal_details.middle_name
+        last_name = personal_details.last_name
+        name_on_marksheet = personal_details.name_on_marksheet
+        name_in_hindi = personal_details.name_in_hindi
+        mobile_number = personal_details.mobile_number
+        email = personal_details.email
+        reservation = personal_details.reservation
+        dob = personal_details.dob
+        gender = personal_details.gender
+        blood_group = personal_details.blood_group
+        admission_type = personal_details.admission_type
+        aadhar_number = personal_details.aadhar_number
+        address = personal_details.address
+        abc_id = personal_details.abc_id
+        academic = personal_details.academic.session_start_year
+        academic_end = personal_details.academic.session_end_year
+
+        submitted_document = []
+        form = ty_bammc_advert_form.objects.filter(id=form_id).first()
+        if form:
+            document_fields = [
+            ('aadhar_card', 'Aadhar Card'),
+            ('candidate_sign', 'Candidate Signature'),
+            ('parent_sign', 'Parent Signature'),
+            ('candidate_photo', 'Candidate Photo'),
+            ('ssc_marksheet', 'SSC Marksheet'),
+            ('hsc_marksheet', 'HSC Marksheet'),
+            ('payment_receipt', 'Payment Receipt'),
+            ('leaving_certificate', 'Leaving Certificate'),
+            ('mumbai_university_application', 'Mumbai University Application'),
+            ('fy_sem1', 'FY Semester 1 Marksheet'),
+            ('fy_sem2', 'FY Semester 2 Marksheet'),
+            ('sy_sem1', 'SY Semester 1 Marksheet'),
+            ('sy_sem2', 'SY Semester 2 Marksheet'),
+            ('migration_certificate', 'Migration Certificate'),
+            ('gap_certificate', 'Gap Certificate'),
+        ]
+        for field_name, field_label in document_fields:
+            if getattr(form.document, field_name, None):
+                submitted_document.append((field_label))
+
+        candidate_photo = document.candidate_photo
+        encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        course_code = form.subjects_choosen.course.course_code
+        course_name = form.subjects_choosen.course.name
+        account_id = form.account_id_id
+        ssc=SSC_marksheet.objects.filter(ty_bammc_advert_form__id=form_id).first()
+        ssc_obtained=ssc.marks_obtained
+        ssc_out=ssc.marks_out_of
+        ssc_gpa=ssc.cgpa
+
+        hsc=HSC_marksheet.objects.filter(ty_bammc_advert_form__id=form_id).first()
+        hsc_obtained=hsc.marks_obtained
+        hsc_out=hsc.marks_out_of
+        hsc_gpa=hsc.cgpa
+
+        context = {
+            'image_data': encoded_data,
+            'course_code':course_code,
+            'account_id': account_id,
+            'course_name':course_name,
+            'submitted_documents':submitted_document,
+            'first_name':first_name,
+            'form_id':form_id,
+            'middle_name':middle_name,
+            'last_name':last_name,
+            'name_on_marksheet':name_on_marksheet,
+            'mobile_number':mobile_number,
+            'email':email,
+            'reservation':reservation,
+            'name_in_hindi':name_in_hindi,
+            'dob':dob,
+            'gender':gender,
+            'blood_group':blood_group,
+            'address':address,
+            'admission_type':admission_type,
+            'aadhar_number':aadhar_number,
+            'abc_id':abc_id,
+            'academic':academic,
+            'academic_end':academic_end,
+            'ssc_obtained':ssc_obtained,
+            'ssc_out':ssc_out,
+            'ssc_gpa':ssc_gpa,
+            'hsc_obtained':hsc_obtained,
+            'hsc_out':hsc_out,
+            'hsc_gpa':hsc_gpa,
+        }
+        template = get_template('print/print_ty_bammc_advert_form.html')
     
-    first_name = personal_details.first_name
-    middle_name = personal_details.middle_name
-    last_name = personal_details.last_name
-    name_on_marksheet = personal_details.name_on_marksheet
-    name_in_hindi = personal_details.name_in_hindi
-    mobile_number = personal_details.mobile_number
-    email = personal_details.email
-    reservation = personal_details.reservation
-    dob = personal_details.dob
-    gender = personal_details.gender
-    blood_group = personal_details.blood_group
-    admission_type = personal_details.admission_type
-    aadhar_number = personal_details.aadhar_number
-    address = personal_details.address
-    abc_id = personal_details.abc_id
-    academic = personal_details.academic.session_start_year
-    academic_end = personal_details.academic.session_end_year
-
-    submitted_document = []
-    form = fy_bms_form.objects.filter(id=form_id).first()
-    if form:
-        document_fields = [
-         ('aadhar_card', 'Aadhar Card'),
-        ('candidate_sign', 'Candidate Signature'),
-        ('parent_sign', 'Parent Signature'),
-        ('candidate_photo', 'Candidate Photo'),
-        ('ssc_marksheet', 'SSC Marksheet'),
-        ('hsc_marksheet', 'HSC Marksheet'),
-        ('payment_receipt', 'Payment Receipt'),
-        ('leaving_certificate', 'Leaving Certificate'),
-        ('mumbai_university_application', 'Mumbai University Application'),
-        ('fy_sem1', 'FY Semester 1 Marksheet'),
-        ('fy_sem2', 'FY Semester 2 Marksheet'),
-        ('sy_sem1', 'SY Semester 1 Marksheet'),
-        ('sy_sem2', 'SY Semester 2 Marksheet'),
-        ('migration_certificate', 'Migration Certificate'),
-        ('gap_certificate', 'Gap Certificate'),
-    ]
-    for field_name, field_label in document_fields:
-        if getattr(form.document, field_name, None):
-            submitted_document.append((field_label))
-
-    candidate_photo = document.candidate_photo
-    encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
-    course_code = form.subjects_choosen.course.course_code
-    course_name = form.subjects_choosen.course.name
-    account_id = form.account_id_id
-    ssc=SSC_marksheet.objects.filter(fy_bms_form__id=form_id).first()
-    ssc_obtained=ssc.marks_obtained
-    ssc_out=ssc.marks_out_of
-    ssc_gpa=ssc.cgpa
-
-    hsc=HSC_marksheet.objects.filter(fy_bms_form__id=form_id).first()
-    hsc_obtained=hsc.marks_obtained
-    hsc_out=hsc.marks_out_of
-    hsc_gpa=hsc.cgpa
-
-    context = {
-        'image_data': encoded_data,
-        'course_code':course_code,
-        'account_id': account_id,
-        'course_name':course_name,
-        'submitted_documents':submitted_document,
-        'first_name':first_name,
-        'form_id':form_id,
-        'middle_name':middle_name,
-        'last_name':last_name,
-        'name_on_marksheet':name_on_marksheet,
-        'mobile_number':mobile_number,
-        'email':email,
-        'reservation':reservation,
-        'name_in_hindi':name_in_hindi,
-        'dob':dob,
-        'gender':gender,
-        'blood_group':blood_group,
-        'address':address,
-        'admission_type':admission_type,
-        'aadhar_number':aadhar_number,
-        'abc_id':abc_id,
-        'academic':academic,
-        'academic_end':academic_end,
-        'ssc_obtained':ssc_obtained,
-        'ssc_out':ssc_out,
-        'ssc_gpa':ssc_gpa,
-        'hsc_obtained':hsc_obtained,
-        'hsc_out':hsc_out,
-        'hsc_gpa':hsc_gpa,
-    }
-    template = get_template('print/print_fy_bms.html')
     html = template.render(context)
     css = CSS(string='''
         @page {

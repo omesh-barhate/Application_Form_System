@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Application Form</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #f9f9f9;
+  border: 2px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.section {
+  margin-bottom: 20px;
+  
+}
+
+.section p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.section hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 10px 0;
+}
+
+.heading {
+  font-size: 20px;
+  color: #333;
+  margin-top: 0;
+   font-weight: bold;
+}
+
+.personal-info-section {
+  margin-bottom: 20px;
+}
+
+.personal-info-section p {
+  margin-bottom: 10px;
+}
+
+.photo-section {
+  display: flex;
+  align-items: left;
+  justify-content: flex-end;
+}
+
+.photo-section .candidate-info {
+  margin-right:100px;
+  text-align: left;
+}
+
+.photo-section .candidate-photo {
+    width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: right;
+}
+
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  margin-top: 40px;
+}
+
+/* Additional Styles */
+
+.academic-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.academic-table th,
+.academic-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+
+.photo-section .info-label {
+  margin-right: 10px;
+}
+
+.photo-section .candidate-photo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+.signature {
+  text-align: right;
+}
+
+ul.subject-list {
+  list-style-type: disc;
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="section">
+<h1>St Pauls Institute of Communication Education</h1>
+  </div>
+ <div class ="section photo-section">
+   
+  <div class="candidate-info">
+  <h2 class="heading">Remarks / Particulars / Recommendations Signature</h2>
+    <p class="info-label">Admission Clerk</p>
+    <hr>
+    <p class="info-label">Admission Committee</p>
+    <hr><p class="info-label">Accountant / Cashier</p>
+    <hr><p class="info-label">Registrar / OS / Principal</p>
+  </div>
+  <img src="data:image/jpeg;base64,{{ image_data }}" alt="Candidate Photo" class="candidate-photo">
+ </div>
+ <hr>
+  <div class="section">
+    <p class="heading">Application Details</p>
+     <p>Course Applied for:</b>{{course_name}}</p>
+    <p>Account Id:</b> {{account_id}}</p>
+    <p>Form Id:</b> {{form_id }}</p>
+    <p>Academic Year: </b>{{academic}} to {{academic_end}}</p>
+  </div>
+  <hr>
+   <div class="personal-info-section">
+    <div class="section">
+      <p class="heading">CANDIDATE PERSONAL INFORMATION</p>
+      <p><b>First Name:</b>{{first_name}}</p>
+      <p><b>Last Name:</b> {{last_name}}</p>
+      <p><b>Name as per HSC Marksheet:</b> {{name_on_marksheet}}</p>
+      <p><b>Name in Devnagri:</b>{{name_in_hindi}}</p>
+      <p><b>Email:</b> {{email}}</p>
+      <p><b>Mobile:</b> {{mobile_number}}</p>
+      <p><b>Reservation:</b>{{reservation}}</p>
+      <p><b>Date of Birth:</b>{{dob}}</p>
+      <p><b>Gender:</b>{{gender}}</p>
+      <p><b>Blood Group:</b>{{blood_group}}</p>
+      <p><b>Address:</b>{{address}}</p>
+      <p><b>Aadhar Card Number:</b>{{aadhar_number}}</p>
+      <p><b>ABC ID:</b>{{abc}}</p>
+      <p><b>Admission Type :</b>{{admission_type}}</p>
+      
+    </div>
+  </div>
+
+  <hr>
+  <div class="section">
+    <p class="heading">Semester V Subjects</p>
+    <ul class="subject-list">
+      <li>Reporting</li>
+  <li>Investigative Journalism</li>
+  <li>Journalism and Public Opinion</li>
+  <li>Media Laws and Ethics</li>
+  <li>Writing and Editing Skills</li>
+  <li>Mobile Journalism and New Media</li>
+    </ul>
+  </div>
+  <hr>
+  <div class="section">
+    <p class="heading">Semester VI Subjects</p>
+    <ul class="subject-list">
+      <li>Digital media</li>
+  <li>Newspaper magazine making</li>
+  <li>Contemporary issues</li>
+  <li>Lifestyle Journalism</li>
+  <li>Photojournalism</li>
+  <li>Fake news and fact-checking</li>
+    </ul>
+  </div>
+  <hr>
+  <div class="section academic">
+    <p class="heading">ACADEMIC BACKGROUND</p>
+    <table class="academic-table">
+      <thead>
+        <tr>
+          <th>Exam Name</th>
+          <th>Marks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SSC Marksheet</td>
+          <td>Agg: {{ssc_obtained}}/{{ssc_out}}, SGPA: {{ssc_gpa}}</td>
+        </tr>
+        <tr>
+          <td>HSC Marksheet</td>
+          <td>Agg: {{hsc_obtained}}/{{hsc_out}}, SGPA: {{hsc_gpa}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <hr>
+  <div class="section">
+    <p class="heading">SUBMITTED DOCUMENTS</p>
+    <ul class="subject-list">
+      {% for submitted_document in submitted_documents %}
+    <li>{{ submitted_document }}</li>
+     {% endfor %}
+    </ul>
+  </div>
+  <div class="section">
+    <p class="heading">{{course_code}} </p>
+    <p>To,</p>
+    <p>Respected Principal,</p>
+    <p>St. Paul's Institute of Communication Education for Women.</p>
+    <p>I understand and accept the terms and conditions mentioned in the Application form.</p>
+  </div>
+  <div class="section" style="margin-bottom: 20px;">
+    <p class="heading" style="font-weight: bold; font-size: 20px; margin-bottom: 10px; text-transform: uppercase;">Declaration of the Applicant</p>
+    <ul class ="subject-list" style="list-style-type: none; padding-left: 0;">
+      <li style="margin-bottom: 8px; line-height: 1.5;">All fees once paid are non-refundable. Upon commencement of the course, if the student informs the Principal of the college, in writing, before the date of commencement of the term that she desires to cancel her admission, the refund, if any will be processed as per the guidelines prescribed by the University of Mumbai.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">Students, whose fees remain unpaid, in full or in part, will not be allowed to appear for internal or external examinations. Until the outstanding fee is received, no internal examination results, Report Cards, Transfer Certificates or any recommendations will be issued.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">Read the form carefully and type in clear BLOCK LETTERS.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">I do understand that I will not be eligible to appear for any semester-end examination if my attendance is less than 75% of the working days in each of the two academic semesters as specified by the university rules.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">It will be my duty to produce my identity card whenever I am asked to do so by the college authorities in the college premises.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">I will not destroy, damage, or misuse any property of the college. However, if I happen to do so, I shall be personally liable to the college authorities for any such damage.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">I have carefully read all the rules and regulations of the college as set forth in the college prospectus; and I fully and completely agree to abide by them. I shall always make it a point to read carefully the college notice boards every day.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">As soon as I complete 18 years, I will enroll myself in the voters list.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">I am aware that ragging is banned and shall be considered as a serious offense which will attract severe punishment according to the UGC Regulation on Curbing the Menace of Ragging in Higher Educational Institution 2009.</li>
+      <li style="margin-bottom: 0; line-height: 1.5;">All the above-furnished information is true to the best of my knowledge and belief.</li>
+    </ul>
+  </div>
+  <hr>
+  <div class="section">
+    <p class="heading" style="font-weight: bold; font-size: 20px; margin-bottom: 10px; text-transform: uppercase;">INSTRUCTIONS</p>
+    <ul class ="subject-list" style="list-style-type: none; padding-left: 0;">
+      <li style="margin-bottom: 8px; line-height: 1.5;">Photograph should be a front profile, formal picture (NO SELFIES).</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">Payment Receipt to be attached.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">Copy of the online application done in the Mumbai University portal.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">All Xerox copies should be complete, clear, and self-attested.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">Aadhar Card to be attached.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">For First Year Students, Copy of SEM I to SEM II Mark Sheet to be submitted with the form. The Original Mark Sheet to be presented for verification.</li>
+      <li style="margin-bottom: 0; line-height: 1.5;">For Second Year Students, Copy of SEM III to SEM IV Mark Sheet to be submitted with the form. The Original Mark Sheet to be presented for verification.</li>
+    </ul>
+    <p style="margin-top: 20px; margin-bottom: 0; line-height: 1.5;">Admission is liable to be canceled if any information (including address and telephone no.) supplied is found to be incorrect.</p>
+  </div>
+    
+  <hr>
+  <div class="section signature">
+    <p>Student's Signature </p>
+  </div>
+  
+  <div class="footer">
+    <p>Powered by DBLDC </p>
+  </div>
+</div>
+</body>
+</html>

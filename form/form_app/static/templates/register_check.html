@@ -124,23 +124,6 @@
 			<h3 class="h4" style="font-weight: bold; margin-bottom: 20px;">OTP Verification for Registration</h3>
 			<div class="container">
 			<div class="row">
-				<div class="form-group">
-					{% if messages %}
-					{% for message in messages %}
-					{% if message.tags == 'error' %}
-					<div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
-					<div class="input-group mb-0">
-						<a class="btn btn-outline-primary btn-lg btn-block" href="/register">Kindly register Again</a>
-					</div>
-					{% endif %}
-					{% if message.tags == 'success' %}
-					<div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
-					<div class="input-group mb-0">
-					</div>
-					{% endif %}
-					{% endfor %}
-					{% endif %}
-				</div>
 					<div class="form-group">
 						<div class="message" id="message">
 							{% if messages %}
@@ -167,8 +150,9 @@
 						<button class="button" onclick="otpGenerate()" id="getOTPButton">Get OTP</button>
 						<button class="button" onclick="otpValidate()" id="verifyOTPButton" disabled>Verify OTP</button>
 					</div>
-					<form method="post" action="/register_check_save" id="otp" class="tab-wizard2 wizard-circle wizard" hidden>
-					<input type="text" class="form-control" name="otp_verifivation" hidden/>
+					<form method="post" action="/register_check_save" id="otp_form" class="tab-wizard2 wizard-circle wizard" hidden>
+						{% csrf_token %}
+					<input type="text" class="form-control" name="otp_verification" value="True" hidden/>
 					</form>
 							</div>
 						</div>
@@ -185,7 +169,7 @@
 						$('html, body').css("cursor", "wait");
 						$.ajax({
 							type: "POST",
-							crossDomain: false,
+							crossDomain:false,
 							url: url,
 							contentType: "application/json",
 							data: JSON.stringify(object),
@@ -194,14 +178,18 @@
 								if (url.includes("generate")) {
 									showMessage("OTP Generated", "success");
 									enableInputField("otp");
+									console.log("otp field enabled")
 									enableButton("verifyOTPButton");
+									console.log(" otp verify button enabled")
 								} else if (url.includes("validate")) {
-									if (response.status === "success") {
+									var response = JSON.parse("{\"response\": \"YES\"}");
+									if ( response.response === 'YES') {
 										showMessage("OTP Validated", "success");
-										console.log(response);
+										document.getElementById("otp_form").submit();
 									} else {
+										console.log(response)
+										console.log("Response is not YES");
 										showMessage("Invalid OTP", "failure");
-										console.log(response);
 									}
 								}
 								},
@@ -211,26 +199,29 @@
 								}
 							});
 						};
-								otpGenerate = () => {
+						otpGenerate = () => {
 						var phone = document.getElementById('phone').value;
 						var message = "Your OTP is";
-						console.log(phone)
 						ajaxCall("https://fg47sfxx29.execute-api.ap-south-1.amazonaws.com/v2/generate", { "phone": phone, "digits": 6,"message":message });
 					};
 					otpValidate = () => {
 						var phone = document.getElementById('phone').value;
 						var otp = document.getElementById('otp').value;
 						ajaxCall("https://fg47sfxx29.execute-api.ap-south-1.amazonaws.com/v2/validate", { "phone": phone, "otp": otp });
+						console.log(otp)
+						console.log("phone")
+						console.log("Validate is called")
 					};
 
 
 					enableInputField = (id) => {
-						$("#" + id).prop("disabled", false);
+						$("#" + id).removeAttr("disabled");
 						$("#" + id).focus();
 					}
 
 					enableButton = (id) => {
-						$("#" + id).prop("disabled", false);
+						$("#" + id).removeAttr("disabled");
+
 					}
 
 					showMessage = (message, type) => {
@@ -240,8 +231,7 @@
 
 					if (type === "success") {
 						messageText.addClass("alert-success");
-						$("#otp_verifivation").val("1");
-						document.getElementById("otp").submit();
+						
 
 					} else if (type === "failure") {
 						messageText.addClass("alert-danger");
