@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'form_app',
-    
+    'import_export',
+       
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL='main'
+
+IMPORT_EXPORT_IMPORT_PERMISSION_CODE='delete'
+IMPORT_EXPORT_EXPORT_PERMISSION_CODE='delete'
