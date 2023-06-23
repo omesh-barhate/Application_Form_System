@@ -44,14 +44,15 @@ def register_check_save(request):
         user_id=request.user.id
         otp=request.POST.get("otp_verification")
         print(otp)
-        user = Account.objects.get(id=user_id)
-        user.otp_verification = otp 
-        user.save()
-        messages.success(request,"OTP Verified Successfully")
-        return HttpResponseRedirect("/home")
-    
-        messages.error(request,"OTP Verification Failed")
-        return HttpResponseRedirect("/register_otp_check")
+        try:
+            user = Account.objects.get(id=user_id)
+            user.otp_verification = otp 
+            user.save()
+            messages.success(request,"OTP Verified Successfully")
+            return HttpResponseRedirect("/home")
+        except:    
+            messages.error(request,"OTP Verification Failed")
+            return HttpResponseRedirect("/register_otp_check")
 
 
 def register_save(request):

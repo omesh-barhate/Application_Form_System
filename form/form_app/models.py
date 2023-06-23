@@ -14,7 +14,7 @@ class Account(AbstractUser):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
 
-    REQUIRED_FIELDS = ['dob', 'mother_first_name','father_first_name','middle_name','address','mobile_number']
+    REQUIRED_FIELDS = ['dob', 'mother_first_name','father_first_name','middle_name','address','mobile_number','email']
 
     objects=UserManager()
 
