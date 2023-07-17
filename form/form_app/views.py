@@ -3,13 +3,14 @@ from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect,HttpResponseBadRequest,HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.urls import reverse
 from form_app.models import Account,Personal_details,Subject,Subjects_selected,SSC_marksheet,HSC_marksheet,Document,fy_bms_form,Course,FY_SEM1_marksheet,FY_SEM2_marksheet,SY_SEM1_marksheet,SY_SEM2_marksheet,AcademicYear,fy_bammc_form,sy_bms_market_form,sy_bms_hr_form,sy_bammc_form,ty_bammc_advert_form,ty_bammc_journal_form,ty_bms_hr_form,ty_bms_market_form
 from django.contrib.auth.decorators import login_required
 from form_app.EmailBackend import EmailBackEnd
 from django.db.models import Q
 # Create your views here.
+
 def main(request):
     return render(request,"login.html")
 
@@ -18,6 +19,7 @@ def register(request):
     print(id)
     return render(request,"register.html")
 
+@login_required(login_url='') 
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect("/")
@@ -82,31 +84,30 @@ def register_save(request):
             return HttpResponseRedirect("/")
 
 
-
+@login_required(login_url='') 
 def dashboard(request):
     if request.user.is_authenticated and request.user.otp_verification == 1:
         id = request.user.id
-        print(id)
         return render(request, 'dashboard.html')
     else:
         return HttpResponseRedirect("/register_otp_check") 
 
-def manage_account(request):
-    account=Account.objects.all()
-    return render(request,"manage_account.html",{"accounts":account})
-
+@login_required(login_url='') 
 def ssc_marksheet(request):
     ssc=SSC_marksheet.objects.all()
     return render(request,"manage_ssc.html",{"ssc_details":ssc})
 
+@login_required(login_url='') 
 def hsc_marksheet(request):
     hsc=HSC_marksheet.objects.all()
     return render(request,"manage_hsc.html",{"hsc_details":hsc})
 
+@login_required(login_url='') 
 def fy_sem1_marksheet(request):
     sem1=FY_SEM1_marksheet.objects.all()
     return render(request,"manage_fy_sem1.html",{"sem1_details":sem1})
 
+@login_required(login_url='') 
 def fy_sem2_marksheet(request):
     sem2=FY_SEM2_marksheet.objects.all()
     return render(request,"manage_fy_sem2.html",{"sem2_details":sem2})
@@ -115,23 +116,29 @@ def sy_sem1_marksheet(request):
     sem3=SY_SEM1_marksheet.objects.all()
     return render(request,"sy_sem1.html",{"sem3_details":sem3})
 
+@login_required(login_url='') 
 def sy_sem2_marksheet(request):
     sem4=SY_SEM2_marksheet.objects.all()
     return render(request,"manage_sy_sem2.html",{"sem4_details":sem4})
 
+@login_required(login_url='') 
 def bms_home(request):
     return render(request,'bms-apply/bms-home.html')
 
+@login_required(login_url='') 
 def bammc_home(request):
     return render(request,'bammc-apply/bammc-home.html')
 
+@login_required(login_url='') 
 def add_session(request):
     return render(request,'add_session.html')
 
+@login_required(login_url='') 
 def view_session(request):
     session=AcademicYear.objects.all()
     return render(request,'view_session.html',{"sessions":session})
 
+@login_required(login_url='') 
 def delete_session(request, session_id):
     sessiond = AcademicYear.objects.get(id=session_id)
     try:
@@ -142,6 +149,7 @@ def delete_session(request, session_id):
         messages.error(request, "Failed to Delete Session.")
         return HttpResponseRedirect('/view_session')
 
+@login_required(login_url='') 
 def add_session_save(request):
     if request.method!="POST":
         return HttpResponseRedirect(reverse("add_session"))
@@ -158,6 +166,7 @@ def add_session_save(request):
             messages.error(request, "Failed to Add Session")
             return HttpResponseRedirect(reverse("add_session"))
 
+@login_required(login_url='') 
 def fy_bms_form_view(request):
     my_object=Personal_details
     course_id=1
@@ -177,6 +186,7 @@ def fy_bms_form_view(request):
     }
     return render(request,'bms-apply/fy_bms_form.html',context)
 
+@login_required(login_url='') 
 def fy_bms_form_save(request):
     if request.method!="POST":
         return HttpResponse("Method Not Allowed")
@@ -306,6 +316,7 @@ def fy_bms_form_save(request):
             messages.error(request,"Failed to Submit Form")
             return HttpResponseRedirect("/home")
 
+@login_required(login_url='') 
 def fy_bammc_form_view(request):
     my_object=Personal_details
     course_id=6
@@ -325,6 +336,7 @@ def fy_bammc_form_view(request):
     }
     return render(request,'bammc-apply/fy_bammc_form.html',context)
     
+@login_required(login_url='')    
 def fy_bammc_form_save(request):
     if request.method!="POST":
         return HttpResponse("Method Not Allowed")
@@ -455,7 +467,7 @@ def fy_bammc_form_save(request):
             return HttpResponseRedirect("/home")
 
  ##SY FORM Start
-
+@login_required(login_url='') 
 def sy_bms_market_form_view(request):
     my_object=Personal_details
     course_id=2
@@ -1578,6 +1590,8 @@ def print_form_view(request,form_id,course_code):
 
         candidate_photo = document.candidate_photo
         encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        candidate_sign=document.candidate_sign
+        sign_data=base64.b64encode(candidate_sign).decode('utf-8')
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
@@ -1593,6 +1607,7 @@ def print_form_view(request,form_id,course_code):
 
         context = {
             'image_data': encoded_data,
+            'sign_data':sign_data,
             'course_code':course_code,
             'account_id': account_id,
             'course_name':course_name,
@@ -1671,6 +1686,8 @@ def print_form_view(request,form_id,course_code):
 
         candidate_photo = document.candidate_photo
         encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        candidate_sign=document.candidate_sign
+        sign_data=base64.b64encode(candidate_sign).decode('utf-8')
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
@@ -1686,6 +1703,7 @@ def print_form_view(request,form_id,course_code):
 
         context = {
             'image_data': encoded_data,
+            'sign_data':sign_data,
             'course_code':course_code,
             'account_id': account_id,
             'course_name':course_name,
@@ -1764,6 +1782,8 @@ def print_form_view(request,form_id,course_code):
 
         candidate_photo = document.candidate_photo
         encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        candidate_sign=document.candidate_sign
+        sign_data=base64.b64encode(candidate_sign).decode('utf-8')
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
@@ -1779,6 +1799,7 @@ def print_form_view(request,form_id,course_code):
 
         context = {
             'image_data': encoded_data,
+            'sign_data':sign_data,
             'course_code':course_code,
             'account_id': account_id,
             'course_name':course_name,
@@ -1857,6 +1878,8 @@ def print_form_view(request,form_id,course_code):
 
         candidate_photo = document.candidate_photo
         encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        candidate_sign=document.candidate_sign
+        sign_data=base64.b64encode(candidate_sign).decode('utf-8')
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
@@ -1872,6 +1895,7 @@ def print_form_view(request,form_id,course_code):
 
         context = {
             'image_data': encoded_data,
+            'sign_data':sign_data,
             'course_code':course_code,
             'account_id': account_id,
             'course_name':course_name,
@@ -1950,6 +1974,8 @@ def print_form_view(request,form_id,course_code):
 
         candidate_photo = document.candidate_photo
         encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        candidate_sign=document.candidate_sign
+        sign_data=base64.b64encode(candidate_sign).decode('utf-8')
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
@@ -1965,6 +1991,7 @@ def print_form_view(request,form_id,course_code):
 
         context = {
             'image_data': encoded_data,
+            'sign_data':sign_data,
             'course_code':course_code,
             'account_id': account_id,
             'course_name':course_name,
@@ -2043,6 +2070,8 @@ def print_form_view(request,form_id,course_code):
 
         candidate_photo = document.candidate_photo
         encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        candidate_sign=document.candidate_sign
+        sign_data=base64.b64encode(candidate_sign).decode('utf-8')
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
@@ -2058,6 +2087,7 @@ def print_form_view(request,form_id,course_code):
 
         context = {
             'image_data': encoded_data,
+            'sign_data':sign_data,
             'course_code':course_code,
             'account_id': account_id,
             'course_name':course_name,
@@ -2136,6 +2166,8 @@ def print_form_view(request,form_id,course_code):
 
         candidate_photo = document.candidate_photo
         encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        candidate_sign=document.candidate_sign
+        sign_data=base64.b64encode(candidate_sign).decode('utf-8')
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
@@ -2151,6 +2183,7 @@ def print_form_view(request,form_id,course_code):
 
         context = {
             'image_data': encoded_data,
+            'sign_data':sign_data,
             'course_code':course_code,
             'account_id': account_id,
             'course_name':course_name,
@@ -2229,6 +2262,8 @@ def print_form_view(request,form_id,course_code):
 
         candidate_photo = document.candidate_photo
         encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        candidate_sign=document.candidate_sign
+        sign_data=base64.b64encode(candidate_sign).decode('utf-8')
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
@@ -2244,6 +2279,7 @@ def print_form_view(request,form_id,course_code):
 
         context = {
             'image_data': encoded_data,
+            'sign_data':sign_data,
             'course_code':course_code,
             'account_id': account_id,
             'course_name':course_name,
@@ -2322,6 +2358,8 @@ def print_form_view(request,form_id,course_code):
 
         candidate_photo = document.candidate_photo
         encoded_data = base64.b64encode(candidate_photo).decode('utf-8')
+        candidate_sign=document.candidate_sign
+        sign_data=base64.b64encode(candidate_sign).decode('utf-8')
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
@@ -2337,6 +2375,7 @@ def print_form_view(request,form_id,course_code):
 
         context = {
             'image_data': encoded_data,
+            'sign_data':sign_data,
             'course_code':course_code,
             'account_id': account_id,
             'course_name':course_name,
@@ -2394,7 +2433,7 @@ def print_form_view(request,form_id,course_code):
 
 def document_view(request):
     document_fields = Document._meta.get_fields()
-    field_names = ['aadhar_card',
+    document_types = ['aadhar_card',
         'candidate_sign',
         'parent_sign',
         'candidate_photo',
@@ -2410,34 +2449,41 @@ def document_view(request):
         'migration_certificate' ,
         'gap_certificate',
     ]
-
-    context = {'field_names': field_names}
+    personal_details = Personal_details.objects.all()
+    context = {'document_types': document_types,'personal_details': personal_details}
     return render(request, 'document_form.html', context)
 
-def document_save(request): 
-    if request.method!="POST":
+def document_save(request):
+    if request.method != "POST":
         return HttpResponse("Method Not Allowed")
     else:
-        row_id = request.POST.get('row_id')
-        field_name = request.POST.get('field_name')
-
-        if not row_id or not field_name:
+        personal_id = request.POST.get('personal_detail_id')
+        field_name = request.POST.get('document_type')
+        
+        if not personal_id or not field_name:
             return HttpResponseBadRequest('Missing row ID or field name.')
 
         try:
-            obj = Document.objects.get(id=row_id)
+            personal_obj = Personal_details.objects.get(id=personal_id)
+            account_id = personal_obj.account_id.id
+            obj = Document.objects.get(id=account_id)
             blob_field = getattr(obj, field_name)
-            
-            file_extension = ''
-            jpg_fields = ['candidate_sign', 'parent_sign', 'candidate_photo']  # Fields with ".jpg" extension
-            pdf_fields = [field for field in Document._meta.fields if field.name not in jpg_fields]  # Fields with ".pdf" extension
 
-            file_extension = 'jpg' if field_name in jpg_fields else 'pdf'
-            response = HttpResponse(blob_field, content_type='application/octet-stream')
-            
-            # Set the Content-Disposition header with the file extension
-            response['Content-Disposition'] = f'attachment; filename="{field_name}.{file_extension}"'
-            return response
-        except :
-            messages.error(request,"Document not Found")
-            return HttpResponseRedirect("/view_document")
+            if blob_field:
+                file_extension = ''
+                jpg_fields = ['candidate_sign', 'parent_sign', 'candidate_photo']  # Fields with ".jpg" extension
+                pdf_fields = [field.name for field in Document._meta.fields if field.name not in jpg_fields]  # Fields with ".pdf" extension
+
+                file_extension = 'jpg' if field_name in jpg_fields else 'pdf'
+                response = HttpResponse(blob_field, content_type='application/octet-stream')
+
+                # Set the Content-Disposition header with the file extension
+                response['Content-Disposition'] = f'attachment; filename="{field_name}.{file_extension}"'
+                return response
+            else:
+                messages.error(request, "Document not found")
+                return redirect("/view_document")
+        except Document.DoesNotExist:
+            messages.error(request, "Document not found")
+            return redirect("/view_document")
+       

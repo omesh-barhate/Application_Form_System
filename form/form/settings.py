@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'form',
         'USER': 'stapps',
-        'PASSWORD': 'Stapps@67456',
+        'PASSWORD': 'Stapss@67456',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -136,7 +136,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL='main'
+LOGIN_URL='/'
 
 IMPORT_EXPORT_IMPORT_PERMISSION_CODE='delete'
 IMPORT_EXPORT_EXPORT_PERMISSION_CODE='delete'

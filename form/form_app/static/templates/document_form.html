@@ -11,41 +11,54 @@ Home
                 <br>
             </div>
         </div>
-    <div class="pb-20">
-        <div class="form-group">
-            {% if messages %}
-              {% for message in messages %}
-              {% if message.tags == 'error' %}
-              <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
-              {% endif %}
-              {% if message.tags == 'success' %}
-              <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
-              {% endif %}
-              {% endfor %}
-            {% endif %}
-          </div>
-        <form method="post" action="/document_save">
-            {% csrf_token %}
-            <div class="form-group row">
-                <label class="col-sm-12 col-md-2 col-form-label">Document Table ID</label>
-                <div class="col-sm-12 col-md-10">
-                    <input type="text" class="form-control" name="row_id" placeholder="Document Collection ID">
-                </div>
+        <div class="pb-20">
+            <div class="form-group">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
-            <div class="form-group row">
-                <label class="col-sm-12 col-md-2 col-form-label">Choose Document</label>
-                <div class="col-sm-12 col-md-10">
-                    <select name="field_name" class="form-control">
-                        {% for field_name in field_names %}
-                          <option value="{{ field_name }}" >{{ field_name }}</option>
+            <table class="checkbox-datatable table nowrap stripe ">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        {% for document_type in document_types %}
+                        <th>{{ document_type }}</th>
                         {% endfor %}
-                      </select>
-                </div>
-            </div>
-           
-            <button class="form-control"type="submit">Download File</button>
-          </form>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for personal_detail in personal_details %}
+                        <tr>
+                            <td>{{ personal_detail.id }}</td>
+                            <td>{{ personal_detail.first_name }}</td>
+                            <td>{{ personal_detail.middle_name }}</td>
+                            <td>{{ personal_detail.last_name }}</td>
+                            {% for document_type in document_types %}
+                                <td>
+                                    <form method="post" action="/document_save">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="personal_detail_id" value="{{ personal_detail.id }}">
+                                        <input type="hidden" name="document_type" value="{{ document_type }}">
+                                        <button class="btn btn-primary" type="submit">Download {{ document_type }}</button>
+                                    </form>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    </div>
-    </div>
+</div>
 {% endblock main_content %}
+

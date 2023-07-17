@@ -105,7 +105,7 @@
 		<div class="login-header box-shadow" style="background-color: #ffff;">
 			<div class="container-fluid d-flex justify-content-between align-items-center" style="background-color: #ffff;">
 				<div class="brand-logo">
-					<a href="login.html">
+					<a href="/">
 						<img src="{% static "vendors/images/college-logo.png" alt="" %}"/>
 					</a>
 				</div>
@@ -118,51 +118,50 @@
 		</div>
 		<div class="main-container">
 			<div class="xs-pd-20-10 pd-ltr-20">
-					<div class="col-sm-12 col-md-6 mb-30">
-						<div class="card-box " style="border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-							<div class="content" style="padding: 20px;">
-			<h3 class="h4" style="font-weight: bold; margin-bottom: 20px;">OTP Verification for Registration</h3>
-			<div class="container">
-			<div class="row">
-					<div class="form-group">
-						<div class="message" id="message">
-							{% if messages %}
-								{% for message in messages %}
-									{% if message.tags == 'error' %}
-										<div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
-									{% endif %}
-									{% if message.tags == 'success' %}
-										<div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
-									{% endif %}
-								{% endfor %}
-							{% endif %}
-							<div class="alert" role="alert" id="messageText"></div>
-						</div>						
-					</div>
-					<div class="form-group">
-						<label for="phone">Phone Number:</label>
-						<input type="number" id="phone" placeholder="Enter your phone number">
-					
-						<label for="otp">OTP:</label>
-						<input type="number" id="otp" disabled placeholder="Enter OTP">
-					</div>
-					<div class="button-container">
-						<button class="button" onclick="otpGenerate()" id="getOTPButton">Get OTP</button>
-						<button class="button" onclick="otpValidate()" id="verifyOTPButton" disabled>Verify OTP</button>
-					</div>
-					<form method="post" action="/register_check_save" id="otp_form" class="tab-wizard2 wizard-circle wizard" hidden>
-						{% csrf_token %}
-					<input type="text" class="form-control" name="otp_verification" value="True" hidden/>
-					</form>
+				<div class="col-sm-12 col-md-6 mb-30">
+					<div class="card-box" style="border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+						<div class="content" style="padding: 20px;">
+							<h3 class="h4" style="font-weight: bold; margin-bottom: 20px;">OTP Verification for Registration</h3>
+							<div class="container">
+								<div class="row">
+									<div class="form-group">
+										<div class="message" id="message">
+											{% if messages %}
+												{% for message in messages %}
+													{% if message.tags == 'error' %}
+														<div class="alert alert-danger" style="margin-top: 10px">{{ message }}</div>
+													{% endif %}
+													{% if message.tags == 'success' %}
+														<div class="alert alert-success" style="margin-top: 10px">{{ message }}</div>
+													{% endif %}
+												{% endfor %}
+											{% endif %}
+											<div class="alert" role="alert" id="messageText"></div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="phone">Phone Number:</label>
+										<input type="number" id="phone" placeholder="Enter your phone number">
+	
+										<label for="otp">OTP:</label>
+										<input type="number" id="otp" disabled placeholder="Enter OTP">
+									</div>
+									<div class="button-container">
+										<button class="button" onclick="otpGenerate()" id="getOTPButton">Get OTP</button>
+										<button class="button" onclick="otpValidate()" id="verifyOTPButton" disabled>Verify OTP</button>
+									</div>
+									<form method="post" action="/register_check_save" id="otp_form" class="tab-wizard2 wizard-circle wizard" hidden>
+										{% csrf_token %}
+										<input type="text" class="form-control" name="otp_verification" value="True" hidden/>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			</div>
 		</div>
-	</div>
-</body>
+		</body>
 				<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
 				<script>
 					ajaxCall = (url, object) => {

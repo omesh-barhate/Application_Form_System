@@ -12,9 +12,11 @@ Home
             </div>
         </div>
     <div class="pb-20">
-        <table class="data-table table stripe hover nowrap ">
+        <table class="checkbox-datatable table nowrap stripe ">
             <thead>
                 <tr>
+                    <th></th>
+
                 <th>ID</th>
                 <th>University Name</th>
                 <th>School Name</th>
@@ -33,6 +35,8 @@ Home
             <tbody>
                 {% for ssc in ssc_details %}
                 <tr>
+                    <td></td>
+
                   <td>{{ ssc.id }}</td>
                   <td>{{ ssc.university_name }}</td>
                   <td>{{ ssc.school_name }}</td>

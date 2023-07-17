@@ -116,6 +116,14 @@ ul.subject-list {
   margin-left: 20px;
   margin-top: 5px;
 }
+.signature .candidate-sign {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
 
 </style>
 </head>
@@ -144,6 +152,38 @@ ul.subject-list {
   <p>St. Paul's Institute of Communication Education for Women.</p>
   <p>I understand and accept the terms and conditions mentioned in the Application form.</p>
 </div>
+<hr>
+  <div class="section" style="margin-bottom: 20px;">
+    <p class="heading" style="font-weight: bold; font-size: 20px; margin-bottom: 10px; text-transform: uppercase;">Declaration of the Applicant</p>
+    <ul class ="subject-list" >
+      <li style="margin-bottom: 8px; line-height: 1.5;">All fees once paid are non-refundable. Upon commencement of the course, if the student informs the Principal of the college, in writing, before the date of commencement of the term that she desires to cancel her admission, the refund, if any will be processed as per the guidelines prescribed by the University of Mumbai.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">Students, whose fees remain unpaid, in full or in part, will not be allowed to appear for internal or external examinations. Until the outstanding fee is received, no internal examination results, Report Cards, Transfer Certificates or any recommendations will be issued.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">Read the form carefully and type in clear BLOCK LETTERS.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">I do understand that I will not be eligible to appear for any semester-end examination if my attendance is less than 75% of the working days in each of the two academic semesters as specified by the university rules.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">It will be my duty to produce my identity card whenever I am asked to do so by the college authorities in the college premises.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">I will not destroy, damage, or misuse any property of the college. However, if I happen to do so, I shall be personally liable to the college authorities for any such damage.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">I have carefully read all the rules and regulations of the college as set forth in the college prospectus; and I fully and completely agree to abide by them. I shall always make it a point to read carefully the college notice boards every day.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">As soon as I complete 18 years, I will enroll myself in the voters list.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">I am aware that ragging is banned and shall be considered as a serious offense which will attract severe punishment according to the UGC Regulation on Curbing the Menace of Ragging in Higher Educational Institution 2009.</li>
+      <li style="margin-bottom: 0; line-height: 1.5;">All the above-furnished information is true to the best of my knowledge and belief.</li>
+    </ul>
+  </div>
+  <hr>
+  <div class="section">
+    <p class="heading" style="font-weight: bold; font-size: 20px; margin-bottom: 10px; text-transform: uppercase;">INSTRUCTIONS</p>
+    <ul class ="subject-list" >
+      <li style="margin-bottom: 8px; line-height: 1.5;">Photograph should be a front profile, formal picture (NO SELFIES).</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">Payment Receipt to be attached.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">Copy of the online application done in the Mumbai University portal.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">All Xerox copies should be complete, clear, and self-attested.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">Aadhar Card to be attached.</li>
+      <li style="margin-bottom: 8px; line-height: 1.5;">For First Year Students, Copy of SEM I to SEM II Mark Sheet to be submitted with the form. The Original Mark Sheet to be presented for verification.</li>
+      <li style="margin-bottom: 0; line-height: 1.5;">For Second Year Students, Copy of SEM III to SEM IV Mark Sheet to be submitted with the form. The Original Mark Sheet to be presented for verification.</li>
+    </ul>
+    <p style="margin-top: 20px; margin-bottom: 0; line-height: 1.5;">Admission is liable to be canceled if any information (including address and telephone no.) supplied is found to be incorrect.</p>
+  </div>
+    
+
  <hr>
   <div class="section">
     <p class="heading">Application Details</p>
@@ -168,7 +208,7 @@ ul.subject-list {
       <p><b>Blood Group:</b>{{blood_group}}</p>
       <p><b>Address:</b>{{address}}</p>
       <p><b>Aadhar Card Number:</b>{{aadhar_number}}</p>
-      <p><b>ABC ID:</b>{{abc}}</p>
+      <p><b>ABC ID:</b>{{abc_id}}</p>
       <p><b>Admission Type :</b>{{admission_type}}</p>
       
     </div>
@@ -231,39 +271,12 @@ ul.subject-list {
      {% endfor %}
     </ul>
   </div>
-<hr>
-  <div class="section" style="margin-bottom: 20px;">
-    <p class="heading" style="font-weight: bold; font-size: 20px; margin-bottom: 10px; text-transform: uppercase;">Declaration of the Applicant</p>
-    <ul class ="subject-list" style="list-style-type: none; padding-left: 0;">
-      <li style="margin-bottom: 8px; line-height: 1.5;">All fees once paid are non-refundable. Upon commencement of the course, if the student informs the Principal of the college, in writing, before the date of commencement of the term that she desires to cancel her admission, the refund, if any will be processed as per the guidelines prescribed by the University of Mumbai.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">Students, whose fees remain unpaid, in full or in part, will not be allowed to appear for internal or external examinations. Until the outstanding fee is received, no internal examination results, Report Cards, Transfer Certificates or any recommendations will be issued.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">Read the form carefully and type in clear BLOCK LETTERS.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">I do understand that I will not be eligible to appear for any semester-end examination if my attendance is less than 75% of the working days in each of the two academic semesters as specified by the university rules.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">It will be my duty to produce my identity card whenever I am asked to do so by the college authorities in the college premises.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">I will not destroy, damage, or misuse any property of the college. However, if I happen to do so, I shall be personally liable to the college authorities for any such damage.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">I have carefully read all the rules and regulations of the college as set forth in the college prospectus; and I fully and completely agree to abide by them. I shall always make it a point to read carefully the college notice boards every day.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">As soon as I complete 18 years, I will enroll myself in the voters list.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">I am aware that ragging is banned and shall be considered as a serious offense which will attract severe punishment according to the UGC Regulation on Curbing the Menace of Ragging in Higher Educational Institution 2009.</li>
-      <li style="margin-bottom: 0; line-height: 1.5;">All the above-furnished information is true to the best of my knowledge and belief.</li>
-    </ul>
-  </div>
+
   <hr>
-  <div class="section">
-    <p class="heading" style="font-weight: bold; font-size: 20px; margin-bottom: 10px; text-transform: uppercase;">INSTRUCTIONS</p>
-    <ul class ="subject-list" style="list-style-type: none; padding-left: 0;">
-      <li style="margin-bottom: 8px; line-height: 1.5;">Photograph should be a front profile, formal picture (NO SELFIES).</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">Payment Receipt to be attached.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">Copy of the online application done in the Mumbai University portal.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">All Xerox copies should be complete, clear, and self-attested.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">Aadhar Card to be attached.</li>
-      <li style="margin-bottom: 8px; line-height: 1.5;">For First Year Students, Copy of SEM I to SEM II Mark Sheet to be submitted with the form. The Original Mark Sheet to be presented for verification.</li>
-      <li style="margin-bottom: 0; line-height: 1.5;">For Second Year Students, Copy of SEM III to SEM IV Mark Sheet to be submitted with the form. The Original Mark Sheet to be presented for verification.</li>
-    </ul>
-    <p style="margin-top: 20px; margin-bottom: 0; line-height: 1.5;">Admission is liable to be canceled if any information (including address and telephone no.) supplied is found to be incorrect.</p>
-  </div>
-    
-  <hr>
+
   <div class="section signature">
+    <img src="data:image/jpeg;base64,{{ sign_data }}" alt="Candidate sign" class="candidate-sign">
+
     <p>Student's Signature </p>
   </div>
   

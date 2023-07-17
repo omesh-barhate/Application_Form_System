@@ -12,17 +12,19 @@ Home
             </div>
         </div>
     <div class="pb-20">
-        <table class="data-table table stripe hover nowrap ">
+        <table class="checkbox-datatable table nowrap">
             <thead>
                 <tr>
-                <th>Form ID</th>
+                    <th></th>
+                <th class="table-plus datatable-nosort">Form ID</th>
                 <th>Course Code</th>
-                <th>Action</th>
+                <th class="datatable-nosort">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for filled_form in filled_forms %}
                 <tr>
+                    <td></td>
                   <td>{{ filled_form.id }}</td>
                   <td>{{ filled_form.subjects_choosen.course.course_code }}</td>
                   <td><a type="button" class="btn btn-primary btn-lg" href="print_form/{{filled_form.id}}/{{filled_form.subjects_choosen.course.course_code}}">Print</a></td>

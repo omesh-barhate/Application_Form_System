@@ -65,7 +65,6 @@ urlpatterns = [
     path('ty_bms_market_form',views.ty_bms_market_form_view,name="ty_bms_market_form"),
     path('ty_bms_market_form_save',views.ty_bms_market_form_save,name="ty_bms_market_form_save"),
 
-    path("view_accounts",views.manage_account,name="manage_accounts"),
     path('view_ssc_details',views.ssc_marksheet,name="ssc_marksheet"),
     path('view_hsc_details',views.hsc_marksheet,name="hsc_marksheet"),
     path('view_fy_sem1_details',views.fy_sem1_marksheet,name="fy_sem1_marksheet"),
@@ -77,8 +76,10 @@ urlpatterns = [
 
     path('add_session',views.add_session,name="add_session"),
     path('add_session_save', views.add_session_save,name="add_session_save"),
+
     path('view_session',views.view_session,name="view_session"),
     path('delete_session/<str:session_id>',views.delete_session,name="delete_session"),
+
     path('view_submitted_forms',views.submitted_form,name="view_submitted_forms"),
     path('print_form/<str:form_id>/<str:course_code>',views.print_form_view,name="print"),
 
