@@ -7,7 +7,7 @@ Home
     <div class="pd-20 card-box mb-30">
         <div class="clearfix">
             <div class="pull-left">
-                <h3 class="text-blue h4">View Submitted Forms</h3>
+                <h3 class="text-blue h4">View TYBAMMC_a Forms</h3>
                 <br>
             </div>
         </div>
@@ -17,6 +17,7 @@ Home
                 <tr>
                     <th></th>
                 <th class="table-plus datatable-nosort">Form ID</th>
+                <th>Student Name</th>
                 <th>Course Code</th>
                 <th class="datatable-nosort">Action</th>
                 </tr>
@@ -26,6 +27,7 @@ Home
                 <tr>
                     <td></td>
                   <td>{{ filled_form.id }}</td>
+                  <td>{{ filled_form.personal_detail.first_name }} {{ filled_form.personal_detail.middle_name }} {{ filled_form.personal_detail.last_name }}</td>
                   <td>{{ filled_form.subjects_choosen.course.course_code }}</td>
                   <td><a type="button" class="btn btn-primary btn-lg" href="print_form/{{filled_form.id}}/{{filled_form.subjects_choosen.course.course_code}}">Print</a></td>
                 </tr>

@@ -83,4 +83,15 @@ urlpatterns = [
     path('view_submitted_forms',views.submitted_form,name="view_submitted_forms"),
     path('print_form/<str:form_id>/<str:course_code>',views.print_form_view,name="print"),
 
+    path('fybms_data',views.fy_bms_submitted_form,name="fy_bms_submitted_form"),
+    path('sybms_hr_data',views.sy_bms_hr_submitted_form,name="sy_bms_hr_submitted_form"),
+    path('sybms_m_data',views.sy_bms_m_submitted_form,name="sy_bms_m_submitted_form"),
+    path('tybms_hr_data',views.ty_bms_hr_submitted_form,name="ty_bms_hr_submitted_form"),
+    path('tybms_m_data',views.ty_bms_m_submitted_form,name="ty_bms_m_submitted_form"),
+
+    path('fybammc_data',views.fy_bammc_submitted_form,name="fy_bammc_submitted_form"),
+    path('sybammc_data',views.sybammc_submitted_form,name="sybammc_submitted_form"),
+    path('tybammc_j_data',views.tybammc_j_submitted_form,name="tybammc_j_submitted_form"),
+    path('tybammc_advert_data',views.tybammc_a_submitted_form,name="tybammc_a_submitted_form"),
+
 ]

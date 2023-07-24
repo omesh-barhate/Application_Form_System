@@ -898,8 +898,8 @@ def sy_bammc_form_save(request):
             form=sy_bammc_form.objects.create(
                 personal_detail=person_detail_instance,
                 document=document_instance,
-                fy_sem1_id_id=ssc_instance,
-                fy_sem2_id_id=hsc_instance,
+                fy_sem1_id_id=idss,
+                fy_sem2_id_id=idh,
                 academic_id=session,
                 subjects_choosen=sub_instance,
                 account_id=account_instance,
@@ -1049,8 +1049,8 @@ def ty_bammc_advert_form_save(request):
             form=ty_bammc_advert_form.objects.create(
                 personal_detail=person_detail_instance,
                 document=document_instance,
-                fy_sem1_id_id=ssc_instance,
-                fy_sem2_id_id=hsc_instance,
+                fy_sem1_id_id=idss,
+                fy_sem2_id_id=idh,
                 academic_id=session,
                 subjects_choosen=sub_instance,
                 account_id=account_instance,
@@ -1198,8 +1198,8 @@ def ty_bammc_journal_form_save(request):
             form=ty_bammc_journal_form.objects.create(
                 personal_detail=person_detail_instance,
                 document=document_instance,
-                fy_sem1_id_id=ssc_instance,
-                fy_sem2_id_id=hsc_instance,
+                fy_sem1_id_id=idss,
+                fy_sem2_id_id=idh,
                 academic_id=session,
                 subjects_choosen=sub_instance,
                 account_id=account_instance,
@@ -1691,12 +1691,12 @@ def print_form_view(request,form_id,course_code):
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
-        ssc=SSC_marksheet.objects.filter(sy_bms_market_form__id=form_id).first()
+        ssc=FY_SEM1_marksheet.objects.filter(sy_bms_market_form__id=form_id).first()
         ssc_obtained=ssc.marks_obtained
         ssc_out=ssc.marks_out_of
         ssc_gpa=ssc.cgpa
 
-        hsc=HSC_marksheet.objects.filter(sy_bms_market_form__id=form_id).first()
+        hsc=FY_SEM2_marksheet.objects.filter(sy_bms_market_form__id=form_id).first()
         hsc_obtained=hsc.marks_obtained
         hsc_out=hsc.marks_out_of
         hsc_gpa=hsc.cgpa
@@ -1787,12 +1787,12 @@ def print_form_view(request,form_id,course_code):
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
-        ssc=SSC_marksheet.objects.filter(sy_bms_hr_form__id=form_id).first()
+        ssc=FY_SEM1_marksheet.objects.filter(sy_bms_hr_form__id=form_id).first()
         ssc_obtained=ssc.marks_obtained
         ssc_out=ssc.marks_out_of
         ssc_gpa=ssc.cgpa
 
-        hsc=HSC_marksheet.objects.filter(sy_bms_hr_form__id=form_id).first()
+        hsc=FY_SEM2_marksheet.objects.filter(sy_bms_hr_form__id=form_id).first()
         hsc_obtained=hsc.marks_obtained
         hsc_out=hsc.marks_out_of
         hsc_gpa=hsc.cgpa
@@ -1883,12 +1883,12 @@ def print_form_view(request,form_id,course_code):
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
-        ssc=SSC_marksheet.objects.filter(ty_bms_market_form__id=form_id).first()
+        ssc=SY_SEM1_marksheet.objects.filter(ty_bms_market_form__id=form_id).first()
         ssc_obtained=ssc.marks_obtained
         ssc_out=ssc.marks_out_of
         ssc_gpa=ssc.cgpa
 
-        hsc=HSC_marksheet.objects.filter(ty_bms_market_form__id=form_id).first()
+        hsc=SY_SEM2_marksheet.objects.filter(ty_bms_market_form__id=form_id).first()
         hsc_obtained=hsc.marks_obtained
         hsc_out=hsc.marks_out_of
         hsc_gpa=hsc.cgpa
@@ -1979,12 +1979,12 @@ def print_form_view(request,form_id,course_code):
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
-        ssc=SSC_marksheet.objects.filter(ty_bms_hr_form__id=form_id).first()
+        ssc=SY_SEM1_marksheet.objects.filter(ty_bms_hr_form__id=form_id).first()
         ssc_obtained=ssc.marks_obtained
         ssc_out=ssc.marks_out_of
         ssc_gpa=ssc.cgpa
 
-        hsc=HSC_marksheet.objects.filter(ty_bms_hr_form__id=form_id).first()
+        hsc=SY_SEM2_marksheet.objects.filter(ty_bms_hr_form__id=form_id).first()
         hsc_obtained=hsc.marks_obtained
         hsc_out=hsc.marks_out_of
         hsc_gpa=hsc.cgpa
@@ -2171,12 +2171,12 @@ def print_form_view(request,form_id,course_code):
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
-        ssc=SSC_marksheet.objects.filter(sy_bammc_form__id=form_id).first()
+        ssc=FY_SEM1_marksheet.objects.filter(sy_bammc_form__id=form_id).first()
         ssc_obtained=ssc.marks_obtained
         ssc_out=ssc.marks_out_of
         ssc_gpa=ssc.cgpa
 
-        hsc=HSC_marksheet.objects.filter(sy_bammc_form__id=form_id).first()
+        hsc=FY_SEM2_marksheet.objects.filter(sy_bammc_form__id=form_id).first()
         hsc_obtained=hsc.marks_obtained
         hsc_out=hsc.marks_out_of
         hsc_gpa=hsc.cgpa
@@ -2267,12 +2267,12 @@ def print_form_view(request,form_id,course_code):
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
-        ssc=SSC_marksheet.objects.filter(ty_bammc_journal_form__id=form_id).first()
+        ssc=SY_SEM1_marksheet.objects.filter(ty_bammc_journal_form__id=form_id).first()
         ssc_obtained=ssc.marks_obtained
         ssc_out=ssc.marks_out_of
         ssc_gpa=ssc.cgpa
 
-        hsc=HSC_marksheet.objects.filter(ty_bammc_journal_form__id=form_id).first()
+        hsc=SY_SEM2_marksheet.objects.filter(ty_bammc_journal_form__id=form_id).first()
         hsc_obtained=hsc.marks_obtained
         hsc_out=hsc.marks_out_of
         hsc_gpa=hsc.cgpa
@@ -2363,12 +2363,12 @@ def print_form_view(request,form_id,course_code):
         course_code = form.subjects_choosen.course.course_code
         course_name = form.subjects_choosen.course.name
         account_id = form.account_id_id
-        ssc=SSC_marksheet.objects.filter(ty_bammc_advert_form__id=form_id).first()
+        ssc=SY_SEM1_marksheet.objects.filter(ty_bammc_advert_form__id=form_id).first()
         ssc_obtained=ssc.marks_obtained
         ssc_out=ssc.marks_out_of
         ssc_gpa=ssc.cgpa
 
-        hsc=HSC_marksheet.objects.filter(ty_bammc_advert_form__id=form_id).first()
+        hsc=SY_SEM2_marksheet.objects.filter(ty_bammc_advert_form__id=form_id).first()
         hsc_obtained=hsc.marks_obtained
         hsc_out=hsc.marks_out_of
         hsc_gpa=hsc.cgpa
@@ -2487,3 +2487,94 @@ def document_save(request):
             messages.error(request, "Document not found")
             return redirect("/view_document")
        
+def fy_bms_submitted_form(request):
+    form_models = [
+        fy_bms_form
+        ]   
+    filled_form= []
+    for form_model in form_models:
+        forms = form_model.objects.all()
+        filled_form.extend(forms)
+    return render(request,"view-form/fybms_data.html",{'filled_forms': filled_form})
+
+def sy_bms_hr_submitted_form(request):
+    form_models = [
+        sy_bms_hr_form,
+        
+        ]   
+    filled_form= []
+    for form_model in form_models:
+        forms = form_model.objects.all()
+        filled_form.extend(forms)
+    return render(request,"view-form/sybms_hr_data.html",{'filled_forms': filled_form})
+
+def sy_bms_m_submitted_form(request):
+    form_models = [
+                       
+        sy_bms_market_form,
+        
+        ]   
+    filled_form= []
+    for form_model in form_models:
+        forms = form_model.objects.all()
+        filled_form.extend(forms)
+    return render(request,"view-form/sybms_m_data.html",{'filled_forms': filled_form})
+
+def ty_bms_hr_submitted_form(request):
+    form_models = [
+        ty_bms_hr_form,
+        ]   
+    filled_form= []
+    for form_model in form_models:
+        forms = form_model.objects.all()
+        filled_form.extend(forms)
+    return render(request,"view-form/tybms_hr_data.html",{'filled_forms': filled_form})
+
+def ty_bms_m_submitted_form(request):
+    form_models = [
+        ty_bms_market_form,
+        ]   
+    filled_form= []
+    for form_model in form_models:
+        forms = form_model.objects.all()
+        filled_form.extend(forms)
+    return render(request,"view-form/tybms_m_data.html",{'filled_forms': filled_form})
+
+def fy_bammc_submitted_form(request):
+    form_models = [
+        fy_bammc_form,
+        ]   
+    filled_form= []
+    for form_model in form_models:
+        forms = form_model.objects.all()
+        filled_form.extend(forms)
+    return render(request,"view-form/fybammc_data.html",{'filled_forms': filled_form})
+
+def sybammc_submitted_form(request):
+    form_models = [
+        sy_bammc_form,
+         ]   
+    filled_form= []
+    for form_model in form_models:
+        forms = form_model.objects.all()
+        filled_form.extend(forms)
+    return render(request,"view-form/sybammc_data.html",{'filled_forms': filled_form})
+
+def tybammc_j_submitted_form(request):
+    form_models = [
+        ty_bammc_journal_form,        ]   
+    filled_form= []
+    for form_model in form_models:
+        forms = form_model.objects.all()
+        filled_form.extend(forms)
+    return render(request,"view-form/tybammc_j_data.html",{'filled_forms': filled_form})
+
+def tybammc_a_submitted_form(request):
+    form_models = [
+        ty_bammc_advert_form,
+        ]   
+    filled_form= []
+    for form_model in form_models:
+        forms = form_model.objects.all()
+        filled_form.extend(forms)
+    return render(request,"view-form/tybammc_advert_data.html",{'filled_forms': filled_form})

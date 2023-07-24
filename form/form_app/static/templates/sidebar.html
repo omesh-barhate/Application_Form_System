@@ -16,19 +16,37 @@
                     <span class="mtext">Home</span>
                 </a>
             </li>
-
+            {% if not user.is_superuser %}
             <li class="dropdown">
                 <a href="/view_submitted_forms" class="dropdown-toggle no-arrow">
                     <span class="micon bi bi-clipboard-check-fill"></span>
-                    <span class="mtext">Submitted Forms</span>
+                    <span class="mtext">Submitted Forms </span>
                 </a>
             </li>
-            {% if user.is_superuser %}
+            {% else %}
             <li class="dropdown">
                 <a href="/view_document" class="dropdown-toggle no-arrow">
                     <span class="micon bi bi-clipboard-check-fill"></span>
                     <span class="mtext">View Documents</span>
                 </a>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle">
+                    <span class="micon bi bi-clipboard-check-fill"></span>
+                    <span class="mtext">All Form Data</span>
+                </a>
+                <ul class="submenu">
+                    <li><a href="/fybms_data">FYBMS Data</a></li>
+                    <li><a href="/sybms_m_data">SYBMS_M Data</a></li>
+                    <li><a href="/sybms_hr_data">SYBMS_HR Data</a></li>
+                    <li><a href="/tybms_m_data">TYBMS_M Data</a></li>
+                    <li><a href="/tybms_hr_data">TYBMS_HR Data</a></li>
+                    <li><a href="/fybammc_data">FYBAMMC Data</a></li>
+                    <li><a href="/sybammc_data">SYBAMMC Data</a></li>
+                    <li><a href="/tybammc_j_data">TYBAMMC_J Data</a></li>
+                    <li><a href="/tybammc_advert_data">TYBAMMC_A Data</a></li>
+
+                </ul>
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle">
