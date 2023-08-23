@@ -2459,16 +2459,18 @@ def document_save(request):
     else:
         personal_id = request.POST.get('personal_detail_id')
         field_name = request.POST.get('document_type')
-        
+                
         if not personal_id or not field_name:
             return HttpResponseBadRequest('Missing row ID or field name.')
-
         try:
             personal_obj = Personal_details.objects.get(id=personal_id)
             account_id = personal_obj.account_id.id
-            obj = Document.objects.get(id=account_id)
+            obj = Document.objects.get(account_id=account_id)
             blob_field = getattr(obj, field_name)
-
+            print(personal_obj)
+            print(account_id)
+            print(obj)
+            print(blob_field)
             if blob_field:
                 file_extension = ''
                 jpg_fields = ['candidate_sign', 'parent_sign', 'candidate_photo']  # Fields with ".jpg" extension
