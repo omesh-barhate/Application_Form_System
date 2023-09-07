@@ -159,6 +159,10 @@
 	<script src="{% static "src/plugins/jquery-validation/dist/jquery.validate.js" %}"></script>
 	<script>
 				$(document).ready(function() {
+          $("#register_form").on("submit", function(event) {
+    event.preventDefault();
+    return false;
+  });
   // Initialize the jQuery Steps plugin
   $(".tab-wizard2").steps({
     headerTag: "h5",
@@ -171,7 +175,6 @@
       previous: "Previous",
     },
     onStepChanging: function(event, currentIndex, newIndex) {
-      // Validate the form inputs at the current step
       var form = $(this);
       form.validate().settings.ignore = ":disabled,:hidden";
       return form.valid();
