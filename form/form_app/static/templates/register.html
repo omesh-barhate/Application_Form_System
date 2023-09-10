@@ -158,11 +158,15 @@
 	<script src="{% static "src/plugins/jquery-validation/dist/jquery.validate.min.js" %}"></script>
 	<script src="{% static "src/plugins/jquery-validation/dist/jquery.validate.js" %}"></script>
 	<script>
-				$(document).ready(function() {
-          $("#register_form").on("submit", function(event) {
-    event.preventDefault();
-    return false;
-  });
+    document.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    // Check if the focused element is an input field
+    if (document.activeElement.tagName === "INPUT") {
+      event.preventDefault(); // Prevent form submission on Enter
+    }
+  }
+});
+
   // Initialize the jQuery Steps plugin
   $(".tab-wizard2").steps({
     headerTag: "h5",
