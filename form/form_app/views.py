@@ -72,7 +72,7 @@ def register_save(request):
         mother_first_name=request.POST.get("mother_first_name")
         father_first_name=request.POST.get("father_first_name")
         date=request.POST.get("date_of_birth")
-        formatted_date =datetime.strptime(date, '%d/%m/%y')
+        formatted_date =datetime.strptime(date, '%d %B %Y')
         password=request.POST.get("password")
         try:
             user=Account.objects.create_user(first_name=first_name,middle_name=middle_name,last_name=last_name,mobile_number=mobile_number,address=address,email=email,username=username,mother_first_name=mother_first_name,father_first_name=father_first_name,dob=formatted_date,password=password)
