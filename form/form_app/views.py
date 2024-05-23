@@ -613,7 +613,6 @@ def sy_bms_market_form_save(request):
             messages.success(request,"Form Submitted Successfully")
             return HttpResponseRedirect("/home")
         except:
-            messages.error(request,"Failed to Submit Form")
 
 def sy_bms_hr_form_view(request):
     my_object=Personal_details
