@@ -313,8 +313,8 @@ def fy_bms_form_save(request):
             messages.success(request,"Form Submitted Successfully")
             return HttpResponseRedirect("/home")
         except:
-        #    messages.error(request,"Failed to Submit Form")
-        #    return HttpResponseRedirect("/home")
+            messages.error(request,"Failed to Submit Form")
+            return HttpResponseRedirect("/home")
 
 @login_required(login_url='') 
 def fy_bammc_form_view(request):
