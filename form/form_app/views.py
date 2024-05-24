@@ -552,65 +552,69 @@ def sy_bms_market_form_save(request):
         sy_sem2 = request.FILES.get('sy_sem2')
         migration_certificate = request.FILES.get('migration_certificate')
         gap_certificate = request.FILES.get('gap_certificate')
-        session_instance=AcademicYear.objects.get(id=session)
-        person_detail=Personal_details.objects.create(first_name=first_name,middle_name=middle_name,last_name=last_name,name_on_marksheet=marksheet_name,name_in_hindi=devnagiri_name,email=email,mobile_number=phone_number,reservation=reservation,admission_type=admission_type,gender=gender,dob=formatted_date_birth,blood_group=blood_group,aadhar_number=aadhar_number,address=address,account_id=account_instance,academic_id=session,abc_id=abc)
-        person_detail.save()
-        idp=person_detail.id
+        try:
+            session_instance=AcademicYear.objects.get(id=session)
+            person_detail=Personal_details.objects.create(first_name=first_name,middle_name=middle_name,last_name=last_name,name_on_marksheet=marksheet_name,name_in_hindi=devnagiri_name,email=email,mobile_number=phone_number,reservation=reservation,admission_type=admission_type,gender=gender,dob=formatted_date_birth,blood_group=blood_group,aadhar_number=aadhar_number,address=address,account_id=account_instance,academic_id=session,abc_id=abc)
+            person_detail.save()
+            idp=person_detail.id
 
-        subjects_choosen=Subjects_selected.objects.create(course=course_instance,account=account_instance,academic_id=session)
-        subjects_choosen.subjects.set(sub_choosed)
+            subjects_choosen=Subjects_selected.objects.create(course=course_instance,account=account_instance,academic_id=session)
+            subjects_choosen.subjects.set(sub_choosed)
 
-        subjects_choosen.save()
-        ids=subjects_choosen.id
+            subjects_choosen.save()
+            ids=subjects_choosen.id
+            
+            ssc=FY_SEM1_marksheet.objects.create(university_name=board_name,school_name=school_name,medium=medium,seat_number=seat_number,marksheet_number=marksheet_number,cgpa=gpa,marks_obtained=marks_obtained,marks_out_of=marks_outof,account_id=user,academic_id=session)
+            ssc.save()
+            idss=ssc.id
+
+            hsc=FY_SEM2_marksheet.objects.create(university_name=board_name_hsc,school_name=school_name_hsc,medium=medium_hsc,seat_number=seat_number_hsc,marksheet_number=marksheet_number_hsc,cgpa=gpa_hsc,marks_obtained=marks_obtained_hsc,marks_out_of=marks_outof_hsc,account_id=user,academic_id=session)
+            hsc.save()
+            idh=hsc.id
+
+            document= Document.objects.create(
+                    account_id=account_instance,
+                    academic_id=session,
+                    aadhar_card=aadhar_card.read() if aadhar_card else None,
+                    candidate_sign=candidate_sign.read() if candidate_sign else None,
+                    parent_sign=parent_sign.read() if parent_sign else None,
+                    candidate_photo=candidate_photo.read() if candidate_photo else None,
+                    ssc_marksheet=ssc_marksheet_pdf.read() if ssc_marksheet_pdf else None,
+                    hsc_marksheet=hsc_marksheet_pdf.read() if hsc_marksheet_pdf else None,
+                    payment_receipt=payment_receipt.read() if payment_receipt else None,
+                    leaving_certificate=leaving_certificate.read() if leaving_certificate else None,
+                    mumbai_university_application=mumbai_university_application.read() if mumbai_university_application else None,
+                    fy_sem1=fy_sem1.read() if fy_sem1 else None,
+                    fy_sem2=fy_sem2.read() if fy_sem2 else None,
+                    sy_sem1=sy_sem1.read() if sy_sem1 else None,
+                    sy_sem2=sy_sem2.read() if sy_sem2 else None,
+                    migration_certificate=migration_certificate.read() if migration_certificate else None,
+                    gap_certificate=gap_certificate.read() if gap_certificate else None
+            )
+            document.save()
+            idd=document.id
+            document_instance=Document.objects.get(id=idd)
+            person_detail_instance=Personal_details.objects.get(id=idp)
+            ssc_instance=FY_SEM1_marksheet.objects.get(id=idss)
+            hsc_instance=FY_SEM2_marksheet.objects.get(id=idh)
+            sub_instance=Subjects_selected.objects.get(id=ids)
         
-        ssc=FY_SEM1_marksheet.objects.create(university_name=board_name,school_name=school_name,medium=medium,seat_number=seat_number,marksheet_number=marksheet_number,cgpa=gpa,marks_obtained=marks_obtained,marks_out_of=marks_outof,account_id=user,academic_id=session)
-        ssc.save()
-        idss=ssc.id
-
-        hsc=FY_SEM2_marksheet.objects.create(university_name=board_name_hsc,school_name=school_name_hsc,medium=medium_hsc,seat_number=seat_number_hsc,marksheet_number=marksheet_number_hsc,cgpa=gpa_hsc,marks_obtained=marks_obtained_hsc,marks_out_of=marks_outof_hsc,account_id=user,academic_id=session)
-        hsc.save()
-        idh=hsc.id
-
-        document= Document.objects.create(
-                account_id=account_instance,
+            form=sy_bms_market_form.objects.create(
+                personal_detail=person_detail_instance,
+                document=document_instance,
+                fy_sem1_id_id=idss,
+                fy_sem2_id_id=idh,
                 academic_id=session,
-                aadhar_card=aadhar_card.read() if aadhar_card else None,
-                candidate_sign=candidate_sign.read() if candidate_sign else None,
-                parent_sign=parent_sign.read() if parent_sign else None,
-                candidate_photo=candidate_photo.read() if candidate_photo else None,
-                ssc_marksheet=ssc_marksheet_pdf.read() if ssc_marksheet_pdf else None,
-                hsc_marksheet=hsc_marksheet_pdf.read() if hsc_marksheet_pdf else None,
-                payment_receipt=payment_receipt.read() if payment_receipt else None,
-                leaving_certificate=leaving_certificate.read() if leaving_certificate else None,
-                mumbai_university_application=mumbai_university_application.read() if mumbai_university_application else None,
-                fy_sem1=fy_sem1.read() if fy_sem1 else None,
-                fy_sem2=fy_sem2.read() if fy_sem2 else None,
-                sy_sem1=sy_sem1.read() if sy_sem1 else None,
-                sy_sem2=sy_sem2.read() if sy_sem2 else None,
-                migration_certificate=migration_certificate.read() if migration_certificate else None,
-                gap_certificate=gap_certificate.read() if gap_certificate else None
-        )
-        document.save()
-        idd=document.id
-        document_instance=Document.objects.get(id=idd)
-        person_detail_instance=Personal_details.objects.get(id=idp)
-        ssc_instance=FY_SEM1_marksheet.objects.get(id=idss)
-        hsc_instance=FY_SEM2_marksheet.objects.get(id=idh)
-        sub_instance=Subjects_selected.objects.get(id=ids)
-    
-        form=sy_bms_market_form.objects.create(
-            personal_detail=person_detail_instance,
-            document=document_instance,
-            sy_sem1_id_id=idss,
-            sy_sem2_id_id=idh,
-            academic_id=session,
-            subjects_choosen=sub_instance,
-            account_id=account_instance,
-        )
-        form.save()
+                subjects_choosen=sub_instance,
+                account_id=account_instance,
+            )
+            form.save()
 
-        messages.success(request,"Form Submitted Successfully")
-        return HttpResponseRedirect("/home")
+            messages.success(request,"Form Submitted Successfully")
+            return HttpResponseRedirect("/home")
+        except:
+            messages.error(request,"Failed to Submit Form")
+            return HttpResponseRedirect("/home")
     
 
 def sy_bms_hr_form_view(request):
@@ -747,8 +751,8 @@ def sy_bms_hr_form_save(request):
             form=sy_bms_hr_form.objects.create(
                 personal_detail=person_detail_instance,
                 document=document_instance,
-                sy_sem1_id_id=idss,
-                sy_sem2_id_id=idh,
+                fy_sem1_id_id=idss,
+                fy_sem2_id_id=idh,
                 academic_id=session,
                 subjects_choosen=sub_instance,
                 account_id=account_instance,
@@ -895,8 +899,8 @@ def sy_bammc_form_save(request):
             form=sy_bammc_form.objects.create(
                 personal_detail=person_detail_instance,
                 document=document_instance,
-                sy_sem1_id_id=idss,
-                sy_sem2_id_id=idh,
+                fy_sem1_id_id=idss,
+                fy_sem2_id_id=idh,
                 academic_id=session,
                 subjects_choosen=sub_instance,
                 account_id=account_instance,
